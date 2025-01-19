@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .active {
+            text-decoration-line: underline;
+            text-decoration-color: #ef5375;
+        }
+
+        .item {
+            position: relative;
+            display: inline-block;
+        }
+
+        .item::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px; /* Adjust thickness */
+            background-color: #5c7f8e; /* Underline color */
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: width 0.4s ease; /* Controls animation speed */
+        }
+
+        .item:hover::before {
+            width: 100%; /* Expands to full width */
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800 font-sans">
+    <nav class="bg-[#eaeff1] text-white shadow-md">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="py-4">
+                <ul class="flex justify-center items-center space-x-8 text-lg">
+                    <li><a href="../index.html" class="item text-black">Home</a></li>
+                    <li><a href="./projects.html" class="active text-black">Projects</a></li>
+                    <li><a href="./experience.html" class="item text-black">Experience</a></li>
+                    <li><a href="./documents.html" class="item text-black">Documents</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="about-me max-w-4xl mx-auto px-4 py-8">
+        <h2 class="text-2xl font-semibold mt-8 mb-4">Technical Projects</h2>
+        <div>
+            <div>
+                <h3 class="text-xl font-semibold">1. AES in Socket Programming <a href="https://github.com/Raghava-Gatadi/AES-Socket-Programming" class="item text-sm text-[#5c7f8e]">Git repository</a></h3>
+                <ul class="list-disc list-inside mt-2 space-y-2">
+                    <li><span class="font-medium">Description:</span> Implemented Advanced Encryption Standard (AES)
+                        encryption and decryption in a
+                        socket programming environment. This project is designed to ensure secure communication between a
+                        sender and a receiver by encrypting messages.
+                    </li>
+                    <li><span class="font-medium">Features:</span>
+                        <ul class="list-disc list-inside mt-2 space-y-2 ml-4">
+                            <li>Introduced a key mechanism that attaches a key with each message using a delimiter ˜. If the
+                                delimiter is absent, the previously used key is applied for encryption.</li>
+                            <li>Supports all AES variants, including 128-bit, 192-bit, and 256-bit encryption, providing
+                                flexibility for varying levels of security.</li>
+                            <li>Emphasized secure communication by ensuring the integrity of messages sent over the socket.
+                            </li>
+                        </ul>
+                    </li>
+                    <li><span class="font-medium">Outcome:</span> A robust implementation of AES in socket programming,
+                        capable of handling dynamic key management for secure data transmission.</li>
+                </ul>
+            </div>
+            <hr class="text-black border border-[#9eb6c0] my-2">
+            <div>
+                <h3 class="text-xl font-semibold">2. Password Manager <a href="https://github.com/Raghava-Gatadi/Password-Manager" class="item text-sm text-[#5c7f8e]">Git repository</a></h3>
+                <ul class="list-disc list-inside mt-2 space-y-2">
+                    <li><span class="font-medium">Description:</span> Developed a secure and efficient command-line password
+                        manager using Python to simplify and enhance the process of password management.</li>
+                    <li><span class="font-medium">Key Features:</span>
+                        <ul class="list-disc list-inside mt-2 space-y-2 ml-4">
+                            <li><span class="font-medium">Master Password Validation:</span> Ensures unauthorized users
+                                cannot access the password vault.</li>
+                            <li><span class="font-medium">Password Management:</span> Enables users to store, retrieve,
+                                update, and delete passwords securely.</li>
+                            <li><span class="font-medium">Clipboard Integration:</span> Retrieves passwords directly to the
+                                clipboard to minimize exposure to screen displays.</li>
+                            <li><span class="font-medium">Random Password Generation:</span> Generates strong, random
+                                passwords for secure accounts.</li>
+                            <li><span class="font-medium">Database Security:</span> Utilizes MySQL for securely storing
+                                encrypted password data.</li>
+                            <li>Ensures confidentiality by hiding passwords during input and direct clipboard integration
+                                for improved user experience.</li>
+                        </ul>
+                    </li>
+                    <li><span class="font-medium">Outcome:</span> A user-friendly and secure tool to manage passwords,
+                        emphasizing ease of use and enhanced confidentiality.</li>
+                </ul>
+            </div>
+            <hr class="text-black border border-[#9eb6c0] my-2">
+            <div>
+                <h3 class="text-xl font-semibold">3. Vulnerability Assessment and Exploitation of Metasploitable <a href="https://docs.google.com/document/d/13BaRYqFcKEr08FpbvvGNaSa8xXe7ubf-G-QPT3D3ZSI/edit?usp=sharing" class="item text-sm text-[#5c7f8e]">Report</a></h3>
+                <ul class="list-disc list-inside mt-2 space-y-2">
+                    <li><span class="font-medium">Description:</span> Conducted a comprehensive vulnerability assessment and
+                        exploitation of the Metasploitable virtual machine to simulate real-world penetration testing
+                        scenarios.</li>
+                    <li><span class="font-medium">Tools Used:</span>
+                        <ul class="list-disc list-inside mt-2 space-y-2 ml-4">
+                            <li><span class="font-medium">Nmap:</span> For network scanning and identifying open ports and
+                                services.</li>
+                            <li><span class="font-medium">Nessus:</span> For detailed vulnerability analysis and identifying
+                                exploitable weaknesses.</li>
+                            <li><span class="font-medium">Metasploit:</span> For exploiting vulnerabilities and simulating
+                                attacks.</li>
+                            <li><span class="font-medium">Kali Linux:</span> As the primary operating system for security
+                                testing.</li>
+                        </ul>
+                    </li>
+                    <li><span class="font-medium">Key Exploits:</span>
+                        <ul class="list-disc list-inside mt-2 space-y-2 ml-4">
+                            <li>Successfully exploited vulnerabilities in FTP, SSH, and Telnet services.</li>
+                            <li>Automated parts of the exploitation process using custom GitHub scripts.</li>
+                        </ul>
+                    </li>
+                    <li><span class="font-medium">Outcome:</span> Developed expertise in vulnerability assessment,
+                        penetration testing, and exploitation using industry-standard tools.</li>
+                </ul>
+            </div>
+            <hr class="text-black border border-[#9eb6c0] my-2">
+            <div>
+                <h3 class="text-xl font-semibold">4. Network Scanner <a href="https://github.com/Raghava-Gatadi/Python-Scripts/blob/main/network_scanner.py"
+                    class="item text-sm text-[#5c7f8e]">Git repository</a></h3>
+                <ul class="list-disc list-inside mt-2 space-y-2">
+                    <li><span class="font-medium">Description:</span> Created a Python-based network scanner that provides
+                        detailed insights into connected devices on a given network.</li>
+                    <li><span class="font-medium">Key Features:</span>
+                        <ul class="list-disc list-inside mt-2 space-y-2 ml-4">
+                            <li>Accepts user-provided network IP address as input.</li>
+                            <li>Scans the network to identify connected devices and provides information, including:
+                                <ul class="list-disc list-inside mt-2 space-y-2 ml-4">
+                                    <li>MAC Addresses</li>
+                                    <li>Device IPs</li>
+                                    <li>Open Ports</li>
+                                </ul>
+                            </li>
+                            <li>Employs Python libraries and efficient scanning algorithms to ensure fast and accurate
+                                results.</li>
+                        </ul>
+                    </li>
+                    <li><span class="font-medium">Outcome:</span> A lightweight and effective tool for network
+                        administrators to monitor and analyze network devices.</li>
+                </ul>
+            </div>
+        </div>
+        <hr class="text-black border border-[#ef5375] my-2">
+        <h2 class="text-2xl font-semibold mt-8 mb-4">Research Projects</h2>
+        <div>
+            <div>
+                <h3 class="text-xl font-semibold">1. PUF-Based Hardware Security Research (Aug 2024 - Nov 2024)</h3>
+                <ul class="list-disc list-inside mt-2 space-y-2">
+                    <li><span class="font-medium">Description:</span> Conducting research on Physically Unclonable Functions
+                        (PUFs) to enhance hardware security by addressing vulnerabilities in existing models.</li>
+                    <li><span class="font-medium">Key Activities:</span>
+                        <ul class="list-disc list-inside mt-2 space-y-2 ml-4">
+                            <li>Reviewed existing literature and research papers to gain insights into the strengths and
+                                weaknesses of current PUF implementations.</li>
+                            <li>Planning and conducting cryptanalysis on several PUF models to identify security flaws and
+                                propose mitigations.</li>
+                            <li>Working towards developing a unified model to replace multiple existing PUFs, aiming to
+                                improve both efficiency and security.</li>
+                        </ul>
+                    </li>
+                    <li><span class="font-medium">Outcome:</span> Aiming to contribute to the field of hardware security by
+                        proposing a robust, scalable, and secure PUF model.</li>
+                </ul>
+            </div>
+            <hr class="text-black border border-[#9eb6c0] my-2">
+            <div>
+                <h3 class="text-xl font-semibold">2. Fake News Detection (Jan 2024 - Apr 2024) <a href="https://github.com/Raghava-Gatadi/cybersecurity/tree/master/RealorFake_political"
+                    class="item text-sm text-[#5c7f8e]">Git repository</a></h3>
+                <ul class="list-disc list-inside mt-2 space-y-2">
+                    <li><span class="font-medium">Description:</span> Developed a deep learning-based Fake News Detection
+                        system to identify misinformation and enhance trust in digital content.</li>
+                    <li><span class="font-medium">Key Activities:</span>
+                        <ul class="list-disc list-inside mt-2 space-y-2 ml-4">
+                            <li>Conducted an in-depth review of state-of-the-art methods for fake news detection.</li>
+                            <li>Implemented Natural Language Processing (NLP) and Deep Learning models, including:
+                                <ul class="list-disc list-inside mt-2 space-y-2">
+                                    <li><span class="font-medium">TF-IDF</span> (Term Frequency-Inverse Document Frequency)
+                                        for textual feature extraction.</li>
+                                    <li><span class="font-medium">BERT</span> for contextual text understanding.</li>
+                                    <li><span class="font-medium">Word2Vec</span> and <span class="font-medium">Word
+                                            Embedding</span> for semantic representation of text.</li>
+                                </ul>
+                            </li>
+                            <li>Evaluated the models on the Truthseeker dataset, achieving significant accuracy improvements
+                                over prior research.</li>
+                        </ul>
+                    </li>
+                    <li><span class="font-medium">Outcome:</span> A reliable and efficient fake news detection system
+                        leveraging advanced NLP and Deep Learning techniques.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</body>
+<footer class="bg-gray-800 text-white p-4 mt-8">
+    <div class="flex justify-center items-center space-x-4">
+        <a href="mailto:21bcs088@iiitdwd.ac.in" class="text-blue-400 hover:text-blue-600">21bcs088@iiitdwd.ac.in</a>
+        <span class="text-gray-400">|</span>
+        <a href="mailto:raghava.gtd@gmail.com" class="text-blue-400 hover:text-blue-600">raghava.gtd@gmail.com</a>
+        <span class="text-gray-400">|</span>
+        <a href="tel:+919441190131" class="text-blue-400 hover:text-blue-600">+91 94411 90131</a>
+    </div>
+</footer>
+</html>

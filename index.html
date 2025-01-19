@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .active {
+            text-decoration-line: underline;
+            text-decoration-color: #ef5375;
+        }
+
+        .item {
+            position: relative;
+            display: inline-block;
+        }
+
+        .item::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px; /* Adjust thickness */
+            background-color: #5c7f8e; /* Underline color */
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: width 0.4s ease; /* Controls animation speed */
+        }
+
+        .item:hover::before {
+            width: 100%; /* Expands to full width */
+        }
+    </style>
+</head>
+
+<body class="bg-white text-gray-800 font-sans">
+    <nav class="bg-[#eaeff1] text-white shadow-md">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="py-4">
+                <ul class="flex justify-center items-center space-x-8 text-lg">
+                    <li><a href="#" class="active text-black">Home</a></li>
+                    <li><a href="./pages/projects.html" class="item text-black">Projects</a></li>
+                    <li><a href="./pages/experience.html" class="item text-black">Experience</a></li>
+                    <li><a href="./pages/documents.html" class="item text-black">Documents</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="about-me max-w-4xl mx-auto px-4 py-8">
+        <p class="text-lg leading-relaxed">
+            Welcome to My Portfolio! <br>
+            Hello, I’m <span class="font-semibold">Raghava Gatadi</span>, a passionate cybersecurity enthusiast
+            currently pursuing a Bachelor’s degree in
+            Computer Science at the Indian Institute of Information Technology (IIIT), Dharwad, where I am in my final
+            year. My
+            journey in cybersecurity has been shaped by a strong foundation in academic coursework, professional
+            certifications,
+            hands-on projects, and real-world challenges like Capture the Flag (CTF) events.
+        </p>
+        <hr class="text-black border border-[#ef5375] my-2">
+        <h2 class="text-2xl font-semibold mt-8 mb-4">Certifications and Courses</h2>
+        <div class="space-y-6">
+            <div>
+                <h3 class="text-xl font-semibold">1. Google Cybersecurity Certificate</h3>
+                <p class="mt-2">This certification provided me with a comprehensive introduction to both Blue Team and
+                    Red Team
+                    operations, along with the functioning of a Security Operations Center (SOC). Through this course, I
+                    gained in-depth knowledge
+                    of key concepts, including:
+                </p>
+                <ul class="list-disc list-inside mt-2 space-y-2">
+                    <li><span class="font-medium">Network Security:</span> Understanding the principles of securing
+                        network architectures and TCP/IP protocols.</li>
+                    <li><span class="font-medium">Cloud Security:</span> Exploring best practices to secure cloud
+                        environments.</li>
+                    <li><span class="font-medium">Incident Response:</span> Learning response mechanisms to mitigate and
+                        manage cyber incidents effectively.</li>
+                    <li><span class="font-medium">Security Frameworks:</span> Studied frameworks such as HIPAA, NIST
+                        CSF, FedRAMP, PCI DSS, and NIST 800-39, which are critical in establishing robust cybersecurity
+                        standards.</li>
+                    <li><span class="font-medium">Vulnerability Assessment:</span> Explored methods to identify,
+                        classify, and prioritize vulnerabilities in systems.</li>
+                    <li><span class="font-medium">Cryptography:</span> Gained insights into asset classification, threat
+                        analysis, and encryption techniques.</li>
+                    <li><span class="font-medium">SIEM Tools:</span> Hands-on experience with Splunk, understanding how
+                        to monitor, analyze, and respond to security threats using log data.</li>
+                </ul>
+            </div>
+            <hr class="text-black border border-[#9eb6c0] my-2">
+            <div>
+                <h3 class="text-xl font-semibold">2. Cisco Networking Essentials/ Bits and Bytes of Computer Networking
+                </h3>
+                <p class="mt-2">This course deepened my understanding of network fundamentals, covering:</p>
+                <ul class="list-disc list-inside mt-2 space-y-2">
+                    <li><span class="font-medium">Network Architecture:</span> Layers of the network model (network,
+                        transport, and application layers).</li>
+                    <li><span class="font-medium">Networking Services:</span> DHCP, DNS, and other critical services
+                        that keep networks running.</li>
+                    <li><span class="font-medium">Troubleshooting:</span> Techniques to diagnose and resolve common
+                        networking issues.</li>
+                </ul>
+            </div>
+            <hr class="text-black border border-[#9eb6c0] my-2">
+            <div>
+                <h3 class="text-xl font-semibold">3. Pentesting and Web Application Security Courses</h3>
+                <p class="mt-2">These courses equipped me with the knowledge and skills to assess and secure web
+                    applications. Key takeaways include:</p>
+                <ul class="list-disc list-inside mt-2 space-y-2">
+                    <li>Mastery of the OWASP Top 10 vulnerabilities, such as SQL injection, XSS, and command injection.
+                    </li>
+                    <li>Proficiency with tools like Burp Suite, Nmap, Msfconsole, and Msfvenom.</li>
+                    <li>Set up and exploited Metasploitable and OWASP virtual machines to practice identifying and
+                        exploiting vulnerabilities. These labs included three difficulty levels, allowing me to hone my
+                        skills in secure coding and attack methodologies.</li>
+                </ul>
+            </div>
+        </div>
+        <hr class="text-black border border-[#ef5375] my-2">
+        <h2 class="text-2xl font-semibold mt-8 mb-4">HackTheBox and TryHackMe Achievements</h2>
+        <div class="space-y-6">
+            <div>
+                <h3 class="text-xl font-semibold">1. TryHackMe:</h3>
+                <ul class="list-disc list-inside mt-2 space-y-2">
+                    <li>I am ranked among the top 10% of users on TryHackMe, a leading platform for cybersecurity
+                        training.</li>
+                    <li>Solved multiple rooms that simulate real-world scenarios, focusing on topics such as privilege
+                        escalation, network exploitation, web application vulnerabilities, and malware analysis.</li>
+                </ul>
+            </div>
+            <hr class="text-black border border-[#9eb6c0] my-2">
+            <div>
+                <h3 class="text-xl font-semibold">2. HackTheBox:</h3>
+                <ul class="list-disc list-inside mt-2 space-y-2">
+                    <li>Successfully completed rooms and challenges that tested my skills in penetration testing,
+                        cryptography, and reverse engineering.</li>
+                    <li>Gained hands-on experience with advanced attack and defense techniques.</li>
+                </ul>
+            </div>
+        </div>
+        <hr class="text-black border border-[#ef5375] my-2">
+        <h2 class="text-2xl font-semibold mt-8 mb-4">Academic Coursework</h2>
+        <div>
+            <p class="text-lg leading-relaxed">In my academic journey, I have developed a strong foundation in
+                Cryptography, where I studied various encryption and decryption techniques, including:</p>
+            <ul class="list-disc list-inside mt-2 space-y-2">
+                <li>Symmetric key algorithms like AES and DES.</li>
+                <li>Public-key algorithms like RSA, Diffie-Hellman, and Elliptic Curve Cryptography (ECC).</li>
+                <li>Applications of cryptographic concepts such as digital signatures and random number generation.</li>
+            </ul>
+        </div>
+        <hr class="text-black border border-[#ef5375] my-2">
+        <h2 class="text-2xl font-semibold mt-8 mb-4">Practical Experience and Challenges</h2>
+        <div>
+            <div>
+                <h3 class="text-xl font-semibold">1. Capture the Flag (CTF) – Enigma Event</h3>
+                <p class="text-lg leading-relaxed">My participation in the Enigma CTF was a transformative experience. Over 24 hours of intense problem-solving,
+                    my team
+                    and I tackled challenges spanning reverse engineering, cryptography, and other cybersecurity domains. This
+                    event
+                    enhanced my ability to think critically under pressure, collaborate effectively, and approach problems with
+                    creativity.</p>
+            </div>
+            <hr class="text-black border border-[#9eb6c0] my-2">
+            <div>
+                <h3 class="text-xl font-semibold">2. Hands-on Labs and Virtual Machines</h3>
+                <p class="text-lg leading-relaxed">Setting up and practicing on Metasploitable and OWASP virtual machines has been a pivotal part of my learning
+                    journey.
+                    These environments allowed me to simulate real-world scenarios and understand both the attacker and defender
+                    perspectives in cybersecurity.</p>
+            </div>
+        </div>
+        <hr class="text-black border border-[#ef5375] my-2">
+        <h2 class="text-2xl font-semibold mt-8 mb-4">Why Cybersecurity?</h2>
+        <div>
+            <div>
+                <p class="text-lg leading-relaxed">Through my coursework, certifications, and competitions, I’ve developed a profound appreciation for the
+                    dynamic and
+                    ever-evolving nature of cybersecurity. Whether it’s securing systems, detecting vulnerabilities, or
+                    analyzing threats,
+                    I’m driven by the challenge of safeguarding the digital world.</p>
+            </div>
+        </div>
+    </div>
+</body>
+<footer class="bg-gray-800 text-white p-4 mt-8">
+    <div class="flex justify-center items-center space-x-4">
+        <a href="mailto:21bcs088@iiitdwd.ac.in" class="text-blue-400 hover:text-blue-600">21bcs088@iiitdwd.ac.in</a>
+        <span class="text-gray-400">|</span>
+        <a href="mailto:raghava.gtd@gmail.com" class="text-blue-400 hover:text-blue-600">raghava.gtd@gmail.com</a>
+        <span class="text-gray-400">|</span>
+        <a href="tel:+919441190131" class="text-blue-400 hover:text-blue-600">+91 94411 90131</a>
+    </div>
+</footer>
+
+</html>
