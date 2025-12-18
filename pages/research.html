@@ -7,43 +7,62 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 text-gray-900">
-  <!-- Navbar -->
   <nav class="bg-gray-900 text-white p-4 flex justify-between items-center fixed top-0 left-0 w-full z-50 shadow-md">
-    <h1 class="text-2xl font-bold">Raghava Gatadi</h1>
+    <a href="../index.html" class="text-2xl font-bold">Raghava Gatadi</a>
     <div class="space-x-6">
       <a href="../index.html" class="hover:text-blue-400">Home</a>
       <a href="projects.html" class="hover:text-blue-400">Projects</a>
-      <a href="research.html" class="hover:text-blue-400 text-blue-400 font-semibold">Research</a>
+      <a href="research.html" class="hover:text-blue-400 text-blue-400 font-semibold border-b-2 border-blue-400">Research</a>
       <a href="contact.html" class="hover:text-blue-400">Contact</a>
     </div>
   </nav>
 
   <section class="pt-28 max-w-5xl mx-auto px-6">
-    <h2 class="text-4xl font-bold mb-8 border-b-4 border-blue-500 w-fit">Research Work</h2>
-    <p class="text-lg text-gray-700 mb-6">
-      My research explores the intersection of cybersecurity, deep learning, and hardware security. I aim to design intelligent and efficient systems capable of resisting evolving cyber threats.
-    </p>
-
+    <h2 class="text-4xl font-bold mb-8 border-b-4 border-green-600 w-fit">Research Work</h2>
     <div class="space-y-10">
-      <div>
-        <h3 class="text-2xl font-semibold">Federated Learning for Intrusion Detection</h3>
-        <p>
-          Investigated federated learning approaches to secure IoT networks by decentralizing intrusion detection. Designed and tested CNN and Autoencoder-based models to detect malicious traffic across distributed nodes.
-        </p>
+       <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-green-600">
+        <h3 class="text-2xl font-bold text-gray-800">Hybrid IoT Intrusion Detection via Federated Learning</h3>
+        <p class="text-gray-600 italic mb-4">Machine Learning & Privacy-Preserving Security | Flower Framework</p>
+        <div class="space-y-4 text-gray-700">
+          <p>Developed a decentralized intrusion detection system (IDS) using the <strong>Aposemat IoT-23 dataset</strong> to classify malicious network traffic while preserving data privacy.</p>
+          <ul class="list-disc ml-5 space-y-2">
+            <li><strong>Architecture:</strong> Implemented a 1D-Convolutional Neural Network (1D-CNN) and Autoencoder for dual-stage detection. The <strong>Autoencoder achieved 96% accuracy</strong> in identifying anomalies based on reconstruction error.</li>
+            <li><strong>Federated Learning:</strong> Orchestrated decentralized training across multiple clients using the <strong>Flower framework</strong> and the FedAvg algorithm, achieving a global model accuracy of 69-73%.</li>
+            <li><strong>Stress Testing:</strong> Simulated adversarial attacks, including <strong>Label-Flipping Data Poisoning</strong> and <strong>TCP Connection Flood DoS</strong>, to evaluate the resilience of the central aggregation server.</li>
+            <li><strong>Tools:</strong> Python, TensorFlow, Keras, Flower, Scikit-learn, MinMaxScaling.</li>
+          </ul>
+        </div>
       </div>
 
-      <div>
-        <h3 class="text-2xl font-semibold">PUF-Based Hardware Security & Cryptanalysis</h3>
-        <p>
-          Conducted cryptanalysis on multiple PUF-based hardware authentication schemes. Proposed a hybrid model improving key-generation consistency and physical resistance under environmental variations.
-        </p>
+      <!-- Project 2: Fake News (From Report 2) -->
+      <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-green-600">
+        <h3 class="text-2xl font-bold text-gray-800">Enhanced Fake News Detection via Transformer & NLP Fusion</h3>
+        <p class="text-gray-600 italic mb-4">Deep Learning | Natural Language Processing</p>
+        <div class="space-y-4 text-gray-700">
+          <p>Conducted an exhaustive study on misinformation detection using the <strong>TruthSeeker dataset</strong> (134,000+ annotated tweets) to identify linguistic patterns in fake news.</p>
+          <ul class="list-disc ml-5 space-y-2">
+            <li><strong>Feature Engineering:</strong> Compared multiple vectorization techniques including <strong>TF-IDF, Word2Vec, and Keras Word Embeddings</strong> to map textual context into dense high-dimensional vectors.</li>
+            <li><strong>Model Performance:</strong> Evaluated seven supervised models (Random Forest, GBC, KNN, etc.). Achieved a peak <strong>accuracy of 99.2%</strong> using Word Embeddings and <strong>94.7% using a fine-tuned BERT</strong> transformer model.</li>
+            <li><strong>Preprocessing Pipeline:</strong> Built a robust cleaning engine using NLTK to handle IP addresses, URLs, stopwords, and stemming, ensuring high-quality input for deep learning layers.</li>
+            <li><strong>Tools:</strong> Google Colab, BERT, NLTK, Keras, Matplotlib (ROC/AUC Analysis).</li>
+          </ul>
+          <a href="https://github.com/Raghava-Gatadi/cybersecurity/tree/master/RealorFake_political" rel="noopener noreferrer" target="_blank" class="inline-block mt-2 text-blue-600 hover:underline font-semibold">View Source Code on GitHub →</a>
+        </div>
       </div>
-
-      <div>
-        <h3 class="text-2xl font-semibold">Deep Learning for Fake News Detection</h3>
-        <p>
-          Researched NLP-driven detection systems using BERT and Word2Vec embeddings for misinformation classification. Enhanced text representation to achieve a 30% accuracy boost on benchmark datasets.
-        </p>
+      <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-green-600">
+        <h3 class="text-2xl font-bold text-gray-800">Efficient PUF-Based Authentication for IoT WiFi Networks</h3>
+        <p class="text-gray-600 italic mb-4">Hardware Security & Cryptographic Protocol Design</p>
+        <div class="space-y-4 text-gray-700">
+          <p>Designed a novel, lightweight authentication and key exchange protocol using <strong>Physically Unclonable Functions (PUFs)</strong> to secure resource-constrained IoT devices against physical and network-layer attacks.</p>
+          <ul class="list-disc ml-5 space-y-2">
+            <li><strong>Tamper-Resistant Identity:</strong> Leveraged hardware-level "fingerprints" (PUFs) to generate unique, unclonable digital signatures, eliminating the need for storing sensitive static keys on vulnerable non-volatile memory.</li>
+            <li><strong>Protocol Architecture:</strong> Engineered a three-phase security framework: <strong>One-time Enrollment</strong> (secure CRP storage), <strong>Initialization</strong>, and <strong>Mutual Authentication</strong>.</li>
+            <li><strong>Attack Mitigation:</strong> Integrated nonce-based transformations and XOR operations to neutralize <strong>MAC Spoofing, Replay Attacks, and Rogue Access Point</strong> (Evil Twin) threats.</li>
+            <li><strong>Efficiency Optimization:</strong> Reduced computational overhead to just <strong>8 PUF operations and 4 Hash calls (8P + 4H)</strong> with a minimal storage requirement of 6n bits, making it suitable for low-power e2-micro and edge devices.</li>
+            <li><strong>Cryptanalysis:</strong> Performed formal security proofs demonstrating resistance to brute-force attacks by utilizing fresh challenge-response pairs for every session.</li>
+          </ul>
+        </div>
+        <a href="../assets/PUF_Research_Paper.pdf" rel="noopener noreferrer" target="_blank" class="inline-block mt-2 text-blue-600 hover:underline font-semibold">View Report →</a>
       </div>
     </div>
   </section>

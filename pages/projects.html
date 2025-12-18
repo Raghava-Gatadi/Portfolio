@@ -5,59 +5,117 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Projects | Raghava Gatadi</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>html { scroll-behavior: smooth; }</style>
 </head>
 <body class="bg-gray-50 text-gray-900">
   <!-- Navbar -->
   <nav class="bg-gray-900 text-white p-4 flex justify-between items-center fixed top-0 left-0 w-full z-50 shadow-md">
-    <h1 class="text-2xl font-bold">Raghava Gatadi</h1>
+    <a href="../index.html" class="text-2xl font-bold">Raghava Gatadi</a>
     <div class="space-x-6">
       <a href="../index.html" class="hover:text-blue-400">Home</a>
-      <a href="projects.html" class="hover:text-blue-400 text-blue-400 font-semibold">Projects</a>
+      <a href="projects.html" class="hover:text-blue-400 text-blue-400 font-semibold border-b-2 border-blue-400">Projects</a>
       <a href="research.html" class="hover:text-blue-400">Research</a>
       <a href="contact.html" class="hover:text-blue-400">Contact</a>
     </div>
   </nav>
 
-  <section class="pt-28 max-w-5xl mx-auto px-6">
-    <h2 class="text-4xl font-bold mb-8 border-b-4 border-blue-500 w-fit">Projects</h2>
-
-    <div class="space-y-10">
-      <div>
-        <h3 class="text-2xl font-semibold">Federated Learning-Based Intrusion Detection</h3>
-        <p class="text-gray-600 italic mb-2">Jan 2025 – Apr 2025</p>
-        <p>
-          Developed an IoT intrusion detection system using Autoencoders, Random Forest, XGBoost, and CNNs with Federated Learning integration. Achieved <strong>69% detection accuracy</strong> using the Aposemat IoT-23 dataset.
-        </p>
+  <section class="pt-28 max-w-5xl mx-auto px-6 mb-20">
+    
+    <!-- SECTION 1: CLOUD SECURITY (Previous Projects) -->
+    <h2 class="text-4xl font-bold mb-8 border-b-4 border-blue-500 w-fit">Cloud Security Course Projects</h2>
+    <div class="space-y-12">
+      <!-- Cloud Project 1 -->
+      <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-blue-600">
+        <h3 class="text-2xl font-bold text-gray-800">Advanced Cloud Penetration Testing: SSRF & IMDS Exploitation</h3>
+        <p class="text-gray-600 italic mb-4">AWS Offensive Security Simulation</p>
+        <ul class="list-disc ml-5 space-y-2 text-gray-700">
+          <li><strong>Discovery:</strong> Performed environmental reconnaissance using "solus" credentials, leading to the discovery of "wrex" user credentials hidden in Lambda environment variables.</li>
+          <li><strong>SSRF Exploitation:</strong> Exploited a Server-Side Request Forgery vulnerability in a web app to query <strong>IMDSv1</strong> and exfiltrate EC2 IAM role credentials.</li>
+          <li><strong>Lateral Movement:</strong> Utilized stolen role credentials to retrieve sensitive keys from an S3 bucket, ultimately capturing the mission flag via a high-value Lambda function.</li>
+          <li><strong>Remediation:</strong> Authored a post-mortem identifying <strong>IMDSv2 enforcement</strong> as the primary defense to neutralize credential theft.</li>
+        </ul>
       </div>
 
-      <div>
-        <h3 class="text-2xl font-semibold">PUF-Based Hardware Security Research</h3>
-        <p class="text-gray-600 italic mb-2">Aug 2024 – Nov 2024</p>
-        <p>
-          Researched Physically Unclonable Function (PUF)-based models for hardware security. Designed a new model combining multiple PUF mechanisms to improve resilience and efficiency in cryptographic applications.
-        </p>
+      <!-- Cloud Project 2 -->
+      <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-blue-600">
+        <h3 class="text-2xl font-bold text-gray-800">"Operation Broken Bridge": Multi-Cloud Infrastructure Recovery</h3>
+        <p class="text-gray-600 italic mb-4">GCP & AWS Incident Response</p>
+        <ul class="list-disc ml-5 space-y-2 text-gray-700">
+          <li><strong>Deployment:</strong> Used gcloud CLI to exfiltrate artifacts from Google Cloud Storage and deployed a hybrid backend (AWS CloudFormation) and frontend (GCP e2-micro VM).</li>
+          <li><strong>Troubleshooting:</strong> Identified connectivity failures caused by environment variable naming mismatches (DB_PASS vs DB_PASSWORD) and misconfigured AWS Security Groups.</li>
+          <li><strong>Infrastructure Remediation:</strong> Re-engineered AWS Security Group ingress rules to allow PostgreSQL traffic specifically from the GCP VM’s public IP.</li>
+          <li><strong>Strategic Enhancement:</strong> Proposed a Zero-Trust migration using <strong>Google Identity-Aware Proxy (IAP)</strong> and AWS Secrets Manager.</li>
+        </ul>
       </div>
 
-      <div>
-        <h3 class="text-2xl font-semibold">Fake News Detection</h3>
-        <p class="text-gray-600 italic mb-2">Jan 2024 – Apr 2024</p>
-        <p>
-          Built a fake news detection model using Deep Learning and NLP methods such as TF-IDF, BERT, and Word2Vec. Improved accuracy by <strong>30%</strong> over baseline methods on the TruthSeeker dataset.
-          <br>
-          <a href="https://github.com/Raghava-Gatadi/cybersecurity/tree/master/RealorFake_political" target="_blank" class="text-blue-600 hover:underline">View on GitHub</a>
-        </p>
+      <!-- Cloud Project 3 -->
+      <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-blue-600">
+        <h3 class="text-2xl font-bold text-gray-800">Digital Forensics: AWS Breach Timeline Reconstruction</h3>
+        <p class="text-gray-600 italic mb-4">DFIR & Log Analysis</p>
+        <ul class="list-disc ml-5 space-y-2 text-gray-700">
+          <li><strong>Timeline Analysis:</strong> Parsed raw <strong>CloudTrail logs</strong> using <code>jq</code> and regex to reconstruct a 48-minute breach timeline originating from a suspicious IP.</li>
+          <li><strong>Privilege Escalation:</strong> Identified an unauthorized <code>sts:AssumeRole</code> call that allowed an attacker to move from a low-privilege user to an "AdminRole."</li>
+          <li><strong>Exfiltration:</strong> Documented the unauthorized access of sensitive S3 data recovery buckets.</li>
+          <li><strong>Defense:</strong> Recommended mandatory MFA for role assumptions and automated CloudWatch alerting for AccessDenied spikes.</li>
+        </ul>
       </div>
 
-      <div>
-        <h3 class="text-2xl font-semibold">Password Manager</h3>
-        <p>
-          Created a secure Python-based command-line password manager using MySQL for encrypted storage, featuring password generation, clipboard integration, and master password authentication.
-        </p>
+      <!-- Cloud Project 4 -->
+      <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-blue-600">
+        <h3 class="text-2xl font-bold text-gray-800">Cloud Compliance & HIPAA Risk Assessment</h3>
+        <p class="text-gray-600 italic mb-4">GRC & Infrastructure Auditing</p>
+        <ul class="list-disc ml-5 space-y-2 text-gray-700">
+          <li><strong>Audit:</strong> Conducted a static analysis of AWS CloudFormation templates against <strong>HIPAA</strong> and <strong>CIS AWS Foundations Benchmarks</strong>.</li>
+          <li><strong>Gap Identification:</strong> Identified 14 non-compliant controls, including unencrypted RDS/EBS volumes and over-privileged IAM wildcards.</li>
+          <li><strong>Regulatory Mapping:</strong> Linked technical failures to HIPAA technical safeguards, specifically highlighting the risk of PHI disclosure via IMDSv1 vulnerabilities.</li>
+          <li><strong>Roadmap:</strong> Developed remediation steps including KMS key rotation and enforcing HTTPS-only transport for S3.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 class="text-4xl font-bold mt-8 mb-6 border-b-4 border-orange-500 w-fit">Security Tooling & Cryptography</h2>
+    <div class="space-y-12 mb-20">
+
+      <!-- Project: AES Socket Programming -->
+      <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-orange-500">
+        <h3 class="text-2xl font-bold text-gray-800">AES Encrypted Socket Communication</h3>
+        <p class="text-gray-600 italic mb-4">Network Security | Cryptography | Python</p>
+        <ul class="list-disc ml-5 space-y-2 text-gray-700">
+          <li><strong>Cross-Platform Secure Tunnel:</strong> Established an encrypted communication channel between different operating systems (macOS and Windows) using Python socket programming.</li>
+          <li><strong>Flexible Encryption:</strong> Implemented <strong>AES (Advanced Encryption Standard)</strong> supporting 128, 192, and 256-bit key lengths for high-assurance data transit.</li>
+          <li><strong>Dynamic Key Management:</strong> Developed a custom key-exchange mechanism using delimiters (<code>~</code>) to allow users to rotate or update session keys dynamically within the message stream.</li>
+        </ul>
+        <a href="https://github.com/Raghava-Gatadi/cybersecurity/tree/master/AES-in-socket-programming" rel="noopener noreferrer" target="_blank" class="inline-block mt-2 text-blue-600 hover:underline font-semibold">View Source Code on GitHub →</a>
+      </div>
+
+      <!-- Project: Django Network Scanner -->
+      <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-orange-500">
+        <h3 class="text-2xl font-bold text-gray-800">Django-Based Network & Port Scanner</h3>
+        <p class="text-gray-600 italic mb-4">Full-Stack Development | Network Forensics</p>
+        <ul class="list-disc ml-5 space-y-2 text-gray-700">
+          <li><strong>Web Interface:</strong> Built a user-friendly Django dashboard to manage and visualize network scans in real-time.</li>
+          <li><strong>Asset Identification:</strong> Automated the discovery of active systems on the network, displaying critical metadata including <strong>IP addresses, MAC addresses, and vendor identification</strong>.</li>
+          <li><strong>Vulnerability Assessment:</strong> Integrated an automated port scanner to identify open services and potential entry points on connected systems.</li>
+        </ul>
+        <a href="https://github.com/Raghava-Gatadi/cybersecurity/tree/master/Network_Scanner" rel="noopener noreferrer" target="_blank" class="inline-block mt-2 text-blue-600 hover:underline font-semibold">View Source Code on GitHub →</a>
+      </div>
+
+      <!-- Project: Password Manager -->
+      <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-orange-500">
+        <h3 class="text-2xl font-bold text-gray-800">CLI Password Vault & Database Manager</h3>
+        <p class="text-gray-600 italic mb-4">Python | MySQL | Secure Storage</p>
+        <ul class="list-disc ml-5 space-y-2 text-gray-700">
+          <li><strong>Backend Integration:</strong> Developed a Python CLI tool connected to a <strong>MySQL</strong> workbench for robust, persistent storage of sensitive credentials.</li>
+          <li><strong>Command-Line Interface:</strong> Designed an efficient command-line workflow for adding, searching, and retrieving entries using specific switches for site names, URLs, and usernames.</li>
+          <li><strong>Master Authentication:</strong> Secured the database with a master password requirement for all CRUD (Create, Read, Update, Delete) operations.</li>
+        </ul>
+        <a href="https://github.com/Raghava-Gatadi/cybersecurity/tree/master/password_manager" rel="noopener noreferrer" target="_blank" class="inline-block mt-2 text-blue-600 hover:underline font-semibold">View Source Code on GitHub →</a>
       </div>
     </div>
   </section>
 
-  <footer class="bg-gray-900 text-gray-300 text-center py-6 mt-16">
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 text-center py-6">
     <p>&copy; 2025 Raghava Gatadi. All Rights Reserved.</p>
   </footer>
 </body>
