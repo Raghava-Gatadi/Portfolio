@@ -25,6 +25,38 @@
     <!-- SECTION 1: CLOUD SECURITY (Previous Projects) -->
     <h2 class="text-4xl font-bold mb-8 border-b-4 border-blue-500 w-fit">Cloud Security Course Projects</h2>
     <div class="space-y-12">
+      <!-- Add this to the TOP of the Cloud Security section in projects.html -->
+
+<div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-indigo-600 mb-12">
+  <div class="flex justify-between items-start flex-wrap gap-4">
+    <h3 class="text-2xl font-bold text-gray-800">AWS Security Monitoring & Threat Detection Portfolio</h3>
+    <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Detection Engineering</span>
+  </div>
+  <p class="text-gray-600 italic mb-4">Splunk Enterprise | AWS CloudTrail | MITRE ATT&CK Mapping</p>
+  
+  <div class="space-y-4 text-gray-700">
+    <p>Designed and implemented a full-cycle detection strategy using the <strong>Invictus IR Red Team dataset</strong>. I developed custom logic to distinguish between automated scanning tools and legitimate administrative activity within AWS.</p>
+    
+    <ul class="list-disc ml-5 space-y-2">
+      <li><strong>Detection Logic Development:</strong> Wrote 6 custom <strong>SPL (Search Processing Language)</strong> rules utilizing statistical thresholding (<code>stats dc()</code>) and time-binning to identify the AWS Kill Chain.</li>
+      <li><strong>MITRE Mapping:</strong> Aligned all detection coverage to the MITRE ATT&CK Cloud Matrix, specifically targeting Reconnaissance (TA0043) through Data Destruction (TA0040).</li>
+      <li><strong>Advanced Tuning:</strong> Implemented <code>eval severity=case()</code> logic to grade alerts dynamically based on failed privilege escalation spikes and suspicious <code>AssumeRole</code> patterns.</li>
+      <li><strong>High-Fidelity Rules Developed:</strong>
+        <ul class="list-circle ml-8 mt-2 space-y-1 text-sm text-gray-600">
+          <li><strong>API Reconnaissance Spike:</strong> Detects automated enumeration via distinct call volume.</li>
+          <li><strong>SSM Parameter Enumeration:</strong> Identifies bulk credential theft from Systems Manager.</li>
+          <li><strong>Failed Privilege Escalation:</strong> Monitors AccessDenied spikes with dynamic grading.</li>
+          <li><strong>CloudTrail Tampering:</strong> Immediate alerts for <code>StopLogging</code> or <code>DeleteTrail</code> events.</li>
+          <li><strong>Lateral Movement:</strong> Detects "Role Chaining" and anomalous <code>AssumeRole</code> chains.</li>
+          <li><strong>Mass Destruction:</strong> Correlates bulk resource deletion with security log disabling.</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="mt-4 flex gap-4">
+      <a href="https://github.com/Raghava-Gatadi/aws-detection-engineering-splunk" target="_blank" class="text-blue-600 hover:underline font-semibold font-mono text-sm">View Detection Logic on GitHub →</a>
+    </div>
+  </div>
+</div>
       <!-- Cloud Project 1 -->
       <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-blue-600">
         <h3 class="text-2xl font-bold text-gray-800">Advanced Cloud Penetration Testing: SSRF & IMDS Exploitation</h3>
