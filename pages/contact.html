@@ -5,47 +5,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact | Raghava Gatadi</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #050505; color: #a3a3a3; }
+    .glass-card { background: #0a0a0a; border: 1px solid #1a1a1a; transition: border-color 0.3s ease; }
+    .glass-card:hover { border-color: #6366f1; }
+    .contact-link { 
+        display: flex; 
+        align-items: center; 
+        gap: 0.75rem; 
+        padding: 1rem 1.5rem; 
+        border-radius: 0.5rem; 
+        transition: all 0.2s ease; 
+    }
+    .contact-link:hover { background: #1a1a1a; transform: translateX(4px); }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
-  <nav class="bg-gray-900 text-white p-4 flex justify-between items-center fixed top-0 left-0 w-full z-50 shadow-md">
-    <a href="../index.html" class="text-2xl font-bold">Raghava Gatadi</a>
-    <div class="space-x-6">
-      <a href="../index.html" class="hover:text-blue-400">Home</a>
-      <a href="projects.html" class="hover:text-blue-400">Projects</a>
-      <a href="research.html" class="hover:text-blue-400">Research</a>
-      <a href="certifications.html" class="hover:text-blue-400">Certificates</a>
-      <a href="contact.html" class="hover:text-blue-400 text-blue-400 font-semibold border-b-2 border-blue-400">Contact</a>
+<body class="min-h-screen antialiased">
+
+  <!-- Minimal Navigation -->
+  <nav class="border-b border-[#141414] sticky top-0 bg-[#050505]/80 backdrop-blur-md z-50">
+    <div class="max-w-3xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="../index.html" class="text-sm font-bold text-white tracking-tighter hover:text-indigo-400 transition">&larr; Back to Writing</a>
+      <span class="text-xs font-mono text-gray-600 uppercase tracking-widest">Contact // 001</span>
     </div>
   </nav>
 
-  <section class="pt-28 max-w-3xl mx-auto text-center px-6">
-    <h2 class="text-4xl font-bold mb-6 border-b-4 border-gray-800 w-fit mx-auto">Get in Touch</h2>
-    <p class="text-lg text-gray-700 mb-10">
-      Whether you’d like to collaborate on cybersecurity projects, discuss research ideas, or explore professional opportunities — I’d love to connect.
-    </p>
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    
+    <!-- Header -->
+    <header class="mb-12 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-4">
+        Get in Touch
+      </h1>
+      <p class="text-gray-400 text-lg max-w-xl mx-auto">
+        Whether you'd like to collaborate on cybersecurity projects, discuss research ideas, or explore professional opportunities — I'd love to connect.
+      </p>
+    </header>
 
-    <div class="flex flex-col items-center space-y-6">
-  <a href="mailto:raghava.gtd@gmail.com" 
-     class="block w-80 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition text-center shadow-md">
-    📧 Email: raghava.gtd@gmail.com
-  </a>
-  
-  <a href="https://www.linkedin.com/in/raghava-gatadi/" 
-     target="_blank" 
-     class="block w-80 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition text-center shadow-md">
-    🔗 LinkedIn Profile
-  </a>
-  
-  <a href="https://github.com/Raghava-Gatadi" 
-     target="_blank" 
-     class="block w-80 bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition text-center shadow-md">
-    💻 GitHub Profile
-  </a>
-</div>
-  </section>
+    <!-- Contact Cards -->
+    <div class="space-y-4 mb-16">
+      
+      <!-- Email -->
+      <a href="mailto:raghava.gtd@gmail.com" class="glass-card contact-link group">
+        <span class="text-2xl">📧</span>
+        <div>
+          <div class="text-white font-medium group-hover:text-indigo-400 transition">Email</div>
+          <div class="text-sm text-gray-500 font-mono">raghava.gtd@gmail.com</div>
+        </div>
+      </a>
 
-  <footer class="bg-gray-900 text-gray-300 text-center py-6 mt-16">
-    <p>&copy; 2025 Raghava Gatadi. All Rights Reserved.</p>
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/in/raghava-gatadi/" target="_blank" class="glass-card contact-link group">
+        <span class="text-2xl">🔗</span>
+        <div>
+          <div class="text-white font-medium group-hover:text-indigo-400 transition">LinkedIn</div>
+          <div class="text-sm text-gray-500 font-mono">linkedin.com/in/raghava-gatadi</div>
+        </div>
+      </a>
+
+      <!-- GitHub -->
+      <a href="https://github.com/Raghava-Gatadi" target="_blank" class="glass-card contact-link group">
+        <span class="text-2xl">💻</span>
+        <div>
+          <div class="text-white font-medium group-hover:text-indigo-400 transition">GitHub</div>
+          <div class="text-sm text-gray-500 font-mono">github.com/Raghava-Gatadi</div>
+        </div>
+      </a>
+
+      <!-- Resume -->
+      <a href="../assets/Gatadi_Raghava.pdf" class="glass-card contact-link group">
+        <span class="text-2xl">📄</span>
+        <div>
+          <div class="text-white font-medium group-hover:text-indigo-400 transition">Resume</div>
+          <div class="text-sm text-gray-500 font-mono">Download PDF</div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Optional Note -->
+    <div class="glass-card p-6 text-center">
+      <p class="text-sm text-gray-500">
+        I typically respond within 2–3 business days. For urgent matters, please include "URGENT" in your email subject line.
+      </p>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-[#141414] py-12">
+    <div class="max-w-3xl mx-auto px-6 text-center text-gray-600 text-xs">
+      <p class="font-mono mb-2">SECURED_TRANSIT_ESTABLISHED</p>
+      <p>&copy; 2026 Raghava Gatadi</p>
+    </div>
   </footer>
+
 </body>
 </html>

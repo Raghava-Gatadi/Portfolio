@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Securing IoT Networks with Federated Learning & Autoencoders | Raghava Gatadi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #050505; color: #a3a3a3; }
+    .prose h2 { color: #ffffff; margin-top: 3rem; margin-bottom: 1rem; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.025em; }
+    .prose h3 { color: #e5e5e5; margin-top: 2rem; margin-bottom: 0.75rem; font-weight: 600; font-size: 1.25rem; }
+    .prose p { margin-bottom: 1.5rem; line-height: 1.8; font-size: 1.05rem; }
+    .prose strong { color: #fff; font-weight: 600; }
+    .prose ul { margin-bottom: 1.5rem; }
+    .prose li { margin-bottom: 0.75rem; padding-left: 0.5rem; }
+    .prose code { background: #1a1a1a; padding: 0.2rem 0.4rem; border-radius: 4px; font-family: 'JetBrains Mono', monospace; color: #818cf8; font-size: 0.9em; }
+    
+    .code-block { 
+        background: #0a0a0a; 
+        border: 1px solid #1a1a1a; 
+        padding: 1.5rem; 
+        border-radius: 0.75rem; 
+        overflow-x: auto; 
+        font-family: 'JetBrains Mono', monospace; 
+        font-size: 0.875rem; 
+        color: #a5b4fc; 
+        margin: 2rem 0;
+        line-height: 1.6;
+    }
+
+    .highlight-box { 
+        border-left: 4px solid #6366f1; 
+        background: #0f111a; 
+        padding: 1.5rem; 
+        border-radius: 0 0.75rem 0.75rem 0; 
+        margin: 2.5rem 0; 
+        color: #cbd5e1; 
+    }
+
+    .stat-card { 
+        background: #0a0a0a; 
+        border: 1px solid #1a1a1a; 
+        padding: 1.5rem; 
+        border-radius: 0.75rem; 
+        transition: border-color 0.3s ease;
+    }
+    .stat-card:hover { border-color: #6366f1; }
+
+    .tech-tag { 
+        display: inline-block; 
+        background: #1e1b4b; 
+        color: #a5b4fc; 
+        padding: 0.25rem 0.75rem; 
+        border-radius: 9999px; 
+        font-size: 0.75rem; 
+        font-family: 'JetBrains Mono', monospace; 
+        margin: 0.25rem 0.25rem 0.25rem 0; 
+        border: 1px solid #3730a3;
+    }
+
+    .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.5rem 0;
+        font-size: 0.875rem;
+    }
+    .comparison-table th {
+        text-align: left;
+        padding: 0.75rem 1rem;
+        background: #1a1a1a;
+        color: #fff;
+        font-weight: 600;
+        border-bottom: 1px solid #2a2a2a;
+    }
+    .comparison-table td {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #1a1a1a;
+        vertical-align: top;
+    }
+    .comparison-table tr:hover {
+        background: #0a0a0a;
+    }
+
+    .vulnerability-alert {
+        background: #1a0f0f;
+        border: 1px solid #7f1d1d;
+        border-left: 4px solid #ef4444;
+        padding: 1.25rem;
+        border-radius: 0 0.5rem 0.5rem 0;
+        margin: 1rem 0;
+    }
+
+    .success-alert {
+        background: #0f1a15;
+        border: 1px solid #14532d;
+        border-left: 4px solid #10b981;
+        padding: 1.25rem;
+        border-radius: 0 0.5rem 0.5rem 0;
+        margin: 1rem 0;
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- Minimal Navigation -->
+  <nav class="border-b border-[#141414] sticky top-0 bg-[#050505]/80 backdrop-blur-md z-50">
+    <div class="max-w-3xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="../../index.html" class="text-sm font-bold text-white tracking-tighter hover:text-indigo-400 transition">&larr; Back to Writing</a>
+      <span class="text-xs font-mono text-gray-600 uppercase tracking-widest">Undergrad Project // 2025</span>
+    </div>
+  </nav>
+
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    
+    <!-- Article Header -->
+    <header class="mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-8">
+        Securing IoT Networks with Federated Learning & Autoencoders
+      </h1>
+      <div class="flex flex-wrap gap-6 text-xs font-mono text-gray-500 uppercase tracking-widest">
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            Machine Learning Security
+        </div>
+        <span>May 2025</span>
+        <span>11 Min Read</span>
+      </div>
+    </header>
+
+    <!-- Executive Summary -->
+    <div class="highlight-box">
+        <p class="text-lg"><strong>Undergraduate Major Project:</strong> This research was conducted during my final year of undergraduate studies. The project explored the intersection of privacy-preserving machine learning and IoT security, implementing a Federated Learning system using the Flower framework alongside Autoencoder-based anomaly detection.</p>
+    </div>
+
+    <!-- Article Content -->
+    <article class="prose text-gray-400">
+      <p>
+        The Internet of Things is exploding—projected to reach over 30 billion devices by 2030. But with connectivity comes vulnerability. Traditional security models rely on centralized data collection, which creates privacy risks and single points of failure.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-10 text-center">
+        <div class="stat-card">
+            <div class="text-emerald-500 text-3xl font-bold">96%</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Autoencoder Accuracy</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-indigo-500 text-3xl font-bold">73%</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Centralized ML Accuracy</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-red-500 text-3xl font-bold">0%</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">FL Accuracy (100% Poison)</div>
+        </div>
+      </div>
+
+      <h2>The Challenge: Privacy vs. Security in IoT</h2>
+      <p>
+        IoT devices generate massive amounts of sensitive network traffic data. Training machine learning models to detect attacks typically requires sending this data to a central server—violating user privacy and consuming bandwidth.
+      </p>
+      <p>
+        <strong>Federated Learning (FL)</strong> offers a solution: train models locally on devices and share only model updates (weights), not raw data. But is FL robust enough for security-critical environments? Can it withstand adversarial attacks like data poisoning?
+      </p>
+
+      <div class="highlight-box" style="border-left-color: #10b981; background: #0f1a15;">
+        <p class="mb-0"><strong>Project Goal:</strong> Build a hybrid security system combining Autoencoders for anomaly detection with Federated Learning for privacy-preserving attack classification, using the Aposemat IoT-23 dataset.</p>
+      </div>
+
+      <h2>System Architecture</h2>
+      <p>
+        The proposed system operates in three layers: anomaly detection, attack classification, and distributed learning.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-2">1. Anomaly Detection</h4>
+            <p class="text-xs text-gray-500">Autoencoder trained on benign traffic to identify deviations via reconstruction error</p>
+        </div>
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-2">2. Classification</h4>
+            <p class="text-xs text-gray-500">Random Forest, XGBoost, and 1D CNN models classify specific attack types</p>
+        </div>
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-2">3. Federated Learning</h4>
+            <p class="text-xs text-gray-500">Flower framework orchestrates distributed training across emulated IoT clients</p>
+        </div>
+      </div>
+
+      <h2>Methodology & Implementation</h2>
+
+      <h3>1. Dataset: Aposemat IoT-23</h3>
+      <p>
+        We used the <strong>Aposemat IoT-23</strong> dataset, which provides labeled network traffic from diverse IoT devices. It includes both normal behavior and malicious activities (DDoS, C&C, Reconnaissance, etc.), making it ideal for training intrusion detection systems.
+      </p>
+      <p>
+        <strong>Feature Selection:</strong> 24 network flow features were extracted, including duration, protocol types (TCP/UDP/ICMP), byte counts, and connection states.
+      </p>
+
+      <h3>2. Autoencoder for Anomaly Detection</h3>
+      <p>
+        The Autoencoder was trained <strong>exclusively on benign traffic</strong>. It learns to compress and reconstruct normal patterns. When attack traffic is fed into the model, the reconstruction error spikes, flagging it as anomalous.
+      </p>
+      <div class="success-alert">
+        <strong class="text-white">✅ Result:</strong> The Autoencoder achieved <strong>96% accuracy</strong> in distinguishing between benign and attack traffic based on reconstruction error thresholds.
+      </div>
+
+      <h3>3. Centralized Model Performance</h3>
+      <p>
+        Before implementing FL, we established baselines using centralized training. Three models were evaluated:
+      </p>
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Accuracy</th>
+            <th>Strengths</th>
+            <th>Weaknesses</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Random Forest</strong></td>
+            <td>73%</td>
+            <td>High precision on Benign & DDoS</td>
+            <td>Struggles with C&C variants</td>
+          </tr>
+          <tr>
+            <td><strong>XGBoost</strong></td>
+            <td>73%</td>
+            <td>Efficient, good feature importance</td>
+            <td>Low recall on minority classes</td>
+          </tr>
+          <tr>
+            <td><strong>1D CNN</strong></td>
+            <td>69%</td>
+            <td>Automatic feature extraction</td>
+            <td>Requires more tuning for imbalanced data</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>4. Federated Learning with Flower</h3>
+      <p>
+        We implemented Federated Averaging (FedAvg) using the <strong>Flower framework</strong>. The architecture consisted of a central aggregation server and multiple emulated IoT clients.
+      </p>
+      <div class="code-block">
+<pre># Federated Learning Configuration
+strategy = fl.server.strategy.FedAvg(
+    fraction_fit=0.5,          # 50% clients participate per round
+    min_fit_clients=2,         # Minimum clients required
+    fraction_evaluate=0.5,     # 50% clients evaluate per round
+    min_evaluate_clients=2,
+    on_fit_config_fn=fit_config, # Local epochs = 5
+)</pre>
+      </div>
+      <p>
+        <strong>Result:</strong> The federated 1D CNN achieved <strong>69.3% accuracy</strong>, comparable to its centralized counterpart. This validates that privacy-preserving training doesn't necessarily sacrifice performance in this context.
+      </p>
+
+      <h2>Security Analysis: Testing Robustness</h2>
+      <p>
+        A key contribution of this project was stress-testing the FL system against adversarial attacks. We simulated two specific threats:
+      </p>
+
+      <div class="vulnerability-alert">
+        <h4 class="text-white font-bold mb-2">⚠️ Data Poisoning Attack</h4>
+        <p class="text-sm mb-2">We simulated label-flipping attacks where malicious clients intentionally mislabel training data.</p>
+        <p class="text-sm"><strong>Impact:</strong> As poisoning intensity increased, global model accuracy degraded significantly. At <strong>100% poisoning</strong>, accuracy dropped to near <strong>0%</strong>. The model's decision boundaries were heavily distorted, causing benign traffic to be misclassified as attacks.</p>
+      </div>
+
+      <div class="vulnerability-alert">
+        <h4 class="text-white font-bold mb-2">⚠️ Denial of Service (DoS) Attack</h4>
+        <p class="text-sm mb-2">We simulated a connection flood against the Flower server (localhost:8080) using concurrent threads.</p>
+        <p class="text-sm"><strong>Impact:</strong> The server accepted the flood connections, misinterpreting them as legitimate FL clients. This disrupted client selection and aggregation phases, effectively <strong>halting the federated learning process</strong>. While the server didn't crash, its orchestration logic was overwhelmed.</p>
+      </div>
+
+      <h2>Key Findings & Lessons Learned</h2>
+      <div class="space-y-6 my-8">
+        <div class="border-l-2 border-emerald-500 pl-6">
+            <h3 class="text-white font-bold mb-2">1. Autoencoders Excel at Unknown Threats</h3>
+            <p class="mb-0">The 96% anomaly detection rate proves that unsupervised learning is powerful for identifying zero-day or novel attacks that supervised models might miss.</p>
+        </div>
+        <div class="border-l-2 border-indigo-500 pl-6">
+            <h3 class="text-white font-bold mb-2">2. FL Privacy Comes with Risks</h3>
+            <p class="mb-0">While FL protects data privacy, it introduces new attack vectors. Data poisoning is a critical vulnerability that requires defensive aggregation techniques (e.g., Krum, Multi-Krum).</p>
+        </div>
+        <div class="border-l-2 border-indigo-500 pl-6">
+            <h3 class="text-white font-bold mb-2">3. Server Orchestration is a Bottleneck</h3>
+            <p class="mb-0">The Flower server's susceptibility to connection floods highlights the need for rate-limiting and client authentication mechanisms in production FL deployments.</p>
+        </div>
+        <div class="border-l-2 border-indigo-500 pl-6">
+            <h3 class="text-white font-bold mb-2">4. Data Imbalance Matters</h3>
+            <p class="mb-0">All models struggled with minority attack classes (e.g., Okiru, C&C variants). Future work should explore SMOTE or class-weighted loss functions.</p>
+        </div>
+      </div>
+
+      <h2>Limitations & Future Work</h2>
+      <p>
+        This project served as a foundational exploration. Several areas were identified for future improvement:
+      </p>
+      <ul>
+        <li><strong>Deception Environments:</strong> The initial architecture proposed routing severe attacks to deception environments (Honeynets). This component was conceptual and not implemented in the current experimental scope.</li>
+        <li><strong>Non-IID Data:</strong> The FL simulation used identical data splits across clients for controlled experiments. Real-world IoT data is non-IID (non-independent and identically distributed), which affects convergence.</li>
+        <li><strong>Advanced Defenses:</strong> Implementing robust aggregation rules to mitigate data poisoning effects.</li>
+        <li><strong>Real Hardware Testing:</strong> Moving from emulated clients to actual Raspberry Pi or IoT devices to measure real computational overhead.</li>
+      </ul>
+
+      <div class="tech-tag">Python</div>
+      <div class="tech-tag">TensorFlow / Keras</div>
+      <div class="tech-tag">Scikit-Learn</div>
+      <div class="tech-tag">Flower Framework</div>
+      <div class="tech-tag">Federated Learning</div>
+      <div class="tech-tag">IoT Security</div>
+      <div class="tech-tag">Autoencoders</div>
+
+      <div class="highlight-box" style="border-left-color: #10b981; background: #0f1a15;">
+        <h4 class="text-white font-bold mb-2">📚 Academic Context</h4>
+        <p class="mb-0">This research was completed as my <strong>undergraduate major project</strong> and published as a conference paper. It represents my early exploration into machine learning security, privacy-preserving technologies, and adversarial robustness—themes that continue to influence my work in cloud security and detection engineering.</p>
+      </div>
+
+    </article>
+
+    <!-- Footer / CTA -->
+    <footer class="mt-20 pt-12 border-t border-[#141414]">
+      
+      <div class="bg-[#0a0a0a] border border-[#1a1a1a] rounded-lg p-6 mb-12">
+        <h3 class="text-white font-bold mb-4">Project Details</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+            <div>
+                <div class="text-gray-500 mb-1">Project Type</div>
+                <div class="text-white font-semibold">Undergraduate Major Project</div>
+            </div>
+            <div>
+                <div class="text-gray-500 mb-1">Year</div>
+                <div class="text-white font-semibold">2025</div>
+            </div>
+            <div>
+                <div class="text-gray-500 mb-1">Research Area</div>
+                <div class="text-white font-semibold">ML Security, IoT, Federated Learning</div>
+            </div>
+            <div>
+                <div class="text-gray-500 mb-1">Output</div>
+                <div class="text-white font-semibold">Conference Paper</div>
+            </div>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <p class="text-sm text-gray-500 mb-8 font-mono">RESEARCH_PAPER_PUBLISHED // UNDERGRADUATE_PROJECT</p>
+        <div class="flex flex-col md:flex-row justify-center gap-4">
+          <a href="https://linkedin.com/in/raghava-gatadi" target="_blank" class="text-xs font-bold bg-white text-black px-8 py-3 rounded-lg hover:bg-gray-200 transition uppercase tracking-widest">
+              Connect on LinkedIn
+          </a>
+          <a href="https://github.com/Raghava-Gatadi" target="_blank" class="text-xs font-bold border border-[#222] text-white px-8 py-3 rounded-lg hover:bg-[#111] transition uppercase tracking-widest">
+              View on GitHub
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-[#141414] text-center text-xs text-gray-600">
+        <p>This research project demonstrates foundational expertise in machine learning security, federated learning architectures, and adversarial robustness analysis developed during undergraduate studies.</p>
+      </div>
+    </footer>
+
+  </main>
+
+  <footer class="py-12 text-center text-gray-700 text-xs">
+    <p>&copy; 2026 Raghava Gatadi &middot; Undergraduate Major Project</p>
+  </footer>
+
+</body>
+</html>

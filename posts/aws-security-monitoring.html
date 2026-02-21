@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AWS Detection Engineering | Raghava Gatadi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #050505; color: #a3a3a3; }
+    .prose h2 { color: #ffffff; margin-top: 3rem; margin-bottom: 1rem; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.025em; }
+    .prose h3 { color: #e5e5e5; margin-top: 2rem; margin-bottom: 0.75rem; font-weight: 600; font-size: 1.25rem; }
+    .prose p { margin-bottom: 1.5rem; line-height: 1.8; font-size: 1.05rem; }
+    .prose strong { color: #fff; font-weight: 600; }
+    .prose ul { margin-bottom: 1.5rem; }
+    .prose li { margin-bottom: 0.75rem; padding-left: 0.5rem; }
+    .prose code { background: #1a1a1a; padding: 0.2rem 0.4rem; border-radius: 4px; font-family: 'JetBrains Mono', monospace; color: #818cf8; font-size: 0.9em; }
+    
+    .code-block { 
+        background: #0a0a0a; 
+        border: 1px solid #1a1a1a; 
+        padding: 1.5rem; 
+        border-radius: 0.75rem; 
+        overflow-x: auto; 
+        font-family: 'JetBrains Mono', monospace; 
+        font-size: 0.875rem; 
+        color: #a5b4fc; 
+        margin: 2rem 0;
+        line-height: 1.6;
+    }
+
+    .highlight-box { 
+        border-left: 4px solid #6366f1; 
+        background: #0f111a; 
+        padding: 1.5rem; 
+        border-radius: 0 0.75rem 0.75rem 0; 
+        margin: 2.5rem 0; 
+        color: #cbd5e1; 
+    }
+
+    .stat-card { 
+        background: #0a0a0a; 
+        border: 1px solid #1a1a1a; 
+        padding: 1.5rem; 
+        border-radius: 0.75rem; 
+        transition: border-color 0.3s ease;
+    }
+    .stat-card:hover { border-color: #6366f1; }
+
+    .mitre-tag { 
+        display: inline-block; 
+        background: #1e1b4b; 
+        color: #a5b4fc; 
+        padding: 0.25rem 0.75rem; 
+        border-radius: 9999px; 
+        font-size: 0.75rem; 
+        font-family: 'JetBrains Mono', monospace; 
+        margin: 0.25rem 0.25rem 0.25rem 0; 
+        border: 1px solid #3730a3;
+    }
+
+    .timeline-dot {
+        position: absolute;
+        left: -1.75rem;
+        top: 0.25rem;
+        width: 1rem;
+        height: 1rem;
+        border-radius: 50%;
+        border: 3px solid #050505;
+        z-index: 1;
+    }
+    .timeline-dot.recon { background: #6366f1; }
+    .timeline-dot.escalation { background: #8b5cf6; }
+    .timeline-dot.evasion { background: #ec4899; }
+    .timeline-dot.impact { background: #ef4444; }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- Minimal Navigation -->
+  <nav class="border-b border-[#141414] sticky top-0 bg-[#050505]/80 backdrop-blur-md z-50">
+    <div class="max-w-3xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="../../index.html" class="text-sm font-bold text-white tracking-tighter hover:text-indigo-400 transition">&larr; Back to Writing</a>
+      <span class="text-xs font-mono text-gray-600 uppercase tracking-widest">Case Study // 001</span>
+    </div>
+  </nav>
+
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    
+    <!-- Article Header -->
+    <header class="mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-8">
+        Engineering High-Fidelity Splunk Alerts for AWS Threat Detection
+      </h1>
+      <div class="flex flex-wrap gap-6 text-xs font-mono text-gray-500 uppercase tracking-widest">
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+            Detection Engineering
+        </div>
+        <span>January 2026</span>
+        <span>10 Min Read</span>
+      </div>
+    </header>
+
+    <!-- Executive Summary -->
+    <div class="highlight-box">
+        <p class="text-lg"><strong>The Objective:</strong> To transition from "noisy" signature-based alerts to behavioral detections capable of identifying a multi-stage cloud breach across the entire Kill Chain—from reconnaissance to data destruction.</p>
+    </div>
+
+    <!-- Article Content -->
+    <article class="prose text-gray-400">
+      <p>
+        Cloud environments generate a massive volume of logs. For a Security Operations Center (SOC), the challenge isn't finding data—it's finding <strong>signal</strong> within the noise. In this project, I utilized the <strong>Invictus IR AWS Attack Dataset</strong> to engineer a suite of custom detection rules in Splunk Enterprise, mapped to the <strong>MITRE ATT&CK Cloud Matrix</strong>.
+      </p>
+
+      <h2>The Detection Strategy</h2>
+      <p>
+        Most "out-of-the-box" AWS alerts trigger on single events, such as a failed login. However, sophisticated attackers like the one profiled in this dataset (<code>bert-jan</code>) use automated scripts that mimic administrative behavior. My strategy focused on <strong>Statistical Thresholding</strong> and <strong>Cardinality Analysis</strong>.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-10 text-center">
+        <div class="stat-card">
+            <div class="text-indigo-500 text-3xl font-bold">6</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Custom Rules</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-indigo-500 text-3xl font-bold">100%</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Detection Rate</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-indigo-500 text-3xl font-bold">MITRE</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Aligned</div>
+        </div>
+      </div>
+
+      <h2>Technical Deep Dive: Key Logic</h2>
+
+      <h3>1. API Reconnaissance Spike <span class="mitre-tag">T1595.002</span></h3>
+      <p>
+        Instead of counting total API calls, this rule counts <strong>distinct</strong> API names (<code>dc(eventName)</code>). This filters out noisy scripts that retry the same unauthorized action and highlights an actor actively mapping the breadth of the environment.
+      </p>
+      <div class="code-block">
+<pre>index=invictus (eventName=List* OR eventName=Describe* OR eventName=Get*)
+| eval _time=strptime(eventTime,"%Y-%m-%dT%H:%M:%SZ")
+| bin _time span=10m
+| stats dc(eventName) as unique_api_calls, 
+        values(eventName) as attempted_calls, 
+        count as total_hits 
+  by _time, sourceIPAddress, userIdentity.arn
+| where unique_api_calls &gt; 10
+| sort - unique_api_calls</pre>
+      </div>
+      <p><strong>Validation:</strong> Detected <code>bert-jan</code> performing 47 unique API calls from <code>10.8.8.10</code> within a 10-minute window—clear reconnaissance behavior.</p>
+
+      <h3>2. SSM Parameter Enumeration <span class="mitre-tag">T1555.006</span></h3>
+      <p>
+        AWS Systems Manager Parameter Store often holds secrets: API keys, database credentials, and environment variables. This rule targets bulk retrieval patterns that indicate credential harvesting.
+      </p>
+      <div class="code-block">
+<pre>index=invictus eventSource="ssm.amazonaws.com" 
+       eventName IN ("DescribeParameters","GetParameters","GetParameter")
+| eval event_time=strptime(eventTime,"%Y-%m-%dT%H:%M:%SZ")
+| bin event_time span=10m
+| stats count as api_call_count,
+        dc(requestParameters.name) as unique_parameters,
+        values(userAgent) AS user_agents 
+  by userIdentity.arn, event_time
+| where api_call_count &gt; 10</pre>
+      </div>
+      <p><strong>Validation:</strong> Captured the Stratus Red Team automated tool extracting 16 unique secrets using the user agent <code>stratus-red-team_11a6ef34...</code></p>
+
+      <h3>3. Failed Privilege Escalation <span class="mitre-tag">T1078 / T1068</span></h3>
+      <p>
+        Attackers often "fuzz" permissions to see what their stolen credentials can access. I implemented <strong>Dynamic Severity</strong> logic using Splunk's <code>eval case()</code> function to prioritize alerts based on the volume of <code>AccessDenied</code> errors.
+      </p>
+      <div class="code-block">
+<pre>index=invictus errorCode="AccessDenied" OR errorCode="Client.UnauthorizedOperation"
+| eval event_time=strptime(eventTime,"%Y-%m-%dT%H:%M:%SZ")
+| bin event_time span=5m
+| stats count as failed_attempts, 
+        values(eventName) as attempted_events,
+        values(eventMessage) as error_details 
+  by event_time, sourceIPAddress, userIdentity.arn
+| where failed_attempts &gt; 3
+| eval severity=case(failed_attempts &gt; 10, "CRITICAL", 
+                     failed_attempts &gt; 5, "HIGH", 
+                     1=1, "MEDIUM")
+| sort - failed_attempts</pre>
+      </div>
+      <p><strong>Validation:</strong> Flagged 15 failed <code>DescribeInstanceAttribute</code> attempts by <code>stratus-red-team-get-usr-data-role</code>—a clear EC2 credential theft pattern.</p>
+
+      <h3>4. CloudTrail Tampering <span class="mitre-tag">T1562.008</span></h3>
+      <p>
+        A critical, high-fidelity alert monitoring for attempts to disable logging. Attackers use this to "blind" security teams before performing destructive actions. This rule has zero tolerance—any match is <strong>CRITICAL</strong>.
+      </p>
+      <div class="code-block">
+<pre>index=invictus 
+       eventName IN ("StopLogging","DeleteTrail","UpdateTrail",
+                     "PutEventSelectors","DeleteDetector","ArchiveFindings")
+| table eventTime, eventName, awsRegion, userIdentity.arn, 
+        sourceIPAddress, userAgent, requestID</pre>
+      </div>
+      <p><strong>Validation:</strong> Detected <code>bert-jan</code> executing <code>StopLogging</code> at 12:01 PM, immediately followed by <code>DeleteTrail</code> during the cleanup phase.</p>
+
+      <h3>5. Lateral Movement via AssumeRole <span class="mitre-tag">T1550.001</span></h3>
+      <p>
+        Detects <strong>Role Chaining</strong>—where an attacker pivots from one IAM role to another to escalate privileges or hide their origin. The rule alerts on spikes in <code>AssumeRole</code> calls within a time window.
+      </p>
+      <div class="code-block">
+<pre>index=invictus eventName="AssumeRole"
+| eval event_time=strptime(eventTime,"%Y-%m-%dT%H:%M:%SZ")
+| bin event_time span=10m
+| stats count as total_attempts,
+        values(errorMessage) as error_message,
+        values(errorCode) as errors
+  by userIdentity.arn, event_time, sourceIPAddress
+| where total_attempts &gt; 3
+| table event_time, userIdentity.arn, sourceIPAddress, 
+        total_attempts, errors, error_message</pre>
+      </div>
+      <p><strong>Validation:</strong> Identified 17 <code>AssumeRole</code> attempts (4 failed) from <code>bert-jan</code>, indicating active privilege escalation via role chaining.</p>
+
+      <h3>6. Mass Deletion / Destruction <span class="mitre-tag">T1485 / T1490</span></h3>
+      <p>
+        The final safety net. This rule detects bulk deletion of assets (<code>&gt;20</code> events in 5 minutes) OR the deletion of specific critical infrastructure (KMS Keys, CloudTrail logs) regardless of volume.
+      </p>
+      <div class="code-block">
+<pre>index=invictus (eventName="Delete*" OR eventName="Terminate*" OR eventName="Drop*")
+| eval event_time=strptime(eventTime,"%Y-%m-%dT%H:%M:%SZ")
+| bin event_time span=5m
+| stats count as deletion_count,
+        values(eventName) as actions_taken 
+  by userIdentity.arn, sourceIPAddress, event_time
+| where deletion_count &gt; 20 
+   OR (deletion_count &gt;= 1 AND 
+       (actions_taken="DeleteTrail" OR actions_taken="DeleteKey"))</pre>
+      </div>
+      <p><strong>Validation:</strong> Cross-correlated with CloudTrail tampering activity, catching the final <code>DeleteTrail</code> event at 12:35 PM.</p>
+
+      <h2>Threat Actor Profile: bert-jan</h2>
+      <p>
+        Understanding the adversary is critical for tuning detections. The primary actor in this simulation exhibited clear behavioral patterns:
+      </p>
+      <ul>
+        <li><strong>1,037 events</strong> (83.8% of all activity)</li>
+        <li><strong>187 unique API actions</strong> across EC2, S3, SSM, IAM, and KMS</li>
+        <li><strong>6 distinct source IPs</strong>, with <code>192.168.10.20</code> as primary orchestration</li>
+        <li><strong>Attack capabilities</strong>: Infrastructure manipulation, IAM privilege escalation, secrets exfiltration, and logging tampering</li>
+      </ul>
+      <p>
+        The use of the <strong>Stratus Red Team Framework</strong> was evident through automated role names (<code>stratus-red-team-get-usr-data-role</code>) and high-frequency API calls that triggered throttling exceptions—a key indicator of scripted tooling.
+      </p>
+
+      <h2>Incident Reconstruction (The 55-Minute Attack)</h2>
+      <p>
+        By correlating the custom alerts, I was able to reconstruct a precise timeline of the breach. This timeline demonstrates how behavioral detections catch attackers even when they attempt to hide their tracks.
+      </p>
+      
+      <ul class="space-y-6 border-l border-[#1a1a1a] ml-4 pl-8 my-10 relative">
+        <li class="relative pl-4">
+            <span class="timeline-dot recon"></span>
+            <strong>11:42 AM — Attack Initiation:</strong> First <code>AssumeRole</code> and secrets access events detected.
+        </li>
+        <li class="relative pl-4">
+            <span class="timeline-dot recon"></span>
+            <strong>11:50 AM — Reconnaissance:</strong> Attacker performed mass enumeration of VPCs, S3 buckets, and SSM parameters (Detected via Rule 1 & 2).
+        </li>
+        <li class="relative pl-4">
+            <span class="timeline-dot escalation"></span>
+            <strong>11:55 AM — Privilege Escalation:</strong> Automated scripts attempted to extract EC2 metadata, triggering multiple <code>AccessDenied</code> events (Rule 3).
+        </li>
+        <li class="relative pl-4">
+            <span class="timeline-dot escalation"></span>
+            <strong>12:00 PM — Lateral Movement:</strong> Attacker attempted role chaining via <code>AssumeRole</code> to gain higher privileges (Rule 5).
+        </li>
+        <li class="relative pl-4">
+            <span class="timeline-dot evasion"></span>
+            <strong>12:01 PM — Defense Evasion:</strong> Attacker executed <code>StopLogging</code> to disable CloudTrail and "blind" the security team (Rule 4).
+        </li>
+        <li class="relative pl-4">
+            <span class="timeline-dot impact"></span>
+            <strong>12:20 PM — Data Exfiltration:</strong> Secrets retrieved via <code>GetParameter</code> and <code>Decrypt</code>; database snapshots prepared for external sharing.
+        </li>
+        <li class="relative pl-4">
+            <span class="timeline-dot impact"></span>
+            <strong>12:35 PM — Impact & Cleanup:</strong> Attacker deleted the trail configuration (<code>DeleteTrail</code>) and attempted infrastructure destruction (Rule 6).
+        </li>
+      </ul>
+
+      <div class="highlight-box">
+        <p><strong>Key Insight:</strong> The attack event rate spiked <strong>+221%</strong> during the escalation phase (6.75 → 21.7 events/min). This velocity change alone is a powerful behavioral indicator of automated attack tooling.</p>
+      </div>
+
+      <h2>MITRE ATT&CK Cloud Matrix Coverage</h2>
+      <p>
+        Each detection rule was explicitly mapped to adversary techniques to ensure comprehensive coverage across the attack lifecycle:
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 my-6">
+        <div class="stat-card"><span class="mitre-tag">T1595.002</span> Active Scanning: Vulnerability Scanning</div>
+        <div class="stat-card"><span class="mitre-tag">T1555.006</span> Credentials from Password Stores: Cloud Secrets</div>
+        <div class="stat-card"><span class="mitre-tag">T1078 / T1068</span> Valid Accounts / Exploitation for Priv Esc</div>
+        <div class="stat-card"><span class="mitre-tag">T1562.008</span> Impair Defenses: Disable Cloud Logs</div>
+        <div class="stat-card"><span class="mitre-tag">T1550.001</span> Use Alternate Authentication Material</div>
+        <div class="stat-card"><span class="mitre-tag">T1485 / T1490</span> Data Destruction / Inhibit System Recovery</div>
+      </div>
+
+      <h2>Lessons Learned</h2>
+      <ul>
+        <li><strong>Behavior > Signatures:</strong> Counting distinct API calls (<code>dc()</code>) is far more effective than raw volume for detecting reconnaissance.</li>
+        <li><strong>Context Matters:</strong> Correlating <code>AccessDenied</code> errors with specific API names (<code>DescribeInstanceAttribute</code>) reduces false positives.</li>
+        <li><strong>Time-Binning is Critical:</strong> Using <code>bin span=10m</code> enables detection of burst activity without alert fatigue.</li>
+        <li><strong>Dynamic Severity Saves Time:</strong> Routing alerts by failure volume helps analysts prioritize true threats.</li>
+        <li><strong>Test Against Real Data:</strong> Validating rules against the Invictus dataset confirmed 100% coverage of the simulated attack chain.</li>
+      </ul>
+
+      <h2>Conclusion</h2>
+      <p>
+        This project proves that effective AWS detection requires moving beyond simple signatures. By focusing on <strong>behavioral deviations</strong> (spikes in unique API calls) and <strong>intent-based errors</strong> (<code>UnauthorizedOperation</code>), I built a detection suite that identified the adversary at every stage of the lifecycle—from initial foot printing to final evidence destruction.
+      </p>
+      <p>
+        The next step? Operationalizing these rules into a production Splunk environment with automated response playbooks. Because in cloud security, detection is only half the battle—<strong>response</strong> is where breaches are stopped.
+      </p>
+    </article>
+
+    <!-- Footer / CTA -->
+    <footer class="mt-20 pt-12 border-t border-[#141414] text-center">
+      <p class="text-sm text-gray-500 mb-8 font-mono">FIN_REPORT_ESTABLISHED // ENCRYPTED_TRANSIT</p>
+      <div class="flex flex-col md:flex-row justify-center gap-4">
+        <a href="https://github.com/Raghava-Gatadi/aws-detection-engineering-splunk" target="_blank" class="text-xs font-bold bg-white text-black px-8 py-3 rounded-lg hover:bg-gray-200 transition uppercase tracking-widest">
+            View Logic on GitHub
+        </a>
+        <a href="../../pages/contact.html" class="text-xs font-bold border border-[#222] text-white px-8 py-3 rounded-lg hover:bg-[#111] transition uppercase tracking-widest">
+            Discuss Detection Engineering
+        </a>
+      </div>
+    </footer>
+
+  </main>
+
+  <footer class="py-12 text-center text-gray-700 text-xs">
+    <p>&copy; 2026 Raghava Gatadi &middot; Built for the Blue Team</p>
+  </footer>
+
+</body>
+</html>

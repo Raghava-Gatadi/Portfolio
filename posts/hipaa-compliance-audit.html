@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HIPAA Cloud Compliance Audit: Securing Healthcare Data in AWS | Raghava Gatadi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #050505; color: #a3a3a3; }
+    .prose h2 { color: #ffffff; margin-top: 3rem; margin-bottom: 1rem; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.025em; }
+    .prose h3 { color: #e5e5e5; margin-top: 2rem; margin-bottom: 0.75rem; font-weight: 600; font-size: 1.25rem; }
+    .prose p { margin-bottom: 1.5rem; line-height: 1.8; font-size: 1.05rem; }
+    .prose strong { color: #fff; font-weight: 600; }
+    .prose ul { margin-bottom: 1.5rem; }
+    .prose li { margin-bottom: 0.75rem; padding-left: 0.5rem; }
+    .prose code { background: #1a1a1a; padding: 0.2rem 0.4rem; border-radius: 4px; font-family: 'JetBrains Mono', monospace; color: #818cf8; font-size: 0.9em; }
+    
+    .code-block { 
+        background: #0a0a0a; 
+        border: 1px solid #1a1a1a; 
+        padding: 1.5rem; 
+        border-radius: 0.75rem; 
+        overflow-x: auto; 
+        font-family: 'JetBrains Mono', monospace; 
+        font-size: 0.875rem; 
+        color: #a5b4fc; 
+        margin: 2rem 0;
+        line-height: 1.6;
+    }
+
+    .highlight-box { 
+        border-left: 4px solid #6366f1; 
+        background: #0f111a; 
+        padding: 1.5rem; 
+        border-radius: 0 0.75rem 0.75rem 0; 
+        margin: 2.5rem 0; 
+        color: #cbd5e1; 
+    }
+
+    .stat-card { 
+        background: #0a0a0a; 
+        border: 1px solid #1a1a1a; 
+        padding: 1.5rem; 
+        border-radius: 0.75rem; 
+        transition: border-color 0.3s ease;
+    }
+    .stat-card:hover { border-color: #6366f1; }
+
+    .compliance-badge { 
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+    .compliance-badge.non-compliant { 
+        background: #450a0a; 
+        color: #fca5a5; 
+        border: 1px solid #7f1d1d;
+    }
+    .compliance-badge.compliant { 
+        background: #0f1a15; 
+        color: #86efac; 
+        border: 1px solid #14532d;
+    }
+
+    .risk-card {
+        background: #1a0f0f;
+        border: 1px solid #7f1d1d;
+        border-left: 4px solid #ef4444;
+        padding: 1.25rem;
+        border-radius: 0 0.5rem 0.5rem 0;
+        margin: 1rem 0;
+    }
+
+    .remediation-card {
+        background: #0f1a15;
+        border: 1px solid #14532d;
+        border-left: 4px solid #10b981;
+        padding: 1.25rem;
+        border-radius: 0 0.5rem 0.5rem 0;
+        margin: 1rem 0;
+    }
+
+    .control-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.5rem 0;
+        font-size: 0.875rem;
+    }
+    .control-table th {
+        text-align: left;
+        padding: 0.75rem 1rem;
+        background: #1a1a1a;
+        color: #fff;
+        font-weight: 600;
+        border-bottom: 1px solid #2a2a2a;
+    }
+    .control-table td {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #1a1a1a;
+        vertical-align: top;
+    }
+    .control-table tr:hover {
+        background: #0a0a0a;
+    }
+
+    .severity-dot {
+        display: inline-block;
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 50%;
+        margin-right: 0.5rem;
+    }
+    .severity-critical { background: #ef4444; }
+    .severity-high { background: #f97316; }
+    .severity-medium { background: #eab308; }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- Minimal Navigation -->
+  <nav class="border-b border-[#141414] sticky top-0 bg-[#050505]/80 backdrop-blur-md z-50">
+    <div class="max-w-3xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="../../index.html" class="text-sm font-bold text-white tracking-tighter hover:text-indigo-400 transition">&larr; Back to Writing</a>
+      <span class="text-xs font-mono text-gray-600 uppercase tracking-widest">Course Project // ENPM665</span>
+    </div>
+  </nav>
+
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    
+    <!-- Article Header -->
+    <header class="mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-8">
+        HIPAA Cloud Compliance Audit: Securing Healthcare Data in AWS
+      </h1>
+      <div class="flex flex-wrap gap-6 text-xs font-mono text-gray-500 uppercase tracking-widest">
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            Cloud Security & Compliance
+        </div>
+        <span>November 2025</span>
+        <span>11 Min Read</span>
+      </div>
+    </header>
+
+    <!-- Executive Summary -->
+    <div class="highlight-box">
+        <p class="text-lg"><strong>Educational Project:</strong> This HIPAA compliance audit was conducted as part of <strong>ENPM665: Cloud Security</strong> at the University of Maryland. The scenario analyzed a fictional healthcare provider's AWS CloudFormation template against HIPAA technical safeguards using a CIS benchmark checklist.</p>
+    </div>
+
+    <!-- Article Content -->
+    <article class="prose text-gray-400">
+      <p>
+        When healthcare organizations migrate Protected Health Information (PHI) to the cloud, compliance isn't optional—it's a legal and ethical imperative. In this project, I conducted a comprehensive HIPAA risk assessment for <strong>Terrapin Health Systems</strong>, a mid-sized healthcare provider transitioning sensitive patient data to AWS.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-10 text-center">
+        <div class="stat-card border-l-4 border-l-red-500">
+            <div class="text-red-500 text-3xl font-bold">14/16</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Controls Non-Compliant</div>
+        </div>
+        <div class="stat-card border-l-4 border-l-red-500">
+            <div class="text-red-500 text-3xl font-bold">HIGH</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Risk Posture</div>
+        </div>
+        <div class="stat-card border-l-4 border-l-emerald-500">
+            <div class="text-emerald-500 text-3xl font-bold">100%</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Remediation Path</div>
+        </div>
+      </div>
+
+      <h2>The Challenge: HIPAA in the Cloud</h2>
+      <p>
+        HIPAA's Security Rule mandates administrative, physical, and technical safeguards to protect PHI. When moving to AWS, organizations must ensure their cloud configurations meet these requirements—or face significant penalties, legal exposure, and loss of patient trust.
+      </p>
+
+      <div class="highlight-box" style="border-left-color: #f97316; background: #1a150f;">
+        <p class="mb-0"><strong>Project Scope:</strong> Analyze an AWS CloudFormation template for Terrapin Health Systems using a custom HIPAA-focused CIS benchmark checklist. Document configuration gaps, assess risk to PHI, and provide actionable remediations before deployment.</p>
+      </div>
+
+      <h2>Methodology: CIS Benchmark + HIPAA Mapping</h2>
+      <p>
+        I evaluated the CloudFormation template against 16 critical security controls, mapping each to both CIS AWS Foundations Benchmark recommendations and HIPAA Technical Safeguards (45 CFR § 164.312).
+      </p>
+
+      <h3>Assessment Framework</h3>
+      <table class="control-table">
+        <thead>
+          <tr>
+            <th style="width: 35%">Control</th>
+            <th style="width: 20%">Status</th>
+            <th>HIPAA Safeguard</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>CIS 2.1.4</code> S3 Block Public Access</td>
+            <td><span class="compliance-badge non-compliant">✗ Non-Compliant</span></td>
+            <td>Access Control (§164.312(a)(1))</td>
+          </tr>
+          <tr>
+            <td><code>CIS 2.2.1</code> RDS Encryption at Rest</td>
+            <td><span class="compliance-badge non-compliant">✗ Non-Compliant</span></td>
+            <td>Encryption (§164.312(e)(2)(ii))</td>
+          </tr>
+          <tr>
+            <td><code>CIS 2.2.3</code> RDS Public Accessibility</td>
+            <td><span class="compliance-badge non-compliant">✗ Non-Compliant</span></td>
+            <td>Transmission Security (§164.312(e)(1))</td>
+          </tr>
+          <tr>
+            <td><code>CIS 1.16</code> IAM Least Privilege</td>
+            <td><span class="compliance-badge non-compliant">✗ Non-Compliant</span></td>
+            <td>Access Control (§164.312(a)(1))</td>
+          </tr>
+          <tr>
+            <td><code>CIS 3.1</code> CloudTrail Logging Enabled</td>
+            <td><span class="compliance-badge compliant">✓ Compliant</span></td>
+            <td>Audit Controls (§164.312(b))</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Critical Findings: The 3 High-Risk Gaps</h2>
+      <p>
+        While 14 of 16 controls were non-compliant, three issues represented immediate, severe risks to PHI confidentiality and integrity.
+      </p>
+
+      <div class="risk-card">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="severity-dot severity-critical"></span>
+          <strong class="text-white">Public Exposure of PHI Storage</strong>
+        </div>
+        <p class="text-sm mb-2"><strong>Controls:</strong> CIS 2.1.4 (S3 Public Access), CIS 2.2.3 (RDS Public)</p>
+        <p class="text-sm">The S3 bucket had <code>BlockPublicAccess</code> disabled and a policy granting <code>Principal: "*"</code>. The RDS instance was publicly accessible with <code>CidrIp: 0.0.0.0/0</code>.</p>
+        <p class="text-xs text-gray-500 mt-2"><strong>HIPAA Impact:</strong> Direct path for unauthorized public disclosure of PHI; potential data breach under §164.402.</p>
+      </div>
+
+      <div class="risk-card">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="severity-dot severity-critical"></span>
+          <strong class="text-white">Missing Encryption at Rest</strong>
+        </div>
+        <p class="text-sm mb-2"><strong>Controls:</strong> CIS 2.2.1 (RDS), CIS 2.3.1 (EFS), CIS 5.1.1 (EBS)</p>
+        <p class="text-sm">All critical data stores—RDS database, EFS file system, and EC2 EBS volumes—had <code>Encrypted: false</code> in the CloudFormation template.</p>
+        <p class="text-xs text-gray-500 mt-2"><strong>HIPAA Impact:</strong> Violates §164.312(e)(2)(ii) Encryption standard; PHI exposed if storage media is accessed or exfiltrated.</p>
+      </div>
+
+      <div class="risk-card">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="severity-dot severity-critical"></span>
+          <strong class="text-white">Over-Privileged IAM Role</strong>
+        </div>
+        <p class="text-sm mb-2"><strong>Control:</strong> CIS 1.16 (IAM Wildcard Permissions)</p>
+        <p class="text-sm">The EC2 instance role had <code>Action: "*"</code> and <code>Resource: "*"</code>—full administrative access to the entire AWS account.</p>
+        <p class="text-xs text-gray-500 mt-2"><strong>HIPAA Impact:</strong> Violates Least Privilege principle (§164.312(a)(1)); single compromised role grants attacker total control over all PHI.</p>
+      </div>
+
+      <h2>CloudFormation Evidence: What Was Wrong</h2>
+      <p>
+        Below are excerpts from the assessed CloudFormation template showing the specific configuration issues.
+      </p>
+
+      <h3>❌ S3 Bucket: Public Access Enabled</h3>
+      <div class="code-block">
+<pre># PublicAccessBlock disabled
+PublicAccessBlockConfiguration:
+  BlockPublicAcls: false
+  IgnorePublicAcls: false
+  BlockPublicPolicy: false
+  RestrictPublicBuckets: false
+
+# Bucket policy allows public access
+PolicyDocument:
+  Statement:
+    - Principal: "*"  # ← Anyone on internet
+      Action: ["s3:GetObject", "s3:PutObject"]
+      Resource: !GetAtt AssessmentS3Bucket.Arn</pre>
+      </div>
+
+      <h3>❌ RDS Instance: Unencrypted & Public</h3>
+      <div class="code-block">
+<pre>AssessmentRDSInstance:
+  Type: AWS::RDS::DBInstance
+  Properties:
+    StorageEncrypted: false      # ← No encryption at rest
+    PubliclyAccessible: true     # ← Exposed to internet
+    # Security group allows 0.0.0.0/0
+    VPCSecurityGroups:
+      - !Ref AssessmentRDSSecurityGroup</pre>
+      </div>
+
+      <h3>❌ IAM Policy: Wildcard Permissions</h3>
+      <div class="code-block">
+<pre>AssessmentIAMPolicy:
+  Type: AWS::IAM::Policy
+  Properties:
+    PolicyDocument:
+      Statement:
+        - Effect: Allow
+          Action: "*"           # ← Full admin access
+          Resource: "*"         # ← All resources
+          # Violates Least Privilege</pre>
+      </div>
+
+      <h2>Remediation Roadmap: From Non-Compliant to HIPAA-Ready</h2>
+      <p>
+        For each non-compliant control, I developed actionable CloudFormation fixes that align with both CIS benchmarks and HIPAA requirements.
+      </p>
+
+      <div class="remediation-card">
+        <strong class="text-white">Fix Public S3 Exposure</strong>
+        <ul class="text-sm mt-2 space-y-1">
+          <li>Set all <code>PublicAccessBlockConfiguration</code> values to <code>true</code></li>
+          <li>Add bucket policy statement denying non-HTTPS requests</li>
+          <li>Remove <code>Principal: "*"</code>; restrict to specific IAM roles</li>
+        </ul>
+        <div class="code-block" style="margin-top: 1rem;">
+<pre># Add to S3 bucket policy
+- Sid: DenyNonSSLRequests
+  Effect: Deny
+  Principal: "*"
+  Action: "s3:*"
+  Resource: [!GetAtt AssessmentS3Bucket.Arn, ...]
+  Condition:
+    Bool:
+      aws:SecureTransport: false</pre>
+        </div>
+      </div>
+
+      <div class="remediation-card">
+        <strong class="text-white">Enable Encryption Everywhere</strong>
+        <ul class="text-sm mt-2 space-y-1">
+          <li>RDS: Set <code>StorageEncrypted: true</code> + specify KMS key</li>
+          <li>EFS: Set <code>Encrypted: true</code> in file system resource</li>
+          <li>EBS: Set <code>Encrypted: true</code> in EC2 BlockDeviceMapping</li>
+          <li>CloudTrail: Add <code>KMSKeyId</code> property for log encryption</li>
+        </ul>
+      </div>
+
+      <div class="remediation-card">
+        <strong class="text-white">Apply Least Privilege to IAM</strong>
+        <ul class="text-sm mt-2 space-y-1">
+          <li>Replace <code>Action: "*"</code> with specific required actions</li>
+          <li>Scope <code>Resource</code> to exact ARNs needed by the EC2 role</li>
+          <li>Use AWS managed policies (e.g., <code>AmazonEC2ReadOnlyAccess</code>) where appropriate</li>
+          <li>Implement permission boundaries for additional guardrails</li>
+        </ul>
+      </div>
+
+      <h2>Additional Critical Fixes</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-2">🔐 Enforce MFA Delete</h4>
+            <p class="text-xs text-gray-500">Enable S3 versioning + MFA delete to prevent accidental/malicious PHI deletion</p>
+        </div>
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-2">🛡️ Require IMDSv2</h4>
+            <p class="text-xs text-gray-500">Set <code>HttpTokens: required</code> on EC2 to block SSRF credential theft</p>
+        </div>
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-2">🔑 Enable KMS Key Rotation</h4>
+            <p class="text-xs text-gray-500">Set <code>EnableKeyRotation: true</code> to limit exposure window if keys are compromised</p>
+        </div>
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-2">🔒 Strengthen Password Policy</h4>
+            <p class="text-xs text-gray-500">Minimum 14 chars, prevent reuse, require complexity per HIPAA auth standards</p>
+        </div>
+      </div>
+
+      <h2>Risk Analysis: What Could Go Wrong?</h2>
+      <p>
+        Each non-compliant control represents a potential HIPAA violation with real-world consequences:
+      </p>
+
+      <ul>
+        <li><strong>Public S3/RDS:</strong> Unauthorized actors could directly access PHI, triggering mandatory breach notification under §164.402 and potential fines up to $1.5M/year.</li>
+        <li><strong>Unencrypted storage:</strong> If underlying disks are stolen or snapshots leaked, PHI is exposed in plaintext—violating the Encryption standard.</li>
+        <li><strong>Over-privileged IAM:</strong> A single compromised EC2 instance could grant attackers full account takeover, enabling mass PHI exfiltration.</li>
+        <li><strong>Weak password policy:</strong> Short passwords + no reuse prevention enable credential stuffing attacks against administrative accounts.</li>
+        <li><strong>IMDSv1 allowed:</strong> SSRF attacks could steal temporary credentials, bypassing network controls to access PHI in other services.</li>
+      </ul>
+
+      <div class="highlight-box" style="border-left-color: #f59e0b; background: #1a150f;">
+        <p class="mb-0"><strong>Key Insight:</strong> Compliance isn't a checklist—it's a continuous process. Even "compliant" controls like CloudTrail logging require proper configuration (KMS encryption, log validation) to be truly effective for HIPAA audit requirements.</p>
+      </div>
+
+      <h2>Lessons Learned</h2>
+      <div class="space-y-6 my-8">
+        <div class="border-l-2 border-emerald-500 pl-6">
+            <h3 class="text-white font-bold mb-2">1. Infrastructure as Code Requires Security as Code</h3>
+            <p class="mb-0">CloudFormation templates are powerful but dangerous. Security controls must be baked into the template itself—not added as an afterthought.</p>
+        </div>
+        <div class="border-l-2 border-emerald-500 pl-6">
+            <h3 class="text-white font-bold mb-2">2. HIPAA Is More Than Encryption</h3>
+            <p class="mb-0">While encryption is critical, HIPAA also requires audit controls, access management, integrity controls, and transmission security. A holistic view is essential.</p>
+        </div>
+        <div class="border-l-2 border-emerald-500 pl-6">
+            <h3 class="text-white font-bold mb-2">3. Defaults Are Dangerous</h3>
+            <p class="mb-0">AWS defaults (like IMDSv1, unencrypted volumes) are convenient but rarely compliant. Explicitly configuring security is non-negotiable for regulated workloads.</p>
+        </div>
+        <div class="border-l-2 border-emerald-500 pl-6">
+            <h3 class="text-white font-bold mb-2">4. Documentation Is a Control</h3>
+            <p class="mb-0">The ability to demonstrate due diligence through risk assessments, remediation plans, and evidence is itself a HIPAA requirement (§164.308(a)(1)(ii)(D)).</p>
+        </div>
+      </div>
+
+      <h2>Technical Skills Demonstrated</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 my-8">
+        <div class="stat-card text-center">
+            <div class="text-xs text-gray-500 uppercase tracking-widest mb-1">AWS</div>
+            <div class="text-emerald-500 font-bold">CloudFormation</div>
+        </div>
+        <div class="stat-card text-center">
+            <div class="text-xs text-gray-500 uppercase tracking-widest mb-1">Compliance</div>
+            <div class="text-emerald-500 font-bold">HIPAA / CIS</div>
+        </div>
+        <div class="stat-card text-center">
+            <div class="text-xs text-gray-500 uppercase tracking-widest mb-1">Risk</div>
+            <div class="text-emerald-500 font-bold">Assessment</div>
+        </div>
+        <div class="stat-card text-center">
+            <div class="text-xs text-gray-500 uppercase tracking-widest mb-1">Security</div>
+            <div class="text-emerald-500 font-bold">Architecture</div>
+        </div>
+      </div>
+
+      <div class="highlight-box" style="border-left-color: #10b981; background: #0f1a15;">
+        <h4 class="text-white font-bold mb-2">📚 Educational Context</h4>
+        <p class="mb-0">This HIPAA risk assessment was completed as part of <strong>ENPM665: Cloud Security</strong> at the University of Maryland. The scenario, organization, and CloudFormation template were created for educational purposes to develop practical skills in cloud compliance, risk analysis, and healthcare data protection.</p>
+      </div>
+
+    </article>
+
+    <!-- Footer / CTA -->
+    <footer class="mt-20 pt-12 border-t border-[#141414]">
+      
+      <div class="bg-[#0a0a0a] border border-[#1a1a1a] rounded-lg p-6 mb-12">
+        <h3 class="text-white font-bold mb-4">Project Details</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+            <div>
+                <div class="text-gray-500 mb-1">Course</div>
+                <div class="text-white font-semibold">ENPM665 - Cloud Security</div>
+            </div>
+            <div>
+                <div class="text-gray-500 mb-1">Institution</div>
+                <div class="text-white font-semibold">University of Maryland</div>
+            </div>
+            <div>
+                <div class="text-gray-500 mb-1">Assignment</div>
+                <div class="text-white font-semibold">Homework 5: HIPAA Audit</div>
+            </div>
+            <div>
+                <div class="text-gray-500 mb-1">Frameworks</div>
+                <div class="text-white font-semibold">HIPAA, CIS AWS Benchmark</div>
+            </div>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <p class="text-sm text-gray-500 mb-8 font-mono">COMPLIANCE_AUDIT_COMPLETE // EDUCATIONAL_PROJECT</p>
+        <div class="flex flex-col md:flex-row justify-center gap-4">
+          <a href="https://linkedin.com/in/raghava-gatadi" target="_blank" class="text-xs font-bold bg-white text-black px-8 py-3 rounded-lg hover:bg-gray-200 transition uppercase tracking-widest">
+              Connect on LinkedIn
+          </a>
+          <a href="https://github.com/Raghava-Gatadi" target="_blank" class="text-xs font-bold border border-[#222] text-white px-8 py-3 rounded-lg hover:bg-[#111] transition uppercase tracking-widest">
+              View on GitHub
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-[#141414] text-center text-xs text-gray-600">
+        <p>This project demonstrates practical skills in cloud compliance auditing, HIPAA risk assessment, and secure AWS architecture design developed through hands-on laboratory exercises.</p>
+      </div>
+    </footer>
+
+  </main>
+
+  <footer class="py-12 text-center text-gray-700 text-xs">
+    <p>&copy; 2026 Raghava Gatadi &middot; Educational Project - ENPM665</p>
+  </footer>
+
+</body>
+</html>

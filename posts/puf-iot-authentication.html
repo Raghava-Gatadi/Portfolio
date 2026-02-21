@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PUF-Based IoT Security: Lightweight Authentication for WiFi Networks | Raghava Gatadi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #050505; color: #a3a3a3; }
+    .prose h2 { color: #ffffff; margin-top: 3rem; margin-bottom: 1rem; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.025em; }
+    .prose h3 { color: #e5e5e5; margin-top: 2rem; margin-bottom: 0.75rem; font-weight: 600; font-size: 1.25rem; }
+    .prose p { margin-bottom: 1.5rem; line-height: 1.8; font-size: 1.05rem; }
+    .prose strong { color: #fff; font-weight: 600; }
+    .prose ul { margin-bottom: 1.5rem; }
+    .prose li { margin-bottom: 0.75rem; padding-left: 0.5rem; }
+    .prose code { background: #1a1a1a; padding: 0.2rem 0.4rem; border-radius: 4px; font-family: 'JetBrains Mono', monospace; color: #818cf8; font-size: 0.9em; }
+    
+    .code-block { 
+        background: #0a0a0a; 
+        border: 1px solid #1a1a1a; 
+        padding: 1.5rem; 
+        border-radius: 0.75rem; 
+        overflow-x: auto; 
+        font-family: 'JetBrains Mono', monospace; 
+        font-size: 0.875rem; 
+        color: #a5b4fc; 
+        margin: 2rem 0;
+        line-height: 1.6;
+    }
+
+    .highlight-box { 
+        border-left: 4px solid #6366f1; 
+        background: #0f111a; 
+        padding: 1.5rem; 
+        border-radius: 0 0.75rem 0.75rem 0; 
+        margin: 2.5rem 0; 
+        color: #cbd5e1; 
+    }
+
+    .stat-card { 
+        background: #0a0a0a; 
+        border: 1px solid #1a1a1a; 
+        padding: 1.5rem; 
+        border-radius: 0.75rem; 
+        transition: border-color 0.3s ease;
+    }
+    .stat-card:hover { border-color: #6366f1; }
+
+    .security-badge { 
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+    .security-badge.threat { 
+        background: #450a0a; 
+        color: #fca5a5; 
+        border: 1px solid #7f1d1d;
+    }
+    .security-badge.protection { 
+        background: #0f1a15; 
+        color: #86efac; 
+        border: 1px solid #14532d;
+    }
+
+    .protocol-phase {
+        background: #1a1a1a;
+        border: 1px solid #2a2a2a;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        margin: 1rem 0;
+    }
+
+    .phase-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background: #6366f1;
+        color: #fff;
+        font-weight: 700;
+        font-size: 0.875rem;
+        margin-right: 0.75rem;
+    }
+
+    .tech-tag { 
+        display: inline-block; 
+        background: #1e1b4b; 
+        color: #a5b4fc; 
+        padding: 0.25rem 0.75rem; 
+        border-radius: 9999px; 
+        font-size: 0.75rem; 
+        font-family: 'JetBrains Mono', monospace; 
+        margin: 0.25rem 0.25rem 0.25rem 0; 
+        border: 1px solid #3730a3;
+    }
+
+    .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.5rem 0;
+        font-size: 0.875rem;
+    }
+    .comparison-table th {
+        text-align: left;
+        padding: 0.75rem 1rem;
+        background: #1a1a1a;
+        color: #fff;
+        font-weight: 600;
+        border-bottom: 1px solid #2a2a2a;
+    }
+    .comparison-table td {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #1a1a1a;
+        vertical-align: top;
+    }
+    .comparison-table tr:hover {
+        background: #0a0a0a;
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- Minimal Navigation -->
+  <nav class="border-b border-[#141414] sticky top-0 bg-[#050505]/80 backdrop-blur-md z-50">
+    <div class="max-w-3xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="../../index.html" class="text-sm font-bold text-white tracking-tighter hover:text-indigo-400 transition">&larr; Back to Writing</a>
+      <span class="text-xs font-mono text-gray-600 uppercase tracking-widest">Undergrad Project // 2024</span>
+    </div>
+  </nav>
+
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    
+    <!-- Article Header -->
+    <header class="mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-8">
+        PUF-Based IoT Security: Building Lightweight Authentication for WiFi Networks
+      </h1>
+      <div class="flex flex-wrap gap-6 text-xs font-mono text-gray-500 uppercase tracking-widest">
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            IoT Security Research
+        </div>
+        <span>2022</span>
+        <span>9 Min Read</span>
+      </div>
+    </header>
+
+    <!-- Executive Summary -->
+    <div class="highlight-box">
+        <p class="text-lg"><strong>Undergraduate Minor Project:</strong> This research was conducted during my final year of undergraduate studies. The project focused on designing a lightweight authentication protocol using Physically Unclonable Functions (PUFs) to secure IoT devices connecting to WiFi networks—addressing the critical gap between security requirements and resource constraints.</p>
+    </div>
+
+    <!-- Article Content -->
+    <article class="prose text-gray-400">
+      <p>
+        The Internet of Things is exploding—over 12 billion devices connected today, with projections reaching 30+ billion by 2030. But here's the problem: most IoT devices are severely resource-constrained, making traditional cryptographic authentication impractical.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-10 text-center">
+        <div class="stat-card">
+            <div class="text-emerald-500 text-3xl font-bold">8P + 4H</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Computational Cost</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-emerald-500 text-3xl font-bold">6n bits</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Storage Required</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-emerald-500 text-3xl font-bold">3 CRPs</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Challenge-Response Pairs</div>
+        </div>
+      </div>
+
+      <h2>The IoT Security Problem</h2>
+      <p>
+        IoT devices face a fundamental security paradox: they need robust protection but lack the computational power, memory, and energy budgets for traditional security measures. This creates multiple attack vectors:
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
+        <div class="stat-card border-l-4 border-l-red-500">
+            <div class="security-badge threat mb-2">⚠️ MAC Address Spoofing</div>
+            <p class="text-xs text-gray-500">Attackers impersonate legitimate devices by mimicking MAC addresses, bypassing security filters</p>
+        </div>
+        <div class="stat-card border-l-4 border-l-red-500">
+            <div class="security-badge threat mb-2">⚠️ Rogue Access Points</div>
+            <p class="text-xs text-gray-500">Malicious APs mimic legitimate networks to intercept and manipulate communications</p>
+        </div>
+        <div class="stat-card border-l-4 border-l-red-500">
+            <div class="security-badge threat mb-2">⚠️ Physical Tampering</div>
+            <p class="text-xs text-gray-500">Attackers extract stored credentials from device memory through physical manipulation</p>
+        </div>
+        <div class="stat-card border-l-4 border-l-red-500">
+            <div class="security-badge threat mb-2">⚠️ Replay Attacks</div>
+            <p class="text-xs text-gray-500">Captured authentication packets are replayed to gain unauthorized network access</p>
+        </div>
+      </div>
+
+      <p>
+        Traditional WiFi security (WEP, WPA2) relies on shared passwords and doesn't adequately protect the physical layer. Enter <strong>Physically Unclonable Functions (PUFs)</strong>—a hardware-based security primitive that leverages microscopic manufacturing variations to create unique, unclonable device identities.
+      </p>
+
+      <div class="highlight-box" style="border-left-color: #10b981; background: #0f1a15;">
+        <p class="mb-0"><strong>What is a PUF?</strong> Think of it as a hardware fingerprint. Just as no two human fingerprints are identical, no two PUFs produce the same response to a given challenge—even if manufactured identically. This makes them ideal for device authentication without storing sensitive keys.</p>
+      </div>
+
+      <h2>Protocol Design: Three-Phase Authentication</h2>
+      <p>
+        Our protocol consists of three distinct phases, each serving a specific security function while minimizing computational overhead.
+      </p>
+
+      <div class="protocol-phase">
+        <div class="flex items-center mb-3">
+            <span class="phase-number">1</span>
+            <h3 class="text-white font-bold m-0">One-Time Enrollment Phase</h3>
+        </div>
+        <p class="text-sm mb-3">Performed once per device-router pair in a secure environment.</p>
+        <ol class="text-sm space-y-2 text-gray-400">
+            <li><strong>Generate Challenges:</strong> Create three random numbers C₁, C₂, C₃ (bit-stream length = n)</li>
+            <li><strong>Acquire Responses:</strong> Query PUF: R₁ = P(C₁), R₂ = P(C₂), R₃ = P(C₃)</li>
+            <li><strong>Store Securely:</strong> Save (C₁,R₁), (C₂,R₂), (C₃,R₃) in router database, indexed by device MAC address</li>
+        </ol>
+        <div class="code-block" style="margin-top: 1rem;">
+<pre>// Enrollment Phase (Simplified)
+for i = 1 to 3:
+    C[i] = Random(n_bits)
+    R[i] = PUF(C[i])
+    Store(MAC_device, C[i], R[i])</pre>
+        </div>
+      </div>
+
+      <div class="protocol-phase">
+        <div class="flex items-center mb-3">
+            <span class="phase-number">2</span>
+            <h3 class="text-white font-bold m-0">Initialization Phase</h3>
+        </div>
+        <p class="text-sm mb-3">Device initiates connection request to router.</p>
+        <ol class="text-sm space-y-2 text-gray-400">
+            <li><strong>Connection Request:</strong> Device (Λ) sends MAC address (M∧) to router (π)</li>
+            <li><strong>Database Lookup:</strong> Router checks for matching MAC entry</li>
+            <li><strong>Proceed or Terminate:</strong> If match found, continue to authentication; otherwise, reject</li>
+        </ol>
+      </div>
+
+      <div class="protocol-phase">
+        <div class="flex items-center mb-3">
+            <span class="phase-number">3</span>
+            <h3 class="text-white font-bold m-0">Authentication Phase</h3>
+        </div>
+        <p class="text-sm mb-3">Mutual authentication using challenge-response transformations.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+                <h4 class="text-indigo-400 font-bold mb-2">Router → Device</h4>
+                <ul class="space-y-1 text-gray-400">
+                    <li>• Generate random nonce</li>
+                    <li>• Transform challenges: C′ = nonce ⊕ C</li>
+                    <li>• Transform responses: R′ = nonce ⊕ R</li>
+                    <li>• Compute hash: H∧ = Hash(C‖R‖nonce)</li>
+                    <li>• Send: C′₁, C′₂, C₃, R′₁, R′₃, H∧</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-indigo-400 font-bold mb-2">Device → Router</h4>
+                <ul class="space-y-1 text-gray-400">
+                    <li>• Recover nonce: nonce = R₃ ⊕ R′₃</li>
+                    <li>• Recover original C, R values</li>
+                    <li>• Verify hash matches H∧</li>
+                    <li>• Generate new nonce′ = R₂ ⊕ nonce</li>
+                    <li>• Send: R′₁, R′₂, R′₃, Hπ</li>
+                </ul>
+            </div>
+        </div>
+        <div class="code-block" style="margin-top: 1rem;">
+<pre>// Authentication - Device Side (Simplified)
+nonce = R3 XOR R_prime_3
+C1 = nonce XOR C_prime_1
+C2 = nonce XOR C_prime_2
+R1 = nonce XOR R_prime_1
+
+// Verify router authenticity
+H_verify = Hash(C1 || C2 || R1 || R3 || nonce)
+if H_verify == H_received:
+    router_authenticated = true
+    
+// Generate device authentication
+nonce_prime = R2 XOR nonce
+R_new_1 = PUF(C1 XOR nonce_prime)
+R_prime_1 = R_new_1 XOR nonce_prime
+H_pi = Hash(R_new_1 || R_new_2 || R_new_3 || nonce_prime)</pre>
+        </div>
+      </div>
+
+      <h2>Security Analysis: Why This Works</h2>
+      <p>
+        The protocol's security rests on several cryptographic principles, each addressing specific attack vectors identified in IoT WiFi networks.
+      </p>
+
+      <h3>XOR Operation Security</h3>
+      <p>
+        XOR is used extensively for challenge-response transformation. For security, we ensure:
+      </p>
+      <ul>
+        <li><strong>Equal Length:</strong> Challenge, response, and nonce bit-streams are all length n</li>
+        <li><strong>Random Nonce:</strong> Each session uses a fresh, randomly generated nonce</li>
+        <li><strong>No Reuse:</strong> Nonce-challenge combinations never repeat (probability: 1/2²ⁿ)</li>
+      </ul>
+
+      <div class="highlight-box">
+        <p class="mb-0"><strong>Cryptanalysis Result:</strong> Even if an attacker intercepts all transmitted values (C′₁, C′₂, R′₁, R′₃, H∧), XOR combinations reveal no information about original challenge-response pairs or the nonce. The one-way hash function further protects authentication tokens.</p>
+      </div>
+
+      <h3>Attack Mitigation</h3>
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Attack Type</th>
+            <th>Traditional WiFi</th>
+            <th>Our PUF Protocol</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>MAC Spoofing</strong></td>
+            <td class="text-red-400">✗ Vulnerable</td>
+            <td class="text-emerald-400">✓ Protected (PUF uniqueness)</td>
+          </tr>
+          <tr>
+            <td><strong>Replay Attacks</strong></td>
+            <td class="text-red-400">✗ Vulnerable</td>
+            <td class="text-emerald-400">✓ Protected (fresh nonce each session)</td>
+          </tr>
+          <tr>
+            <td><strong>Physical Tampering</strong></td>
+            <td class="text-red-400">✗ Vulnerable</td>
+            <td class="text-emerald-400">✓ Protected (PUF response changes)</td>
+          </tr>
+          <tr>
+            <td><strong>Brute Force</strong></td>
+            <td class="text-yellow-400">⚠️ Possible</td>
+            <td class="text-emerald-400">✓ Impractical (2ⁿ nonce space)</td>
+          </tr>
+          <tr>
+            <td><strong>Credential Storage</strong></td>
+            <td class="text-red-400">✗ Stored in memory</td>
+            <td class="text-emerald-400">✓ Never stored (computed dynamically)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Performance Evaluation</h2>
+      <p>
+        One of the primary design goals was minimizing computational and storage overhead for resource-constrained IoT devices.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-3">Computational Cost</h4>
+            <div class="text-3xl text-emerald-500 font-bold mb-2">8P + 4H</div>
+            <p class="text-xs text-gray-500">8 PUF operations + 4 hash function calls per authentication session</p>
+        </div>
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-3">Storage Requirement</h4>
+            <div class="text-3xl text-emerald-500 font-bold mb-2">6n bits</div>
+            <p class="text-xs text-gray-500">Only 3 challenge-response pairs stored (C₁,C₂,C₃,R₁,R₂,R₃)</p>
+        </div>
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-3">Message Size</h4>
+            <div class="text-3xl text-emerald-500 font-bold mb-2">≤6n bits</div>
+            <p class="text-xs text-gray-500">Maximum transmitted data per authentication exchange</p>
+        </div>
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-3">Nonce Space</h4>
+            <div class="text-3xl text-emerald-500 font-bold mb-2">2ⁿ</div>
+            <p class="text-xs text-gray-500">For n=64 or 128 bits, brute-force becomes computationally infeasible</p>
+        </div>
+      </div>
+
+      <h2>Key Features & Innovations</h2>
+      <div class="space-y-6 my-8">
+        <div class="border-l-2 border-emerald-500 pl-6">
+            <h3 class="text-white font-bold mb-2">1. Hardware-Based Uniqueness</h3>
+            <p class="mb-0">Each device's PUF is physically unclonable—even the manufacturer cannot replicate it. This eliminates the need for secure key storage.</p>
+        </div>
+        <div class="border-l-2 border-emerald-500 pl-6">
+            <h3 class="text-white font-bold mb-2">2. Dynamic Session Keys</h3>
+            <p class="mb-0">Every authentication generates a new nonce, effectively creating a unique "password" for each connection attempt.</p>
+        </div>
+        <div class="border-l-2 border-emerald-500 pl-6">
+            <h3 class="text-white font-bold mb-2">3. Mutual Authentication</h3>
+            <p class="mb-0">Both device and router authenticate each other, preventing rogue access point attacks.</p>
+        </div>
+        <div class="border-l-2 border-emerald-500 pl-6">
+            <h3 class="text-white font-bold mb-2">4. Tamper Evidence</h3>
+            <p class="mb-0">Physical tampering alters the PUF's response pattern, immediately invalidating authentication capability.</p>
+        </div>
+      </div>
+
+      <h2>Challenges & Limitations</h2>
+      <p>
+        No security solution is perfect. During this research, we identified several practical challenges:
+      </p>
+
+      <div class="highlight-box" style="border-left-color: #f59e0b; background: #1a150f;">
+        <h4 class="text-white font-bold mb-2">⚠️ Environmental Variations</h4>
+        <p class="mb-0">PUF behavior can be affected by temperature and voltage fluctuations. This requires careful calibration or error-correction mechanisms for reliable operation.</p>
+      </div>
+
+      <div class="highlight-box" style="border-left-color: #f59e0b; background: #1a150f;">
+        <h4 class="text-white font-bold mb-2">⚠️ Aging Effects</h4>
+        <p class="mb-0">Over time, physical characteristics of the PUF may drift, potentially affecting response consistency. Long-term stability testing is essential.</p>
+      </div>
+
+      <div class="highlight-box" style="border-left-color: #f59e0b; background: #1a150f;">
+        <h4 class="text-white font-bold mb-2">⚠️ Scalability Concerns</h4>
+        <p class="mb-0">Routers must store CRPs for each enrolled device. In large IoT deployments, this creates database management challenges.</p>
+      </div>
+
+      <h2>Comparison with Existing Work</h2>
+      <p>
+        Our protocol builds upon and improves existing PUF-based authentication approaches:
+      </p>
+
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Protocol</th>
+            <th>CRPs Required</th>
+            <th>Computational Cost</th>
+            <th>WiFi-Specific</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Chatterjee et al. (2017)</td>
+            <td>High (scalability issue)</td>
+            <td>ECC + Identity-based encryption</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td>Aman et al. (2016)</td>
+            <td>Multiple</td>
+            <td>Multiple hash functions + MAC</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td>Mahalat et al. (2018)</td>
+            <td>3 sets</td>
+            <td>XOR + Hash</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td><strong>Our Protocol</strong></td>
+            <td><strong>3 CRPs (optimized)</strong></td>
+            <td><strong>8P + 4H (lightweight)</strong></td>
+            <td><strong>Yes (WiFi-focused)</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Lessons Learned</h2>
+      <div class="space-y-6 my-8">
+        <div class="border-l-2 border-indigo-500 pl-6">
+            <h3 class="text-white font-bold mb-2">1. Security Must Match Constraints</h3>
+            <p class="mb-0">Designing for IoT means accepting trade-offs. We prioritized lightweight operations without sacrificing core security guarantees.</p>
+        </div>
+        <div class="border-l-2 border-indigo-500 pl-6">
+            <h3 class="text-white font-bold mb-2">2. Hardware Security Complements Software</h3>
+            <p class="mb-0">PUFs demonstrate that physical-layer security can address vulnerabilities that software-only solutions cannot touch.</p>
+        </div>
+        <div class="border-l-2 border-indigo-500 pl-6">
+            <h3 class="text-white font-bold mb-2">3. Research Requires Iteration</h3>
+            <p class="mb-0">Multiple protocol versions were developed before arriving at the final design. Each iteration addressed weaknesses discovered during security analysis.</p>
+        </div>
+        <div class="border-l-2 border-indigo-500 pl-6">
+            <h3 class="text-white font-bold mb-2">4. Documentation is Critical</h3>
+            <p class="mb-0">Writing the research paper forced clarity in thinking. Every security claim needed cryptographic justification.</p>
+        </div>
+      </div>
+
+      <h2>Real-World Applications</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-2">🏭 Industrial IoT (IIoT)</h4>
+            <p class="text-xs text-gray-500">Secure sensor networks in manufacturing environments where physical tampering is a concern</p>
+        </div>
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-2">🏥 Healthcare Devices</h4>
+            <p class="text-xs text-gray-500">Medical IoT devices requiring HIPAA-compliant authentication without storing credentials</p>
+        </div>
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-2">🏠 Smart Home</h4>
+            <p class="text-xs text-gray-500">Consumer IoT devices that need secure WiFi connectivity without complex user configuration</p>
+        </div>
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-2">🚗 Automotive IoT</h4>
+            <p class="text-xs text-gray-500">Vehicle-to-infrastructure communication requiring tamper-resistant authentication</p>
+        </div>
+      </div>
+
+      <div class="tech-tag">Physically Unclonable Functions</div>
+      <div class="tech-tag">IoT Security</div>
+      <div class="tech-tag">WiFi Authentication</div>
+      <div class="tech-tag">Lightweight Cryptography</div>
+      <div class="tech-tag">Challenge-Response Protocol</div>
+      <div class="tech-tag">Hardware Security</div>
+
+      <div class="highlight-box" style="border-left-color: #10b981; background: #0f1a15;">
+        <h4 class="text-white font-bold mb-2">📚 Academic Context</h4>
+        <p class="mb-0">This research was completed as my <strong>undergraduate minor project</strong> and published as a research paper. The work demonstrates foundational skills in cryptographic protocol design, security analysis, and academic writing—skills that continue to inform my approach to cloud security and detection engineering.</p>
+      </div>
+
+    </article>
+
+    <!-- Footer / CTA -->
+    <footer class="mt-20 pt-12 border-t border-[#141414]">
+      
+      <div class="bg-[#0a0a0a] border border-[#1a1a1a] rounded-lg p-6 mb-12">
+        <h3 class="text-white font-bold mb-4">Project Details</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+            <div>
+                <div class="text-gray-500 mb-1">Project Type</div>
+                <div class="text-white font-semibold">Undergraduate Minor Project</div>
+            </div>
+            <div>
+                <div class="text-gray-500 mb-1">Year</div>
+                <div class="text-white font-semibold">2022</div>
+            </div>
+            <div>
+                <div class="text-gray-500 mb-1">Research Area</div>
+                <div class="text-white font-semibold">IoT Security, Cryptography</div>
+            </div>
+            <div>
+                <div class="text-gray-500 mb-1">Output</div>
+                <div class="text-white font-semibold">Published Research Paper</div>
+            </div>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <p class="text-sm text-gray-500 mb-8 font-mono">RESEARCH_PAPER_PUBLISHED // UNDERGRADUATE_PROJECT</p>
+        <div class="flex flex-col md:flex-row justify-center gap-4">
+          <a href="https://linkedin.com/in/raghava-gatadi" target="_blank" class="text-xs font-bold bg-white text-black px-8 py-3 rounded-lg hover:bg-gray-200 transition uppercase tracking-widest">
+              Connect on LinkedIn
+          </a>
+          <a href="https://github.com/Raghava-Gatadi" target="_blank" class="text-xs font-bold border border-[#222] text-white px-8 py-3 rounded-lg hover:bg-[#111] transition uppercase tracking-widest">
+              View on GitHub
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-[#141414] text-center text-xs text-gray-600">
+        <p>This research project demonstrates foundational expertise in cryptographic protocol design, security analysis, and hardware-based authentication—skills that continue to inform my work in cloud security and detection engineering.</p>
+      </div>
+    </footer>
+
+  </main>
+
+  <footer class="py-12 text-center text-gray-700 text-xs">
+    <p>&copy; 2022 Raghava Gatadi &middot; Undergraduate Research Project</p>
+  </footer>
+
+</body>
+</html>

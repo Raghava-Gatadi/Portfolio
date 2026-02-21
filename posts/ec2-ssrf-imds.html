@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EC2 SSRF & IMDS Vulnerability Chain Analysis | Raghava Gatadi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #050505; color: #a3a3a3; }
+    .prose h2 { color: #ffffff; margin-top: 3rem; margin-bottom: 1rem; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.025em; }
+    .prose h3 { color: #e5e5e5; margin-top: 2rem; margin-bottom: 0.75rem; font-weight: 600; font-size: 1.25rem; }
+    .prose p { margin-bottom: 1.5rem; line-height: 1.8; font-size: 1.05rem; }
+    .prose strong { color: #fff; font-weight: 600; }
+    .prose ul { margin-bottom: 1.5rem; }
+    .prose li { margin-bottom: 0.75rem; padding-left: 0.5rem; }
+    .prose code { background: #1a1a1a; padding: 0.2rem 0.4rem; border-radius: 4px; font-family: 'JetBrains Mono', monospace; color: #818cf8; font-size: 0.9em; }
+    
+    .code-block { 
+        background: #0a0a0a; 
+        border: 1px solid #1a1a1a; 
+        padding: 1.5rem; 
+        border-radius: 0.75rem; 
+        overflow-x: auto; 
+        font-family: 'JetBrains Mono', monospace; 
+        font-size: 0.875rem; 
+        color: #a5b4fc; 
+        margin: 2rem 0;
+        line-height: 1.6;
+    }
+
+    .highlight-box { 
+        border-left: 4px solid #6366f1; 
+        background: #0f111a; 
+        padding: 1.5rem; 
+        border-radius: 0 0.75rem 0.75rem 0; 
+        margin: 2.5rem 0; 
+        color: #cbd5e1; 
+    }
+
+    .stat-card { 
+        background: #0a0a0a; 
+        border: 1px solid #1a1a1a; 
+        padding: 1.5rem; 
+        border-radius: 0.75rem; 
+        transition: border-color 0.3s ease;
+    }
+    .stat-card:hover { border-color: #6366f1; }
+
+    .vulnerability-chain {
+        background: #1a0f0f;
+        border: 1px solid #7f1d1d;
+        border-left: 4px solid #ef4444;
+        padding: 1.25rem;
+        border-radius: 0 0.5rem 0.5rem 0;
+        margin: 1rem 0;
+    }
+
+    .mitigation-card {
+        background: #0f1a15;
+        border: 1px solid #14532d;
+        border-left: 4px solid #10b981;
+        padding: 1.25rem;
+        border-radius: 0 0.5rem 0.5rem 0;
+        margin: 1rem 0;
+    }
+
+    .tech-tag { 
+        display: inline-block; 
+        background: #1e1b4b; 
+        color: #a5b4fc; 
+        padding: 0.25rem 0.75rem; 
+        border-radius: 9999px; 
+        font-size: 0.75rem; 
+        font-family: 'JetBrains Mono', monospace; 
+        margin: 0.25rem 0.25rem 0.25rem 0; 
+        border: 1px solid #3730a3;
+    }
+
+    .phase-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        background: #1e1b4b;
+        color: #a5b4fc;
+        margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- Minimal Navigation -->
+  <nav class="border-b border-[#141414] sticky top-0 bg-[#050505]/80 backdrop-blur-md z-50">
+    <div class="max-w-3xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="../../index.html" class="text-sm font-bold text-white tracking-tighter hover:text-indigo-400 transition">&larr; Back to Writing</a>
+      <span class="text-xs font-mono text-gray-600 uppercase tracking-widest">Course Project // ENPM665</span>
+    </div>
+  </nav>
+
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    
+    <!-- Article Header -->
+    <header class="mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-8">
+        EC2 SSRF & IMDS Vulnerability Chain: From Web App to Full Account Compromise
+      </h1>
+      <div class="flex flex-wrap gap-6 text-xs font-mono text-gray-500 uppercase tracking-widest">
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-red-500"></span>
+            Cloud Security Lab
+        </div>
+        <span>September 2025</span>
+        <span>8 Min Read</span>
+      </div>
+    </header>
+
+    <!-- Executive Summary -->
+    <div class="highlight-box">
+        <p class="text-lg"><strong>Educational Project:</strong> This security analysis was conducted as part of <strong>ENPM665: Cloud Security</strong> at the University of Maryland. The investigation explores a simulated vulnerability chain involving Server-Side Request Forgery (SSRF), Instance Metadata Service (IMDS) exposure, and credential theft in an AWS environment.</p>
+    </div>
+
+    <!-- Article Content -->
+    <article class="prose text-gray-400">
+      <p>
+        Cloud security is often described as a chain—the strength of the entire system is determined by its weakest link. In this laboratory exercise, I investigated a critical vulnerability chain where a simple web application flaw escalated into full administrative control of cloud resources.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-10 text-center">
+        <div class="stat-card">
+            <div class="text-red-500 text-3xl font-bold">5</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Attack Phases</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-red-500 text-3xl font-bold">1</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Critical Control</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-red-500 text-3xl font-bold">4</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Root Causes</div>
+        </div>
+      </div>
+
+      <h2>Executive Summary</h2>
+      <p>
+        This investigation confirms a critical vulnerability chain in a cloud-hosted web application. An attacker was able to exploit a <strong>Server-Side Request Forgery (SSRF)</strong> vulnerability to access the Instance Metadata Service (IMDSv1). This access led to the theft of temporary IAM credentials, lateral movement through S3 buckets, and eventual full compromise of a restricted Lambda function.
+      </p>
+      <p>
+        The blast radius extended from a single web application to the entire administrative control of specific Lambda resources, highlighting the dangers of IMDSv1 and overprivileged instance profiles.
+      </p>
+
+      <h2>The Attack Narrative: Step-by-Step Breakdown</h2>
+      <p>
+        The attack followed a linear progression, exploiting misconfigurations at each layer of the stack to escalate privileges.
+      </p>
+
+      <div class="vulnerability-chain">
+        <div class="phase-badge">Phase 1: Initial Access</div>
+        <h4 class="text-white font-bold mb-2">Credential Discovery via Lambda</h4>
+        <p class="text-sm mb-2">The attack began with the <code>solus</code> user credentials. Through enumeration of Lambda functions, environment variables were discovered containing hardcoded credentials for a second user, <code>wrex</code>.</p>
+        <p class="text-xs text-gray-500"><strong>Finding:</strong> Sensitive credentials (Access Keys) were stored in Lambda environment variables.</p>
+      </div>
+
+      <div class="vulnerability-chain">
+        <div class="phase-badge">Phase 2: Bypassing Network Restrictions</div>
+        <h4 class="text-white font-bold mb-2">Security Group Modification</h4>
+        <p class="text-sm mb-2">Upon identifying the target EC2 instance (IP: <code>100.27.209.41</code>), initial connection attempts failed. Using the <code>wrex</code> credentials, the ingress rules were modified to allow traffic on Port 80 from <code>0.0.0.0/0</code>.</p>
+        <p class="text-xs text-gray-500"><strong>Analyst Note:</strong> This highlights the danger of "Security Group Management" permissions; an attacker can open their own doors if the IAM policy is too broad.</p>
+      </div>
+
+      <div class="vulnerability-chain">
+        <div class="phase-badge">Phase 3: Validating the SSRF Vector</div>
+        <h4 class="text-white font-bold mb-2">Exploiting the URL Parameter</h4>
+        <p class="text-sm mb-2">The web application was found to have a <code>/?url=</code> parameter. By bypassing filters, the analyst confirmed that the server would fetch and display content from internal addresses.</p>
+        <div class="code-block" style="margin: 1rem 0;">
+<pre>Exploitation Target:
+http://169.254.169.254/latest/meta-data/iam/security-credentials/cg-ec2-role-cgid...
+
+Vulnerability: IMDSv1 (No session token required)</pre>
+        </div>
+      </div>
+
+      <div class="vulnerability-chain">
+        <div class="phase-badge">Phase 4: Privilege Escalation</div>
+        <h4 class="text-white font-bold mb-2">Credential Theft & S3 Pivot</h4>
+        <p class="text-sm mb-2">Using the stolen EC2 Role credentials, the analyst enumerated S3 buckets. A bucket named <code>cg-secret-s3-bucket-cgid...</code> was identified, containing a file named <code>credentials</code>.</p>
+        <p class="text-xs text-gray-500"><strong>Credential Pivot:</strong> This file contained the long-term credentials for the <code>shepard</code> user.</p>
+      </div>
+
+      <div class="vulnerability-chain">
+        <div class="phase-badge">Phase 5: Final Impact</div>
+        <h4 class="text-white font-bold mb-2">Lambda Compromise</h4>
+        <p class="text-sm mb-2">The <code>shepard</code> user possessed the exclusive <code>lambda:InvokeFunction</code> permission. By invoking the "win" Lambda function, the analyst proved full control over the application's critical logic.</p>
+      </div>
+
+      <h2>Technical Analysis of the Blast Radius</h2>
+      <p>
+        The "Blast Radius" in this scenario was significantly widened by three core failures in the security architecture.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
+        <div class="stat-card border-l-4 border-l-red-500">
+            <h4 class="text-white font-bold mb-2">⚠️ IMDSv1 Availability</h4>
+            <p class="text-xs text-gray-500">If IMDSv2 had been enforced, the SSRF would have been neutralized. IMDSv2 requires a PUT request to generate a session token.</p>
+        </div>
+        <div class="stat-card border-l-4 border-l-red-500">
+            <h4 class="text-white font-bold mb-2">⚠️ Overprivileged Role</h4>
+            <p class="text-xs text-gray-500">The EC2 instance had a role attached that allowed it to read sensitive files from S3 unrelated to its web-serving function.</p>
+        </div>
+        <div class="stat-card border-l-4 border-l-red-500">
+            <h4 class="text-white font-bold mb-2">⚠️ Secrets Management</h4>
+            <p class="text-xs text-gray-500">Storing the <code>shepard</code> user credentials in a plaintext file on S3 created a "stepping stone" for the attacker.</p>
+        </div>
+      </div>
+
+      <h2>Root Cause Analysis (RCA)</h2>
+      <p>
+        Each phase of the attack corresponds to a specific configuration failure. Addressing these root causes is essential for preventing similar chains.
+      </p>
+
+      <div class="my-6 space-y-4">
+        <div class="bg-[#0a0a0a] border border-[#1a1a1a] p-4 rounded-lg">
+            <div class="flex justify-between items-center mb-2">
+                <strong class="text-white">SSRF Vulnerability</strong>
+                <span class="text-xs text-red-400 font-mono">APP LEVEL</span>
+            </div>
+            <p class="text-sm text-gray-400"><strong>Root Cause:</strong> Lack of input validation/allow-listing on the <code>url</code> parameter.</p>
+        </div>
+        <div class="bg-[#0a0a0a] border border-[#1a1a1a] p-4 rounded-lg">
+            <div class="flex justify-between items-center mb-2">
+                <strong class="text-white">Credential Theft</strong>
+                <span class="text-xs text-red-400 font-mono">HOST LEVEL</span>
+            </div>
+            <p class="text-sm text-gray-400"><strong>Root Cause:</strong> Use of IMDSv1, which lacks the session-oriented protection of IMDSv2.</p>
+        </div>
+        <div class="bg-[#0a0a0a] border border-[#1a1a1a] p-4 rounded-lg">
+            <div class="flex justify-between items-center mb-2">
+                <strong class="text-white">Lateral Movement</strong>
+                <span class="text-xs text-red-400 font-mono">IAM LEVEL</span>
+            </div>
+            <p class="text-sm text-gray-400"><strong>Root Cause:</strong> Overprivileged IAM Role (the EC2 Role could access S3 secrets).</p>
+        </div>
+        <div class="bg-[#0a0a0a] border border-[#1a1a1a] p-4 rounded-lg">
+            <div class="flex justify-between items-center mb-2">
+                <strong class="text-white">Full Compromise</strong>
+                <span class="text-xs text-red-400 font-mono">SECRETS</span>
+            </div>
+            <p class="text-sm text-gray-400"><strong>Root Cause:</strong> Storing administrative credentials (<code>shepard</code>) in a storage bucket.</p>
+        </div>
+      </div>
+
+      <h2>Recommended Hardening & Mitigation</h2>
+      <p>
+        To break this vulnerability chain, controls must be implemented at multiple layers of the architecture.
+      </p>
+
+      <div class="mitigation-card">
+        <strong class="text-white">1. App Level: Input Validation</strong>
+        <ul class="text-sm mt-2 space-y-1 text-gray-400">
+            <li>• Implement a "Strict Allow-list" for the <code>url</code> parameter.</li>
+            <li>• Only allow specific, pre-approved domains.</li>
+            <li>• Block all requests to <code>169.254.169.254</code> and <code>localhost</code>.</li>
+        </ul>
+      </div>
+
+      <div class="mitigation-card">
+        <strong class="text-white">2. Host Level: Enforce IMDSv2</strong>
+        <ul class="text-sm mt-2 space-y-1 text-gray-400">
+            <li>• Disable IMDSv1 globally or on a per-instance basis.</li>
+            <li>• Set <code>HttpTokens=required</code> and <code>HttpPutResponseHopLimit=1</code>.</li>
+            <li>• This prevents the metadata service from responding to SSRF requests that cannot provide a fresh session token.</li>
+        </ul>
+        <div class="code-block" style="margin-top: 1rem;">
+<pre># AWS CLI Command to Enforce IMDSv2
+aws ec2 modify-instance-metadata-options \
+    --instance-id i-1234567890abcdef0 \
+    --http-tokens required \
+    --http-endpoint enabled</pre>
+        </div>
+      </div>
+
+      <div class="mitigation-card">
+        <strong class="text-white">3. IAM Level: Principle of Least Privilege</strong>
+        <ul class="text-sm mt-2 space-y-1 text-gray-400">
+            <li>• Audit the EC2 Instance Profile.</li>
+            <li>• Remove <code>s3:ListBucket</code> and <code>s3:GetObject</code> permissions from the EC2 role unless specifically required.</li>
+        </ul>
+      </div>
+
+      <div class="mitigation-card">
+        <strong class="text-white">4. Network & Detection</strong>
+        <ul class="text-sm mt-2 space-y-1 text-gray-400">
+            <li>• <strong>CloudTrail:</strong> Monitor for <code>GetCredentialsForEC2</code> events where the sourceIPAddress is the instance's own private IP.</li>
+            <li>• <strong>AWS Config:</strong> Create a rule to alert if any Security Group is modified to allow <code>0.0.0.0/0</code> on sensitive ports.</li>
+        </ul>
+      </div>
+
+      <h2>Reflection: The Chain of Security</h2>
+      <p>
+        This lab demonstrates that cloud security is a "chain." The SSRF was the entry point, but the IMDSv1 configuration was the catalyst that allowed the attacker to escape the web server and enter the IAM control plane.
+      </p>
+
+      <div class="highlight-box" style="border-left-color: #10b981; background: #0f1a15;">
+        <p class="mb-0"><strong>Key Takeaway:</strong> Transitioning to IMDSv2 is the single most effective preventative control to stop metadata theft, even when an application-level SSRF exists. It adds a critical layer of defense that breaks the exploit chain at the host level.</p>
+      </div>
+
+      <div class="tech-tag">AWS EC2</div>
+      <div class="tech-tag">SSRF</div>
+      <div class="tech-tag">IMDSv2</div>
+      <div class="tech-tag">IAM Roles</div>
+      <div class="tech-tag">Cloud Security</div>
+      <div class="tech-tag">Vulnerability Analysis</div>
+
+      <div class="highlight-box" style="border-left-color: #10b981; background: #0f1a15;">
+        <h4 class="text-white font-bold mb-2">📚 Educational Context</h4>
+        <p class="mb-0">This security analysis was completed as part of <strong>ENPM665: Cloud Security</strong> at the University of Maryland. The scenario was created for educational purposes to develop practical skills in vulnerability chaining, EC2 security hardening, and IAM privilege analysis.</p>
+      </div>
+
+    </article>
+
+    <!-- Footer / CTA -->
+    <footer class="mt-20 pt-12 border-t border-[#141414]">
+      
+      <div class="bg-[#0a0a0a] border border-[#1a1a1a] rounded-lg p-6 mb-12">
+        <h3 class="text-white font-bold mb-4">Project Details</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+            <div>
+                <div class="text-gray-500 mb-1">Course</div>
+                <div class="text-white font-semibold">ENPM665 - Cloud Security</div>
+            </div>
+            <div>
+                <div class="text-gray-500 mb-1">Institution</div>
+                <div class="text-white font-semibold">University of Maryland</div>
+            </div>
+            <div>
+                <div class="text-gray-500 mb-1">Project Type</div>
+                <div class="text-white font-semibold">Security Lab Analysis</div>
+            </div>
+            <div>
+                <div class="text-gray-500 mb-1">Focus</div>
+                <div class="text-white font-semibold">EC2, SSRF, IAM</div>
+            </div>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <p class="text-sm text-gray-500 mb-8 font-mono">SECURITY_ANALYSIS_COMPLETE // EDUCATIONAL_PROJECT</p>
+        <div class="flex flex-col md:flex-row justify-center gap-4">
+          <a href="https://linkedin.com/in/raghava-gatadi" target="_blank" class="text-xs font-bold bg-white text-black px-8 py-3 rounded-lg hover:bg-gray-200 transition uppercase tracking-widest">
+              Connect on LinkedIn
+          </a>
+          <a href="https://github.com/Raghava-Gatadi" target="_blank" class="text-xs font-bold border border-[#222] text-white px-8 py-3 rounded-lg hover:bg-[#111] transition uppercase tracking-widest">
+              View on GitHub
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-[#141414] text-center text-xs text-gray-600">
+        <p>This project demonstrates practical skills in cloud vulnerability analysis, EC2 security hardening, and IAM privilege management developed through hands-on laboratory exercises.</p>
+      </div>
+    </footer>
+
+  </main>
+
+  <footer class="py-12 text-center text-gray-700 text-xs">
+    <p>&copy; 2026 Raghava Gatadi &middot; Educational Project - ENPM665</p>
+  </footer>
+
+</body>
+</html>

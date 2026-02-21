@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AWS Breach Investigation: From Compromised Credentials to Data Exfiltration | Raghava Gatadi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #050505; color: #a3a3a3; }
+    .prose h2 { color: #ffffff; margin-top: 3rem; margin-bottom: 1rem; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.025em; }
+    .prose h3 { color: #e5e5e5; margin-top: 2rem; margin-bottom: 0.75rem; font-weight: 600; font-size: 1.25rem; }
+    .prose p { margin-bottom: 1.5rem; line-height: 1.8; font-size: 1.05rem; }
+    .prose strong { color: #fff; font-weight: 600; }
+    .prose ul { margin-bottom: 1.5rem; }
+    .prose li { margin-bottom: 0.75rem; padding-left: 0.5rem; }
+    .prose code { background: #1a1a1a; padding: 0.2rem 0.4rem; border-radius: 4px; font-family: 'JetBrains Mono', monospace; color: #818cf8; font-size: 0.9em; }
+    
+    .code-block { 
+        background: #0a0a0a; 
+        border: 1px solid #1a1a1a; 
+        padding: 1.5rem; 
+        border-radius: 0.75rem; 
+        overflow-x: auto; 
+        font-family: 'JetBrains Mono', monospace; 
+        font-size: 0.875rem; 
+        color: #a5b4fc; 
+        margin: 2rem 0;
+        line-height: 1.6;
+    }
+
+    .highlight-box { 
+        border-left: 4px solid #6366f1; 
+        background: #0f111a; 
+        padding: 1.5rem; 
+        border-radius: 0 0.75rem 0.75rem 0; 
+        margin: 2.5rem 0; 
+        color: #cbd5e1; 
+    }
+
+    .stat-card { 
+        background: #0a0a0a; 
+        border: 1px solid #1a1a1a; 
+        padding: 1.5rem; 
+        border-radius: 0.75rem; 
+        transition: border-color 0.3s ease;
+    }
+    .stat-card:hover { border-color: #6366f1; }
+
+    .timeline-item {
+        position: relative;
+        padding-left: 2rem;
+        padding-bottom: 2rem;
+        border-left: 2px solid #1a1a1a;
+    }
+
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -0.5rem;
+        top: 0.25rem;
+        width: 1rem;
+        height: 1rem;
+        border-radius: 50%;
+        background: #6366f1;
+        border: 3px solid #050505;
+    }
+
+    .timeline-item.recon::before { background: #8b5cf6; }
+    .timeline-item.escalation::before { background: #ec4899; }
+    .timeline-item.exfil::before { background: #ef4444; }
+
+    .ioc-tag { 
+        display: inline-block; 
+        background: #1e1b4b; 
+        color: #a5b4fc; 
+        padding: 0.25rem 0.75rem; 
+        border-radius: 9999px; 
+        font-size: 0.75rem; 
+        font-family: 'JetBrains Mono', monospace; 
+        margin: 0.25rem 0.25rem 0.25rem 0; 
+        border: 1px solid #3730a3;
+    }
+
+    .phase-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    .phase-badge.recon { background: #1e1b4b; color: #a5b4fc; }
+    .phase-badge.escalation { background: #312e81; color: #c4b5fd; }
+    .phase-badge.exfil { background: #450a0a; color: #fca5a5; }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- Minimal Navigation -->
+  <nav class="border-b border-[#141414] sticky top-0 bg-[#050505]/80 backdrop-blur-md z-50">
+    <div class="max-w-3xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="../../index.html" class="text-sm font-bold text-white tracking-tighter hover:text-indigo-400 transition">&larr; Back to Writing</a>
+      <span class="text-xs font-mono text-gray-600 uppercase tracking-widest">Course Project // ENPM665</span>
+    </div>
+  </nav>
+
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    
+    <!-- Article Header -->
+    <header class="mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-8">
+        AWS Breach Investigation: Reconstructing a 48-Minute Attack from Compromised Credentials to Data Exfiltration
+      </h1>
+      <div class="flex flex-wrap gap-6 text-xs font-mono text-gray-500 uppercase tracking-widest">
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+            Cloud Forensics
+        </div>
+        <span>December 2025</span>
+        <span>12 Min Read</span>
+      </div>
+    </header>
+
+    <!-- Executive Summary -->
+    <div class="highlight-box">
+        <p class="text-lg"><strong>Educational Project:</strong> This investigation was conducted as part of ENPM665 (Cloud Security) at the University of Maryland. The attack scenario was simulated for learning purposes using CloudTrail logs from the Terrapin CloudWorks AWS account.</p>
+    </div>
+
+    <!-- Article Content -->
+    <article class="prose text-gray-400">
+      <p>
+        In modern cloud environments, a single compromised credential can cascade into a full-scale data breach within minutes. This forensic investigation reconstructs how an external attacker exploited a compromised IAM access key to escalate privileges and exfiltrate sensitive data from an S3 bucket—all in less than an hour.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-10 text-center">
+        <div class="stat-card">
+            <div class="text-purple-500 text-3xl font-bold">48 min</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Attack Duration</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-pink-500 text-3xl font-bold">6 IPs</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Attacker Infrastructure</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-red-500 text-3xl font-bold">1 File</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Data Exfiltrated</div>
+        </div>
+      </div>
+
+      <h2>Executive Summary</h2>
+      <p>
+        On August 26, 2023, the Terrapin CloudWorks AWS account experienced a security breach. An external attacker gained initial access using a compromised IAM access key (<code>AKIARSCCN4A3WD4RO4P4</code>) belonging to the user <code>temp-user</code>. Through privilege escalation via <code>sts:AssumeRole</code>, the attacker assumed the high-privilege <code>AdminRole</code> and successfully exfiltrated a sensitive file named <code>emergency.txt</code> from an S3 bucket.
+      </p>
+
+      <h2>The Attack Timeline: Minute-by-Minute Reconstruction</h2>
+      <p>
+        Using AWS CloudTrail logs, I reconstructed the complete attack chain from initial reconnaissance to data exfiltration. The attacker followed a methodical progression, adapting their tactics when faced with permission barriers.
+      </p>
+
+      <div class="my-10 space-y-0">
+        <div class="timeline-item recon">
+            <div class="phase-badge recon mb-2">Phase 1: Initial Access</div>
+            <div class="text-indigo-400 font-mono text-sm mb-2">20:29:37 UTC</div>
+            <h4 class="text-white font-bold mb-2">Attacker Confirms Compromised Credentials</h4>
+            <p class="mb-2">The attacker makes their first API call from IP <code>84.32.71.19</code> to verify the identity of the compromised credentials.</p>
+            <div class="code-block" style="margin: 1rem 0;">
+<pre>API Call: GetCallerIdentity
+IAM Identity: temp-user
+Source IP: 84.32.71.19
+Status: Success</pre>
+            </div>
+            <p class="text-sm text-gray-500"><strong>Significance:</strong> This is the "smoking gun"—the first command executed by the attacker using the compromised access key.</p>
+        </div>
+
+        <div class="timeline-item recon">
+            <div class="phase-badge recon mb-2">Phase 2: Failed Enumeration</div>
+            <div class="text-indigo-400 font-mono text-sm mb-2">20:35:56 - 20:47:31 UTC</div>
+            <h4 class="text-white font-bold mb-2">Reconnaissance Meets Resistance</h4>
+            <p class="mb-2">The attacker attempts to discover AWS resources but hits permission barriers.</p>
+            <div class="code-block" style="margin: 1rem 0;">
+<pre>API Calls Attempted:
+- ListBuckets
+- DescribeInstances
+- [Multiple other enumeration calls]
+
+Result: AccessDenied errors
+Pattern: High volume of failed API calls</pre>
+            </div>
+            <p class="text-sm text-gray-500"><strong>Key Finding:</strong> The <code>temp-user</code> had limited permissions, prompting the attacker to seek privilege escalation.</p>
+        </div>
+
+        <div class="timeline-item escalation">
+            <div class="phase-badge escalation mb-2">Phase 3: Privilege Escalation</div>
+            <div class="text-pink-400 font-mono text-sm mb-2">20:54:28 UTC</div>
+            <h4 class="text-white font-bold mb-2">The Critical Pivot Point</h4>
+            <p class="mb-2">The attacker successfully exploits the <code>sts:AssumeRole</code> permission to escalate from <code>temp-user</code> to <code>AdminRole</code>.</p>
+            <div class="code-block" style="margin: 1rem 0;">
+<pre>API Call: sts:AssumeRole
+From: temp-user (initiator)
+To: AdminRole (target)
+MFA Authenticated: false
+Status: Success</pre>
+            </div>
+            <p class="text-sm text-gray-500"><strong>Critical Finding:</strong> MFA was not required for role assumption. This single misconfiguration enabled the entire attack.</p>
+        </div>
+
+        <div class="timeline-item exfil">
+            <div class="phase-badge exfil mb-2">Phase 4: Target Discovery</div>
+            <div class="text-red-400 font-mono text-sm mb-2">21:17:10 UTC</div>
+            <h4 class="text-white font-bold mb-2">Identifying the Prize</h4>
+            <p class="mb-2">Now operating as <code>AdminRole</code>, the attacker lists the contents of the <code>emergency-data-recovery</code> S3 bucket from IP <code>84.32.71.125</code>.</p>
+            <div class="code-block" style="margin: 1rem 0;">
+<pre>API Call: s3:ListObjects
+Bucket: emergency-data-recovery
+IAM Identity: AdminRole (assumed)
+Source IP: 84.32.71.125</pre>
+            </div>
+        </div>
+
+        <div class="timeline-item exfil">
+            <div class="phase-badge exfil mb-2">Phase 5: Data Exfiltration</div>
+            <div class="text-red-400 font-mono text-sm mb-2">21:17:16 UTC</div>
+            <h4 class="text-white font-bold mb-2">Mission Accomplished</h4>
+            <p class="mb-2">Just <strong>6 seconds</strong> after discovery, the attacker downloads <code>emergency.txt</code> from a different IP (<code>84.32.71.3</code>).</p>
+            <div class="code-block" style="margin: 1rem 0;">
+<pre>API Call: s3:GetObject
+File: emergency.txt
+Bucket: emergency-data-recovery
+Source IP: 84.32.71.3
+Time from discovery: 6 seconds</pre>
+            </div>
+            <p class="text-sm text-gray-500"><strong>Behavioral Indicator:</strong> The IP change suggests distributed infrastructure or proxy chaining to evade detection.</p>
+        </div>
+      </div>
+
+      <h2>Privilege Escalation: The Smoking Gun</h2>
+      <p>
+        The pivotal moment of this attack was the successful privilege escalation from a low-permission user to an administrative role. The CloudTrail logs reveal critical details:
+      </p>
+
+      <div class="highlight-box">
+        <h4 class="text-white font-bold mb-3">Before Escalation</h4>
+        <ul class="mb-0">
+            <li><strong>Identity:</strong> <code>temp-user</code> (IAM User)</li>
+            <li><strong>Permissions:</strong> Limited, resulting in multiple <code>AccessDenied</code> errors</li>
+            <li><strong>Capabilities:</strong> Insufficient for S3 access to sensitive buckets</li>
+        </ul>
+      </div>
+
+      <div class="highlight-box" style="border-left-color: #ec4899; background: #1a0f15;">
+        <h4 class="text-white font-bold mb-3">After Escalation</h4>
+        <ul class="mb-0">
+            <li><strong>Identity:</strong> <code>AdminRole</code> (Assumed Role)</li>
+            <li><strong>Permissions:</strong> Full administrative access</li>
+            <li><strong>MFA Status:</strong> <code>"mfaAuthenticated":"false"</code> ⚠️</li>
+            <li><strong>Capabilities:</strong> Unrestricted access to S3, EC2, IAM, and all services</li>
+        </ul>
+      </div>
+
+      <p>
+        The <code>AssumeRole</code> API call is the "smoking gun" that explicitly shows <code>temp-user</code> successfully requesting and receiving temporary credentials for <code>AdminRole</code>, fundamentally changing their access level.
+      </p>
+
+      <h2>Indicators of Compromise (IoCs)</h2>
+      <p>
+        During the investigation, I identified multiple technical and behavioral indicators that can be used for threat hunting and alerting in production environments.
+      </p>
+
+      <h3>Network Indicators</h3>
+      <div class="my-6">
+        <div class="ioc-tag">84.32.71.3</div>
+        <div class="ioc-tag">84.32.71.5</div>
+        <div class="ioc-tag">84.32.71.19</div>
+        <div class="ioc-tag">84.32.71.33</div>
+        <div class="ioc-tag">84.32.71.48</div>
+        <div class="ioc-tag">84.32.71.125</div>
+      </div>
+
+      <h3>User Agent Strings</h3>
+      <div class="code-block">
+<pre>aws-cli/1.27.74 Python/3.10.6 Linux/5.15.90.1-microsoft-standard-WSL2 botocore/1.29.74
+
+aws-sdk-go-v2/1.3.2</pre>
+      </div>
+
+      <h3>IAM Principals Involved</h3>
+      <ul>
+        <li><code>temp-user</code> (Compromised IAM User)</li>
+        <li><code>AdminRole</code> (Abused IAM Role)</li>
+      </ul>
+
+      <h3>Behavioral Patterns</h3>
+      <div class="highlight-box" style="border-left-color: #f59e0b; background: #1a150f;">
+        <h4 class="text-white font-bold mb-2">🚨 High-Volume Failed API Calls</h4>
+        <p class="mb-0">A sudden spike of <code>AccessDenied</code> errors from <code>temp-user</code> between 20:35-20:47 UTC was a clear indicator of malicious reconnaissance. This pattern should trigger immediate alerts.</p>
+      </div>
+
+      <div class="highlight-box" style="border-left-color: #10b981; background: #0f1a15;">
+        <h4 class="text-white font-bold mb-2">✅ Escalation After Recon Failure</h4>
+        <p class="mb-0">The successful <code>AssumeRole</code> call occurred immediately after the period of failed discovery attempts—demonstrating adaptive attacker behavior.</p>
+      </div>
+
+      <h2>AWS Services Accessed</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
+        <div class="stat-card border-l-4 border-l-green-500">
+            <div class="text-green-500 text-sm font-bold mb-2">✓ AWS STS</div>
+            <p class="text-xs text-gray-500">Used for identity confirmation (<code>GetCallerIdentity</code>) and privilege escalation (<code>AssumeRole</code>)</p>
+        </div>
+        <div class="stat-card border-l-4 border-l-green-500">
+            <div class="text-green-500 text-sm font-bold mb-2">✓ Amazon S3</div>
+            <p class="text-xs text-gray-500">Used for reconnaissance (<code>ListObjects</code>) and data exfiltration (<code>GetObject</code>)</p>
+        </div>
+        <div class="stat-card border-l-4 border-l-red-500">
+            <div class="text-red-500 text-sm font-bold mb-2">✗ Amazon IAM</div>
+            <p class="text-xs text-gray-500">Multiple failed enumeration attempts</p>
+        </div>
+        <div class="stat-card border-l-4 border-l-red-500">
+            <div class="text-red-500 text-sm font-bold mb-2">✗ Amazon EC2</div>
+            <p class="text-xs text-gray-500">Multiple failed <code>DescribeInstances</code> attempts</p>
+        </div>
+      </div>
+
+      <h2>Prevention Recommendations</h2>
+      <p>
+        Based on the attack chain reconstructed from CloudTrail logs, I developed the following cloud-specific security improvements to prevent similar incidents:
+      </p>
+
+      <div class="space-y-6 my-8">
+        <div class="border-l-2 border-indigo-500 pl-6">
+            <h3 class="text-white font-bold mb-2">1. Enforce Principle of Least Privilege</h3>
+            <p class="mb-2">The <code>temp-user</code> should not have had the <code>sts:AssumeRole</code> permission for a highly privileged target like <code>AdminRole</code>.</p>
+            <div class="text-sm text-gray-500 bg-[#0a0a0a] p-3 rounded-lg">
+                <strong>Action:</strong> Review and scope down IAM permissions to the minimum required for a user's function. Implement permission boundaries.
+            </div>
+        </div>
+
+        <div class="border-l-2 border-indigo-500 pl-6">
+            <h3 class="text-white font-bold mb-2">2. Require MFA for Sensitive Actions</h3>
+            <p class="mb-2">The trust policy for <code>AdminRole</code> should require multi-factor authentication for assumption.</p>
+            <div class="text-sm text-gray-500 bg-[#0a0a0a] p-3 rounded-lg">
+                <strong>Action:</strong> Add MFA condition to role trust policy. This would have blocked the attacker at the privilege escalation stage, as they only possessed a single factor (the access key).
+            </div>
+        </div>
+
+        <div class="border-l-2 border-indigo-500 pl-6">
+            <h3 class="text-white font-bold mb-2">3. Implement Access Key Rotation and Auditing</h3>
+            <p class="mb-2">The initial point of failure was a compromised access key.</p>
+            <div class="text-sm text-gray-500 bg-[#0a0a0a] p-3 rounded-lg">
+                <strong>Action:</strong> Enforce strict key rotation policy (every 90 days). Disable and remove unused or old access keys. Use AWS Credential Report for auditing.
+            </div>
+        </div>
+
+        <div class="border-l-2 border-indigo-500 pl-6">
+            <h3 class="text-white font-bold mb-2">4. Establish Threat Detection and Alerting</h3>
+            <p class="mb-2">Create automated alerts for high-risk behavioral patterns.</p>
+            <div class="text-sm text-gray-500 bg-[#0a0a0a] p-3 rounded-lg">
+                <strong>Action:</strong> Configure CloudWatch or SIEM alerts for:<br>
+                • High count of <code>AccessDenied</code> errors from one user<br>
+                • Successful <code>AssumeRole</code> following failed enumeration<br>
+                • S3 access from unusual IP addresses
+            </div>
+        </div>
+
+        <div class="border-l-2 border-indigo-500 pl-6">
+            <h3 class="text-white font-bold mb-2">5. Utilize IP-Based Controls</h3>
+            <p class="mb-2">Restrict API calls to known corporate IP ranges.</p>
+            <div class="text-sm text-gray-500 bg-[#0a0a0a] p-3 rounded-lg">
+                <strong>Action:</strong> Use IAM Condition Keys in policies to prevent access from unauthorized locations (e.g., <code>aws:SourceIp</code>).
+            </div>
+        </div>
+      </div>
+
+      <h2>Key Lessons Learned</h2>
+      <div class="highlight-box">
+        <p class="mb-0"><strong>Defense-in-Depth is Critical:</strong> This investigation highlights how a single compromised credential can lead to a significant data breach if multiple layers of security are not implemented. The absence of MFA, overly permissive IAM policies, and lack of behavioral monitoring created a perfect storm for this attack.</p>
+      </div>
+
+      <p>
+        The ability to connect seemingly disparate events in CloudTrail logs was essential to reconstructing the full attack narrative. Key takeaways:
+      </p>
+
+      <ul>
+        <li><strong>Monitor for Behavioral Anomalies:</strong> Failed API calls often precede more severe actions like privilege escalation.</li>
+        <li><strong>Time Correlation is Critical:</strong> The 48-minute timeline shows how quickly an attacker can move from initial access to data exfiltration.</li>
+        <li><strong>MFA is Non-Negotiable:</strong> The lack of MFA requirement for <code>AdminRole</code> was the single point of failure.</li>
+        <li><strong>Least Privilege Works:</strong> If <code>temp-user</code> couldn't assume <code>AdminRole</code>, the attack would have stopped at reconnaissance.</li>
+      </ul>
+
+      <h2>Technical Skills Demonstrated</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3 my-8">
+        <div class="stat-card text-center">
+            <div class="text-xs text-gray-500 uppercase tracking-widest mb-1">AWS CloudTrail</div>
+            <div class="text-indigo-500 font-bold">Log Analysis</div>
+        </div>
+        <div class="stat-card text-center">
+            <div class="text-xs text-gray-500 uppercase tracking-widest mb-1">IAM</div>
+            <div class="text-indigo-500 font-bold">Forensics</div>
+        </div>
+        <div class="stat-card text-center">
+            <div class="text-xs text-gray-500 uppercase tracking-widest mb-1">Incident</div>
+            <div class="text-indigo-500 font-bold">Response</div>
+        </div>
+        <div class="stat-card text-center">
+            <div class="text-xs text-gray-500 uppercase tracking-widest mb-1">Attack</div>
+            <div class="text-indigo-500 font-bold">Reconstruction</div>
+        </div>
+        <div class="stat-card text-center">
+            <div class="text-xs text-gray-500 uppercase tracking-widest mb-1">Threat</div>
+            <div class="text-indigo-500 font-bold">Hunting</div>
+        </div>
+        <div class="stat-card text-center">
+            <div class="text-xs text-gray-500 uppercase tracking-widest mb-1">Cloud</div>
+            <div class="text-indigo-500 font-bold">Security</div>
+        </div>
+      </div>
+
+      <div class="highlight-box" style="border-left-color: #10b981; background: #0f1a15;">
+        <h4 class="text-white font-bold mb-2">📚 Educational Context</h4>
+        <p class="mb-0">This investigation was conducted as part of <strong>ENPM665: Cloud Security</strong> at the University of Maryland. The attack scenario was created for educational purposes to develop practical skills in cloud forensics, incident response, and AWS security monitoring.</p>
+      </div>
+
+    </article>
+
+    <!-- Footer / CTA -->
+    <footer class="mt-20 pt-12 border-t border-[#141414]">
+      
+      <div class="bg-[#0a0a0a] border border-[#1a1a1a] rounded-lg p-6 mb-12">
+        <h3 class="text-white font-bold mb-4">Project Details</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+            <div>
+                <div class="text-gray-500 mb-1">Course</div>
+                <div class="text-white font-semibold">ENPM665 - Cloud Security</div>
+            </div>
+            <div>
+                <div class="text-gray-500 mb-1">Institution</div>
+                <div class="text-white font-semibold">University of Maryland</div>
+            </div>
+            <div>
+                <div class="text-gray-500 mb-1">Project Type</div>
+                <div class="text-white font-semibold">Classwork Lab 3</div>
+            </div>
+            <div>
+                <div class="text-gray-500 mb-1">Tools Used</div>
+                <div class="text-white font-semibold">AWS CloudTrail, IAM Logs</div>
+            </div>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <p class="text-sm text-gray-500 mb-8 font-mono">FORENSIC_INVESTIGATION_COMPLETE // EDUCATIONAL_PROJECT</p>
+        <div class="flex flex-col md:flex-row justify-center gap-4">
+          <a href="https://linkedin.com/in/raghava-gatadi" target="_blank" class="text-xs font-bold bg-white text-black px-8 py-3 rounded-lg hover:bg-gray-200 transition uppercase tracking-widest">
+              Connect on LinkedIn
+          </a>
+          <a href="https://github.com/Raghava-Gatadi" target="_blank" class="text-xs font-bold border border-[#222] text-white px-8 py-3 rounded-lg hover:bg-[#111] transition uppercase tracking-widest">
+              View on GitHub
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-[#141414] text-center text-xs text-gray-600">
+        <p>This investigation demonstrates practical skills in cloud forensics, incident response, and AWS security monitoring developed through hands-on laboratory exercises.</p>
+      </div>
+    </footer>
+
+  </main>
+
+  <footer class="py-12 text-center text-gray-700 text-xs">
+    <p>&copy; 2026 Raghava Gatadi &middot; Educational Project - ENPM665</p>
+  </footer>
+
+</body>
+</html>
