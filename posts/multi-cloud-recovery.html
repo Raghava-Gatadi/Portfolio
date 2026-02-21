@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>"Operation Broken Bridge": Multi-Cloud Infrastructure Recovery | Raghava Gatadi's Blog</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .rounded-container {
+      border-radius: 16px;
+    }
+  </style>
+</head>
+<body class="bg-[#0a0a14] text-gray-100 min-h-screen">
+  <!-- Header/Navigation -->
+  <header class="bg-[#0f0f1d] border-b border-gray-800 sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="../index.html" class="text-xl font-bold">Raghava Gatadi</a>
+      <div class="flex items-center space-x-6">
+        <a href="../index.html" class="hover:text-blue-400">Posts</a>
+        <a href="../tags.html" class="hover:text-blue-400">Tags</a>
+        <button id="search-btn" class="hover:text-blue-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </button>
+        <button id="theme-toggle" class="hover:text-blue-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container mx-auto px-4 py-12 max-w-4xl">
+    <article class="bg-[#121220] rounded-container p-8">
+      <header class="mb-8">
+        <div class="text-teal-400 text-sm uppercase mb-4">Incident Response | Multi-Cloud</div>
+        <h1 class="text-3xl font-bold mb-4">"Operation Broken Bridge": Multi-Cloud Infrastructure Recovery</h1>
+        <div class="flex items-center text-gray-400 text-sm">
+          <span>By Raghava Gatadi</span>
+          <span class="mx-2">•</span>
+          <time datetime="2024-10-12">October 12, 2024</time>
+        </div>
+      </header>
+
+      <div class="prose prose-invert max-w-none">
+        <p>Led a complex multi-cloud incident response operation involving both Google Cloud Platform (GCP) and Amazon Web Services (AWS). The incident involved unauthorized access to infrastructure resources and data exfiltration attempts.</p>
+
+        <h2 class="text-2xl font-bold mt-8 mb-4">Initial Detection</h2>
+        <p>Detected unusual API activity in GCP Cloud Audit logs showing bulk downloads from Google Cloud Storage buckets. Concurrently, AWS CloudTrail logs revealed anomalous IAM role assumption patterns and increased API call volumes.</p>
+
+        <h2 class="text-2xl font-bold mt-8 mb-4">Triage & Containment</h2>
+        <p>Immediately isolated affected resources on both platforms by revoking compromised credentials and implementing temporary network restrictions. Established a secure incident response environment to prevent further lateral movement.</p>
+
+        <h2 class="text-2xl font-bold mt-8 mb-4">Data Exfiltration Investigation</h2>
+        <p>Used gcloud CLI to analyze artifacts from compromised Google Cloud Storage buckets, identifying potential data that was accessed or modified. Tracked data transfer patterns to determine scope of potential exfiltration.</p>
+
+        <h2 class="text-2xl font-bold mt-8 mb-4">Infrastructure Recovery</h2>
+        <p>Coordinated deployment of a hybrid recovery solution using AWS CloudFormation templates for backend infrastructure and GCP e2-micro VMs for frontend services. Implemented enhanced security controls including stricter IAM policies and VPC flow logging.</p>
+
+        <h2 class="text-2xl font-bold mt-8 mb-4">Cross-Platform Analysis</h2>
+        <p>Correlated logs between GCP and AWS to identify attack vectors that leveraged multi-cloud configurations. Created detailed timeline of attacker activities across both platforms, revealing coordinated efforts to establish persistence.</p>
+
+        <h2 class="text-2xl font-bold mt-8 mb-4">Lessons Learned</h2>
+        <p>This incident highlighted the complexity of securing multi-cloud environments and the importance of consistent logging and monitoring across platforms. Key improvements included implementing cross-platform SIEM correlation and establishing standardized security baselines.</p>
+
+        <div class="mt-8 p-4 bg-[#1a1a2e] rounded-lg">
+          <h3 class="font-bold mb-2">Key Takeaways:</h3>
+          <ul class="list-disc pl-6 space-y-2">
+            <li>Multi-cloud incidents require coordination across different platform-specific tools and procedures</li>
+            <li>Consistent logging standards across platforms are crucial for effective incident response</li>
+            <li>Network segmentation and zero-trust principles are essential in multi-cloud architectures</li>
+            <li>Regular security assessments should cover cross-platform attack vectors</li>
+          </ul>
+        </div>
+
+        <div class="mt-8 p-4 bg-[#1a1a2e] rounded-lg">
+          <h3 class="font-bold mb-2">Resources:</h3>
+          <ul class="list-disc pl-6 space-y-2">
+            <li><a href="https://github.com/Raghava-Gatadi/multi-cloud-ir-playbooks" target="_blank" class="text-blue-400 hover:underline">View Incident Response Playbooks</a></li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- Table of Contents Sidebar (for wider screens) -->
+    <aside class="hidden lg:block fixed right-8 top-1/2 transform -translate-y-1/2 w-64">
+      <div class="bg-[#121220] rounded-container p-6 sticky top-24">
+        <h3 class="font-bold mb-4">Table of Contents</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#initial-detection" class="text-blue-400 hover:underline">Initial Detection</a></li>
+          <li><a href="#triage-containment" class="text-blue-400 hover:underline">Triage & Containment</a></li>
+          <li><a href="#data-exfiltration" class="text-blue-400 hover:underline">Data Exfiltration Investigation</a></li>
+          <li><a href="#infrastructure-recovery" class="text-blue-400 hover:underline">Infrastructure Recovery</a></li>
+          <li><a href="#cross-platform-analysis" class="text-blue-400 hover:underline">Cross-Platform Analysis</a></li>
+          <li><a href="#lessons-learned" class="text-blue-400 hover:underline">Lessons Learned</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Back to Top Link -->
+  <div class="fixed bottom-8 right-8">
+    <a href="#" class="bg-blue-600 text-white p-3 rounded-full hover:bg-blue-700 transition">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+      </svg>
+    </a>
+  </div>
+
+  <footer class="bg-[#0f0f1d] border-t border-gray-800 py-8 mt-12">
+    <div class="container mx-auto px-4 text-center text-gray-500">
+      <p>© 2025 Raghava Gatadi. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('theme-toggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      // In a real implementation, you would save the preference to localStorage
+    });
+
+    // Search functionality placeholder
+    const searchBtn = document.getElementById('search-btn');
+    searchBtn.addEventListener('click', () => {
+      alert('Search functionality would be implemented here');
+    });
+  </script>
+</body>
+</html>

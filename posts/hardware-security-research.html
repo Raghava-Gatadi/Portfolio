@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hardware Security Research: Lightweight Authentication Protocols | Raghava Gatadi's Blog</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .rounded-container {
+      border-radius: 16px;
+    }
+  </style>
+</head>
+<body class="bg-[#0a0a14] text-gray-100 min-h-screen">
+  <!-- Header/Navigation -->
+  <header class="bg-[#0f0f1d] border-b border-gray-800 sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="../index.html" class="text-xl font-bold">Raghava Gatadi</a>
+      <div class="flex items-center space-x-6">
+        <a href="../index.html" class="hover:text-blue-400">Posts</a>
+        <a href="../tags.html" class="hover:text-blue-400">Tags</a>
+        <button id="search-btn" class="hover:text-blue-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </button>
+        <button id="theme-toggle" class="hover:text-blue-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container mx-auto px-4 py-12 max-w-4xl">
+    <article class="bg-[#121220] rounded-container p-8">
+      <header class="mb-8">
+        <div class="text-orange-400 text-sm uppercase mb-4">Research | Hardware Security</div>
+        <h1 class="text-3xl font-bold mb-4">Hardware Security Research: Lightweight Authentication Protocols</h1>
+        <div class="flex items-center text-gray-400 text-sm">
+          <span>By Raghava Gatadi</span>
+          <span class="mx-2">•</span>
+          <time datetime="2024-06-10">June 10, 2024</time>
+        </div>
+      </header>
+
+      <div class="prose prose-invert max-w-none">
+        <p>Conducted research on hardware security focusing on lightweight authentication protocols for resource-constrained devices. Designed and analyzed Physical Unclonable Functions (PUFs) as a foundation for secure device authentication in IoT environments.</p>
+
+        <h2 class="text-2xl font-bold mt-8 mb-4">Research Background</h2>
+        <p>With the proliferation of Internet of Things (IoT) devices, traditional cryptographic authentication methods face challenges due to limited computational resources and power constraints. Hardware-based security primitives offer promising alternatives for lightweight authentication.</p>
+
+        <h2 class="text-2xl font-bold mt-8 mb-4">Physical Unclonable Functions (PUFs)</h2>
+        <p>Investigated PUFs as a hardware security primitive that leverages manufacturing variations to generate unique device fingerprints. PUFs provide intrinsic security properties without requiring secret key storage, making them ideal for resource-constrained environments.</p>
+
+        <h2 class="text-2xl font-bold mt-8 mb-4">Authentication Protocol Design</h2>
+        <p>Designed lightweight authentication protocols based on PUF characteristics that minimize computational overhead while maintaining security guarantees. The protocol incorporates error correction mechanisms to handle PUF response variability.</p>
+
+        <h2 class="text-2xl font-bold mt-8 mb-4">Security Analysis</h2>
+        <p>Performed comprehensive security analysis of the proposed authentication protocols, evaluating resistance against various attack vectors including machine learning attacks, side-channel attacks, and modeling attacks targeting PUF implementations.</p>
+
+        <h2 class="text-2xl font-bold mt-8 mb-4">Implementation Considerations</h2>
+        <p>Explored practical implementation aspects including:</p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li>Trade-offs between PUF size and security strength</li>
+          <li>Error rate management and helper data generation</li>
+          <li>Temperature and aging effects on PUF responses</li>
+          <li>Integration with existing IoT communication protocols</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold mt-8 mb-4">Performance Evaluation</h2>
+        <p>Evaluated the performance of the proposed protocols in terms of computation time, memory usage, and communication overhead. Results demonstrated significant efficiency gains compared to traditional cryptographic approaches while maintaining adequate security levels.</p>
+
+        <div class="mt-8 p-4 bg-[#1a1a2e] rounded-lg">
+          <h3 class="font-bold mb-2">Key Takeaways:</h3>
+          <ul class="list-disc pl-6 space-y-2">
+            <li>Hardware-based security primitives offer unique advantages for IoT authentication</li>
+            <li>PUFs provide a promising foundation for lightweight authentication protocols</li>
+            <li>Design trade-offs must balance security, performance, and resource constraints</li>
+            <li>Long-term stability of PUF responses requires careful consideration</li>
+          </ul>
+        </div>
+
+        <div class="mt-8 p-4 bg-[#1a1a2e] rounded-lg">
+          <h3 class="font-bold mb-2">Resources:</h3>
+          <ul class="list-disc pl-6 space-y-2">
+            <li><a href="https://github.com/Raghava-Gatadi/hardware-security-research" target="_blank" class="text-blue-400 hover:underline">Research Code Repository</a></li>
+            <li><a href="#" target="_blank" class="text-blue-400 hover:underline">Published Paper (Link Coming Soon)</a></li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- Table of Contents Sidebar (for wider screens) -->
+    <aside class="hidden lg:block fixed right-8 top-1/2 transform -translate-y-1/2 w-64">
+      <div class="bg-[#121220] rounded-container p-6 sticky top-24">
+        <h3 class="font-bold mb-4">Table of Contents</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#research-background" class="text-blue-400 hover:underline">Research Background</a></li>
+          <li><a href="#physical-unclonable-functions" class="text-blue-400 hover:underline">Physical Unclonable Functions</a></li>
+          <li><a href="#authentication-protocol-design" class="text-blue-400 hover:underline">Authentication Protocol Design</a></li>
+          <li><a href="#security-analysis" class="text-blue-400 hover:underline">Security Analysis</a></li>
+          <li><a href="#implementation-considerations" class="text-blue-400 hover:underline">Implementation Considerations</a></li>
+          <li><a href="#performance-evaluation" class="text-blue-400 hover:underline">Performance Evaluation</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Back to Top Link -->
+  <div class="fixed bottom-8 right-8">
+    <a href="#" class="bg-blue-600 text-white p-3 rounded-full hover:bg-blue-700 transition">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+      </svg>
+    </a>
+  </div>
+
+  <footer class="bg-[#0f0f1d] border-t border-gray-800 py-8 mt-12">
+    <div class="container mx-auto px-4 text-center text-gray-500">
+      <p>© 2025 Raghava Gatadi. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('theme-toggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      // In a real implementation, you would save the preference to localStorage
+    });
+
+    // Search functionality placeholder
+    const searchBtn = document.getElementById('search-btn');
+    searchBtn.addEventListener('click', () => {
+      alert('Search functionality would be implemented here');
+    });
+  </script>
+</body>
+</html>

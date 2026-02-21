@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Forensics: AWS Breach Timeline Reconstruction | Raghava Gatadi's Blog</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .rounded-container {
+      border-radius: 16px;
+    }
+  </style>
+</head>
+<body class="bg-[#0a0a14] text-gray-100 min-h-screen">
+  <!-- Header/Navigation -->
+  <header class="bg-[#0f0f1d] border-b border-gray-800 sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="../index.html" class="text-xl font-bold">Raghava Gatadi</a>
+      <div class="flex items-center space-x-6">
+        <a href="../index.html" class="hover:text-blue-400">Posts</a>
+        <a href="../tags.html" class="hover:text-blue-400">Tags</a>
+        <button id="search-btn" class="hover:text-blue-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </button>
+        <button id="theme-toggle" class="hover:text-blue-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container mx-auto px-4 py-12 max-w-4xl">
+    <article class="bg-[#121220] rounded-container p-8">
+      <header class="mb-8">
+        <div class="text-purple-400 text-sm uppercase mb-4">Digital Forensics | AWS</div>
+        <h1 class="text-3xl font-bold mb-4">Digital Forensics: AWS Breach Timeline Reconstruction</h1>
+        <div class="flex items-center text-gray-400 text-sm">
+          <span>By Raghava Gatadi</span>
+          <span class="mx-2">•</span>
+          <time datetime="2024-09-05">September 5, 2024</time>
+        </div>
+      </header>
+
+      <div class="prose prose-invert max-w-none">
+        <p>Conducted a comprehensive digital forensics investigation to reconstruct a 48-minute AWS infrastructure breach. Analyzed raw CloudTrail logs to identify attack vectors, tactics, and impact scope.</p>
+
+        <h2 class="text-2xl font-bold mt-8 mb-4">Initial Compromise</h2>
+        <p>Detected initial access via a compromised API key from an external IP address located in a known malicious region. The attacker began with reconnaissance activities, enumerating IAM roles, EC2 instances, and S3 buckets.</p>
+
+        <h2 class="text-2xl font-bold mt-8 mb-4">Log Analysis Methodology</h2>
+        <p>Parsed raw CloudTrail logs using jq and regex to reconstruct the attack timeline. Applied filtering techniques to isolate anomalous activity patterns and correlate events across multiple AWS services.</p>
+
+        <h2 class="text-2xl font-bold mt-8 mb-4">Attack Progression</h2>
+        <p>The breach followed a classic kill chain pattern:</p>
+        <ol class="list-decimal pl-6 space-y-2">
+          <li><strong>Reconnaissance:</strong> 12 minutes of API calls to enumerate resources</li>
+          <li><strong>Credential Access:</strong> 8 minutes attempting to access IAM policies and roles</li>
+          <li><strong>Discovery:</strong> 15 minutes mapping internal network topology</li>
+          <li><strong>Exfiltration:</strong> 10 minutes downloading data from S3 buckets</li>
+          <li><strong>Impact:</strong> 3 minutes modifying security groups and deleting logs</li>
+        </ol>
+
+        <h2 class="text-2xl font-bold mt-8 mb-4">Timeline Reconstruction</h2>
+        <p>Created a granular timeline showing the exact sequence of events with timestamps accurate to the second. Identified the specific IAM permissions that enabled lateral movement and privilege escalation.</p>
+
+        <h2 class="text-2xl font-bold mt-8 mb-4">Evidence Preservation</h2>
+        <p>Implemented proper evidence handling procedures, creating forensic copies of relevant log files and maintaining chain of custody documentation. Preserved artifacts for potential legal proceedings.</p>
+
+        <h2 class="text-2xl font-bold mt-8 mb-4">Root Cause Analysis</h2>
+        <p>Determined the breach originated from a developer's API key that was inadvertently exposed in a public GitHub repository. The key had excessive permissions violating the principle of least privilege.</p>
+
+        <div class="mt-8 p-4 bg-[#1a1a2e] rounded-lg">
+          <h3 class="font-bold mb-2">Key Takeaways:</h3>
+          <ul class="list-disc pl-6 space-y-2">
+            <li>Proper log retention and analysis capabilities are essential for incident response</li>
+            <li>Implementing least-privilege access policies limits blast radius during breaches</li>
+            <li>Automated monitoring for exposed credentials in public repositories is critical</li>
+            <li>Forensic readiness procedures should be established before incidents occur</li>
+          </ul>
+        </div>
+
+        <div class="mt-8 p-4 bg-[#1a1a2e] rounded-lg">
+          <h3 class="font-bold mb-2">Resources:</h3>
+          <ul class="list-disc pl-6 space-y-2">
+            <li><a href="https://github.com/Raghava-Gatadi/aws-forensics-tools" target="_blank" class="text-blue-400 hover:underline">View Forensics Analysis Scripts</a></li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- Table of Contents Sidebar (for wider screens) -->
+    <aside class="hidden lg:block fixed right-8 top-1/2 transform -translate-y-1/2 w-64">
+      <div class="bg-[#121220] rounded-container p-6 sticky top-24">
+        <h3 class="font-bold mb-4">Table of Contents</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#initial-compromise" class="text-blue-400 hover:underline">Initial Compromise</a></li>
+          <li><a href="#log-analysis" class="text-blue-400 hover:underline">Log Analysis Methodology</a></li>
+          <li><a href="#attack-progression" class="text-blue-400 hover:underline">Attack Progression</a></li>
+          <li><a href="#timeline-reconstruction" class="text-blue-400 hover:underline">Timeline Reconstruction</a></li>
+          <li><a href="#evidence-preservation" class="text-blue-400 hover:underline">Evidence Preservation</a></li>
+          <li><a href="#root-cause-analysis" class="text-blue-400 hover:underline">Root Cause Analysis</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Back to Top Link -->
+  <div class="fixed bottom-8 right-8">
+    <a href="#" class="bg-blue-600 text-white p-3 rounded-full hover:bg-blue-700 transition">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+      </svg>
+    </a>
+  </div>
+
+  <footer class="bg-[#0f0f1d] border-t border-gray-800 py-8 mt-12">
+    <div class="container mx-auto px-4 text-center text-gray-500">
+      <p>© 2025 Raghava Gatadi. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('theme-toggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      // In a real implementation, you would save the preference to localStorage
+    });
+
+    // Search functionality placeholder
+    const searchBtn = document.getElementById('search-btn');
+    searchBtn.addEventListener('click', () => {
+      alert('Search functionality would be implemented here');
+    });
+  </script>
+</body>
+</html>

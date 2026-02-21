@@ -3,114 +3,237 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Raghava Gatadi | Portfolio</title>
+  <title>Raghava Gatadi | Blog</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .rounded-container {
+      border-radius: 16px;
+    }
+    .post-card:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
-  <!-- Navbar -->
-  <nav class="bg-gray-900 text-white p-4 flex justify-between items-center fixed top-0 left-0 w-full z-50 shadow-md">
-    <a href="index.html" class="text-2xl font-bold">Raghava Gatadi</a>
-    <div class="space-x-6">
-      <a href="index.html" class="text-blue-400 font-semibold border-b-2 border-blue-400">Home</a>
-      <a href="./pages/projects.html" class="hover:text-blue-400">Projects</a>
-      <a href="./pages/research.html" class="hover:text-blue-400">Research</a>
-      <a href="./pages/certifications.html" class="hover:text-blue-400">Certificates</a>
-      <a href="./pages/contact.html" class="hover:text-blue-400">Contact</a>
-    </div>
-  </nav>
-
-  <!-- Home Page -->
-  <section class="text-center pt-28 pb-16 bg-gradient-to-b from-gray-900 to-gray-700 text-white">
-    <h2 class="text-4xl font-bold mb-4">Cybersecurity Engineer (Graduate Student)</h2>
-    <p class="max-w-2xl mx-auto text-lg mb-6">
-      Graduate student at the University of Maryland specializing in cybersecurity engineering, with expertise in Detection Engineering (Splunk), cloud defense, and hardware security.
-    </p>
-    <div class="mt-6 flex flex-wrap justify-center gap-4">
-      <a href="https://www.linkedin.com/in/raghava-gatadi/" target="_blank" class="text-blue-400 hover:underline">LinkedIn</a>
-      <a href="https://github.com/Raghava-Gatadi" target="_blank" class="text-blue-400 hover:underline">GitHub</a>
-      <a href="./assets/Gatadi_Raghava.pdf" class="text-blue-400 hover:underline">Resume</a>
-    </div>
-    <div class="flex flex-wrap justify-center items-center gap-8 mt-10 text-black">
-      <!-- CCSK Badge -->
-      <div class="bg-white px-4 pt-4 rounded-xl backdrop-blur-sm border border-white/20">
-        <p class="uppercase tracking-widest mb-4 font-bold text-lg text-black">Certifications</p>
-        <div class="flex gap-8 flex-wrap justify-center">
-
-  <!-- CCSK -->
-  <div class="flex flex-col items-center">
-    <h3 class="text-sm font-semibold">
-      Certificate of Cloud Security Knowledge (CCSK) v5
-    </h3>
-    <p class="text-xs text-gray-400 mb-2">
-      Cloud Security Alliance
-    </p>
-
-    <div
-      data-iframe-width="400"
-      data-iframe-height="270"
-      data-share-badge-id="1aee528f-c99d-41df-a4ba-9e1a231920a5"
-      data-share-badge-host="https://www.credly.com">
-    </div>
-  </div>
-
-  <!-- Google Cybersecurity -->
-  <div class="flex flex-col items-center">
-    <h3 class="text-sm font-semibold">
-      Google Cybersecurity Certificate
-    </h3>
-    <p class="text-xs text-gray-400 mb-2">
-      Google (Coursera)
-    </p>
-
-    <div
-      data-iframe-width="400"
-      data-iframe-height="270"
-      data-share-badge-id="4923a6a6-0f18-44dd-9c30-597a1aecba25"
-      data-share-badge-host="https://www.credly.com">
-    </div>
-  </div>
-
-</div>
-<script
-  type="text/javascript"
-  async
-  src="https://cdn.credly.com/assets/utilities/embed.js">
-</script>
+<body class="bg-[#0a0a14] text-gray-100 min-h-screen">
+  <!-- Header/Navigation -->
+  <header class="bg-[#0f0f1d] border-b border-gray-800 sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="index.html" class="text-xl font-bold">Raghava Gatadi</a>
+      <div class="flex items-center space-x-6">
+        <a href="index.html" class="hover:text-blue-400">Posts</a>
+        <a href="tags.html" class="hover:text-blue-400">Tags</a>
+        <button id="search-btn" class="hover:text-blue-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </button>
+        <button id="theme-toggle" class="hover:text-blue-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
       </div>
     </div>
-  </section>
+  </header>
 
-  <!-- About Section -->
-  <section class="max-w-5xl mx-auto py-16 px-6">
-    <h3 class="text-3xl font-bold mb-6 border-b-4 border-blue-500 w-fit">About Me</h3>
-    <div class="text-lg leading-relaxed text-gray-700 space-y-4">
-      <p>
-        I am a Cybersecurity Graduate Student at the University of Maryland. Most recently, I served as a <strong>Research Intern at NYU’s Secure Systems Lab</strong>, where I worked on the <strong>gittuf</strong> project. I engineered a Go-based CLI wrapper to intercept Git operations, automated Supply Chain metadata management (RSL/TUF sync), and hardened cryptographic commit signing using ED25519 keys.
-      </p>
-      <p>
-        My technical background extends to <strong>Detection Engineering in Splunk</strong>, where I’ve built high-fidelity monitoring logic for AWS environments, and <strong>Hardware Security</strong>, where I've designed lightweight authentication protocols using PUFs.
-      </p>
+  <div class="container mx-auto px-4 py-8 flex flex-col md:flex-row gap-8">
+    <!-- Left Sidebar - Profile Card -->
+    <aside class="md:w-1/3 lg:w-1/4">
+      <div class="bg-[#121220] rounded-container p-6 sticky top-24">
+        <div class="flex flex-col items-center text-center">
+          <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-blue-400 mb-4">
+            <img src="../assets/profile.jpg" alt="Profile Picture" class="w-full h-full object-cover">
+          </div>
+          <h2 class="text-2xl font-bold mb-1">Raghava Gatadi</h2>
+          <p class="text-blue-400 mb-4">Cybersecurity Engineer</p>
+          <p class="text-gray-400 text-sm mb-6">
+            Graduate student at the University of Maryland specializing in cybersecurity engineering, with expertise in Detection Engineering (Splunk), cloud defense, and hardware security.
+          </p>
+          
+          <div class="flex space-x-4 mt-4">
+            <a href="https://www.linkedin.com/in/raghava-gatadi/" target="_blank" class="text-gray-400 hover:text-blue-400">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </a>
+            <a href="https://github.com/Raghava-Gatadi" target="_blank" class="text-gray-400 hover:text-blue-400">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            </a>
+            <a href="mailto:raghava.gatadi@gmail.com" class="text-gray-400 hover:text-blue-400">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Right Main Content - Latest Writing -->
+    <main class="md:w-2/3 lg:w-3/4">
+      <h1 class="text-3xl font-bold mb-8 text-center md:text-left">LATEST WRITING</h1>
+      
+      <!-- Post 1 -->
+      <a href="posts/aws-security-monitoring.html" class="block post-card bg-[#121220] rounded-container p-6 mb-6 hover:bg-opacity-50 transition-all duration-300">
+        <div class="flex flex-col md:flex-row gap-6">
+          <div class="md:w-1/3">
+            <div class="bg-gray-200 border-2 border-dashed rounded-xl w-full h-48" />
+          </div>
+          <div class="md:w-2/3">
+            <div class="text-blue-400 text-sm uppercase mb-2">Detection Engineering</div>
+            <h2 class="text-xl font-bold mb-2">AWS Security Monitoring & Threat Detection Portfolio</h2>
+            <p class="text-gray-400 mb-3">Splunk Enterprise | AWS CloudTrail | MITRE ATT&CK Mapping</p>
+            <p class="text-gray-300">Designed and implemented a full-cycle detection strategy using the Invictus IR Red Team dataset. Developed custom logic to distinguish between automated scanning tools and legitimate administrative activity within AWS...</p>
+            <div class="mt-4 text-sm text-gray-500">DECEMBER 15, 2024</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Post 2 -->
+      <a href="posts/ssrf-imds-exploitation.html" class="block post-card bg-[#121220] rounded-container p-6 mb-6 hover:bg-opacity-50 transition-all duration-300">
+        <div class="flex flex-col md:flex-row gap-6">
+          <div class="md:w-1/3">
+            <div class="bg-gray-200 border-2 border-dashed rounded-xl w-full h-48" />
+          </div>
+          <div class="md:w-2/3">
+            <div class="text-blue-400 text-sm uppercase mb-2">Cloud Security</div>
+            <h2 class="text-xl font-bold mb-2">Advanced Cloud Penetration Testing: SSRF & IMDS Exploitation</h2>
+            <p class="text-gray-400 mb-3">AWS Offensive Security Simulation</p>
+            <p class="text-gray-300">Performed environmental reconnaissance using "solus" credentials, leading to the discovery of "wrex" user credentials hidden in Lambda environment variables...</p>
+            <div class="mt-4 text-sm text-gray-500">NOVEMBER 28, 2024</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Post 3 -->
+      <a href="posts/multi-cloud-recovery.html" class="block post-card bg-[#121220] rounded-container p-6 mb-6 hover:bg-opacity-50 transition-all duration-300">
+        <div class="flex flex-col md:flex-row gap-6">
+          <div class="md:w-1/3">
+            <div class="bg-gray-200 border-2 border-dashed rounded-xl w-full h-48" />
+          </div>
+          <div class="md:w-2/3">
+            <div class="text-teal-400 text-sm uppercase mb-2">Incident Response</div>
+            <h2 class="text-xl font-bold mb-2">"Operation Broken Bridge": Multi-Cloud Infrastructure Recovery</h2>
+            <p class="text-gray-400 mb-3">GCP & AWS Incident Response</p>
+            <p class="text-gray-300">Used gcloud CLI to exfiltrate artifacts from Google Cloud Storage and deployed a hybrid backend (AWS CloudFormation) and frontend (GCP e2-micro VM)...</p>
+            <div class="mt-4 text-sm text-gray-500">OCTOBER 12, 2024</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Post 4 -->
+      <a href="posts/aws-breach-timeline.html" class="block post-card bg-[#121220] rounded-container p-6 mb-6 hover:bg-opacity-50 transition-all duration-300">
+        <div class="flex flex-col md:flex-row gap-6">
+          <div class="md:w-1/3">
+            <div class="bg-gray-200 border-2 border-dashed rounded-xl w-full h-48" />
+          </div>
+          <div class="md:w-2/3">
+            <div class="text-purple-400 text-sm uppercase mb-2">Digital Forensics</div>
+            <h2 class="text-xl font-bold mb-2">Digital Forensics: AWS Breach Timeline Reconstruction</h2>
+            <p class="text-gray-400 mb-3">DFIR & Log Analysis</p>
+            <p class="text-gray-300">Parsed raw CloudTrail logs using jq and regex to reconstruct a 48-minute breach timeline originating from a suspicious IP...</p>
+            <div class="mt-4 text-sm text-gray-500">SEPTEMBER 5, 2024</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Post 5 -->
+      <a href="posts/hipaa-risk-assessment.html" class="block post-card bg-[#121220] rounded-container p-6 mb-6 hover:bg-opacity-50 transition-all duration-300">
+        <div class="flex flex-col md:flex-row gap-6">
+          <div class="md:w-1/3">
+            <div class="bg-gray-200 border-2 border-dashed rounded-xl w-full h-48" />
+          </div>
+          <div class="md:w-2/3">
+            <div class="text-yellow-400 text-sm uppercase mb-2">Compliance</div>
+            <h2 class="text-xl font-bold mb-2">Cloud Compliance & HIPAA Risk Assessment</h2>
+            <p class="text-gray-400 mb-3">GRC & Infrastructure Auditing</p>
+            <p class="text-gray-300">Conducted a static analysis of AWS CloudFormation templates against HIPAA and CIS AWS Foundations Benchmarks...</p>
+            <div class="mt-4 text-sm text-gray-500">AUGUST 22, 2024</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Post 6 -->
+      <a href="posts/gittuf-research-project.html" class="block post-card bg-[#121220] rounded-container p-6 mb-6 hover:bg-opacity-50 transition-all duration-300">
+        <div class="flex flex-col md:flex-row gap-6">
+          <div class="md:w-1/3">
+            <div class="bg-gray-200 border-2 border-dashed rounded-xl w-full h-48" />
+          </div>
+          <div class="md:w-2/3">
+            <div class="text-green-400 text-sm uppercase mb-2">Research</div>
+            <h2 class="text-xl font-bold mb-2">NYU Research Internship: gittuf Supply Chain Security</h2>
+            <p class="text-gray-400 mb-3">Go & TUF Framework</p>
+            <p class="text-gray-300">Engineered a Go-based CLI wrapper to intercept Git operations and automated Supply Chain metadata management...</p>
+            <div class="mt-4 text-sm text-gray-500">JULY 15, 2024</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Post 7 -->
+      <a href="posts/hardware-security-research.html" class="block post-card bg-[#121220] rounded-container p-6 mb-6 hover:bg-opacity-50 transition-all duration-300">
+        <div class="flex flex-col md:flex-row gap-6">
+          <div class="md:w-1/3">
+            <div class="bg-gray-200 border-2 border-dashed rounded-xl w-full h-48" />
+          </div>
+          <div class="md:w-2/3">
+            <div class="text-orange-400 text-sm uppercase mb-2">Research</div>
+            <h2 class="text-xl font-bold mb-2">Hardware Security Research: PUFs & Authentication</h2>
+            <p class="text-gray-400 mb-3">IoT & Embedded Security</p>
+            <p class="text-gray-300">Designed lightweight authentication protocols using Physical Unclonable Functions for resource-constrained devices...</p>
+            <div class="mt-4 text-sm text-gray-500">JUNE 10, 2024</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Post 8 -->
+      <a href="posts/network-security-automation.html" class="block post-card bg-[#121220] rounded-container p-6 mb-6 hover:bg-opacity-50 transition-all duration-300">
+        <div class="flex flex-col md:flex-row gap-6">
+          <div class="md:w-1/3">
+            <div class="bg-gray-200 border-2 border-dashed rounded-xl w-full h-48" />
+          </div>
+          <div class="md:w-2/3">
+            <div class="text-red-400 text-sm uppercase mb-2">Development</div>
+            <h2 class="text-xl font-bold mb-2">Network Security Automation: Python & Django Tools</h2>
+            <p class="text-gray-400 mb-3">Security Orchestration</p>
+            <p class="text-gray-300">Developed automation tools for vulnerability scanning, network monitoring, and security reporting...</p>
+            <div class="mt-4 text-sm text-gray-500">MAY 20, 2024</div>
+          </div>
+        </div>
+      </a>
+    </main>
+  </div>
+
+  <footer class="bg-[#0f0f1d] border-t border-gray-800 py-8 mt-12">
+    <div class="container mx-auto px-4 text-center text-gray-500">
+      <p>&copy; 2025 Raghava Gatadi. All Rights Reserved.</p>
     </div>
-  </section>
-
-  <section class="max-w-6xl mx-auto py-16 px-6 grid md:grid-cols-3 gap-8 text-center">
-    <a href="./pages/projects.html" class="bg-blue-600 text-white rounded-lg p-10 hover:bg-blue-700 transition shadow-lg">
-      <h3 class="text-2xl font-bold mb-2">Projects</h3>
-      <p>Splunk Detection, Cloud Pentesting, and Security Tooling.</p>
-    </a>
-    <a href="./pages/certifications.html" class="bg-indigo-600 text-white rounded-lg p-10 hover:bg-indigo-700 transition shadow-lg">
-      <h3 class="text-2xl font-bold mb-2">Certifications</h3>
-      <p>CCSK v5, Cisco Networking, and Google Cyber Certs.</p>
-    </a>
-    <a href="./pages/contact.html" class="bg-gray-800 text-white rounded-lg p-10 hover:bg-gray-900 transition shadow-lg">
-      <h3 class="text-2xl font-bold mb-2">Contact</h3>
-      <p>Connect for research or professional opportunities.</p>
-    </a>
-  </section>
-
-  <footer class="bg-gray-900 text-gray-300 text-center py-6">
-    <p>&copy; 2025 Raghava Gatadi. All Rights Reserved.</p>
   </footer>
-  <script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+
+  <script>
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('theme-toggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      // In a real implementation, you would save the preference to localStorage
+    });
+    
+    // Search functionality placeholder
+    const searchBtn = document.getElementById('search-btn');
+    searchBtn.addEventListener('click', () => {
+      alert('Search functionality would be implemented here');
+    });
+  </script>
 </body>
 </html>
