@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Operation Broken Bridge: Multi-Cloud Security Deployment | Raghava Gatadi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #050505; color: #a3a3a3; }
+    .prose h2 { color: #ffffff; margin-top: 3rem; margin-bottom: 1rem; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.025em; }
+    .prose h3 { color: #e5e5e5; margin-top: 2rem; margin-bottom: 0.75rem; font-weight: 600; font-size: 1.25rem; }
+    .prose p { margin-bottom: 1.5rem; line-height: 1.8; font-size: 1.05rem; }
+    .prose strong { color: #fff; font-weight: 600; }
+    .prose ul { margin-bottom: 1.5rem; }
+    .prose li { margin-bottom: 0.75rem; padding-left: 0.5rem; }
+    .prose code { background: #1a1a1a; padding: 0.2rem 0.4rem; border-radius: 4px; font-family: 'JetBrains Mono', monospace; color: #818cf8; font-size: 0.9em; }
+    
+    .code-block { 
+        background: #0a0a0a; 
+        border: 1px solid #1a1a1a; 
+        padding: 1.5rem; 
+        border-radius: 0.75rem; 
+        overflow-x: auto; 
+        font-family: 'JetBrains Mono', monospace; 
+        font-size: 0.875rem; 
+        color: #a5b4fc; 
+        margin: 2rem 0;
+        line-height: 1.6;
+    }
+
+    .highlight-box { 
+        border-left: 4px solid #6366f1; 
+        background: #0f111a; 
+        padding: 1.5rem; 
+        border-radius: 0 0.75rem 0.75rem 0; 
+        margin: 2.5rem 0; 
+        color: #cbd5e1; 
+    }
+
+    .stat-card { 
+        background: #0a0a0a; 
+        border: 1px solid #1a1a1a; 
+        padding: 1.5rem; 
+        border-radius: 0.75rem; 
+        transition: border-color 0.3s ease;
+    }
+    .stat-card:hover { border-color: #6366f1; }
+
+    .security-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.5rem 0;
+        font-size: 0.875rem;
+    }
+    .security-table th {
+        text-align: left;
+        padding: 0.75rem 1rem;
+        background: #1a1a1a;
+        color: #fff;
+        font-weight: 600;
+        border-bottom: 1px solid #2a2a2a;
+    }
+    .security-table td {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #1a1a1a;
+        vertical-align: top;
+    }
+    .security-table tr:hover {
+        background: #0a0a0a;
+    }
+
+    .vulnerability-badge { 
+        display: inline-block;
+        background: #450a0a; 
+        color: #fca5a5; 
+        padding: 0.25rem 0.75rem; 
+        border-radius: 9999px; 
+        font-size: 0.75rem; 
+        font-family: 'JetBrains Mono', monospace; 
+        border: 1px solid #7f1d1d;
+    }
+
+    .solution-badge { 
+        display: inline-block;
+        background: #0f1a15; 
+        color: #86efac; 
+        padding:0.25rem 0.75rem; 
+        border-radius: 9999px; 
+        font-size: 0.75rem; 
+        font-family: 'JetBrains Mono', monospace; 
+        border: 1px solid #14532d;
+    }
+
+    .tech-tag { 
+        display: inline-block; 
+        background: #1e1b4b; 
+        color: #a5b4fc; 
+        padding: 0.25rem 0.75rem; 
+        border-radius: 9999px; 
+        font-size: 0.75rem; 
+        font-family: 'JetBrains Mono', monospace; 
+        margin: 0.25rem 0.25rem 0.25rem 0; 
+        border: 1px solid #3730a3;
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- Minimal Navigation -->
+  <nav class="border-b border-[#141414] sticky top-0 bg-[#050505]/80 backdrop-blur-md z-50">
+    <div class="max-w-3xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="../../index.html" class="text-sm font-bold text-white tracking-tighter hover:text-indigo-400 transition">&larr; Back to Writing</a>
+      <span class="text-xs font-mono text-gray-600 uppercase tracking-widest">Course Project // ENPM665</span>
+    </div>
+  </nav>
+
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    
+    <!-- Article Header -->
+    <header class="mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-8">
+        Operation Broken Bridge: Securing a Multi-Cloud Architecture
+      </h1>
+      <div class="flex flex-wrap gap-6 text-xs font-mono text-gray-500 uppercase tracking-widest">
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+            Cloud Security Operations
+        </div>
+        <span>October 2025</span>
+        <span>8 Min Read</span>
+      </div>
+    </header>
+
+    <!-- Executive Summary -->
+    <div class="highlight-box">
+        <p class="text-lg"><strong>Educational Project:</strong> This operation was conducted as part of <strong>ENPM665: Cloud Security</strong> at the University of Maryland. The mission involved deploying a multi-cloud architecture (AWS backend + GCP frontend) and performing a comprehensive security posture assessment to identify and remediate critical vulnerabilities.</p>
+    </div>
+
+    <!-- Article Content -->
+    <article class="prose text-gray-400">
+      <p>
+        Multi-cloud environments offer flexibility and resilience, but they also introduce complex security challenges. In "Operation Broken Bridge," I deployed a full-stack application across AWS and GCP, then conducted a forensic after-action report to identify configuration errors, networking gaps, and security posture improvements.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-10 text-center">
+        <div class="stat-card">
+            <div class="text-indigo-500 text-3xl font-bold">2</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Cloud Providers</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-indigo-500 text-3xl font-bold">3</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Security Domains</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-indigo-500 text-3xl font-bold">1</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Critical Config Error</div>
+        </div>
+      </div>
+
+      <h2>Mission Overview: The Architecture</h2>
+      <p>
+        The objective was to establish a secure communication bridge between a GCP compute instance (frontend) and an AWS RDS database (backend). The architecture required precise networking configuration, secret management, and identity controls.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
+        <div class="stat-card border-l-4 border-l-indigo-500">
+            <h4 class="text-white font-bold mb-2">🌐 GCP Frontend</h4>
+            <ul class="text-xs text-gray-500 space-y-1">
+                <li>• Compute Engine (e2-micro VM)</li>
+                <li>• Python Flask Application (Port 5000)</li>
+                <li>• Firewall Rule: Allow Personal IP (129.2.89.37/32)</li>
+                <li>• Virtual Environment (venv) for dependencies</li>
+            </ul>
+        </div>
+        <div class="stat-card border-l-4 border-l-indigo-500">
+            <h4 class="text-white font-bold mb-2">☁️ AWS Backend</h4>
+            <ul class="text-xs text-gray-500 space-y-1">
+                <li>• RDS PostgreSQL Instance</li>
+                <li>• CloudFormation Deployment (us-east-1)</li>
+                <li>• Security Group: Allow GCP VM Public IP (Port 5432)</li>
+                <li>• Static Credentials (Initial Setup)</li>
+            </ul>
+        </div>
+      </div>
+
+      <h2>After Action Report: What Went Well</h2>
+      <p>
+        Several critical phases of the deployment were executed successfully on the first attempt, demonstrating proficiency in cloud orchestration.
+      </p>
+
+      <ul>
+        <li><strong>Phase I & II Completion:</strong> Initial reconnaissance and AWS CloudFormation backend deployment in <code>us-east-1</code> were executed smoothly.</li>
+        <li><strong>GCP Deployment & Firewall:</strong> The e2-micro VM deployment and firewall configuration to allow personal IP access to Port 5000 were quickly resolved, validating application connectivity.</li>
+        <li><strong>Application Environment Setup:</strong> Successfully using Python Virtual Environment (<code>venv</code>) to install dependencies without affecting the host OS was a clean deployment practice.</li>
+      </ul>
+
+      <h2>The Challenge: The "Broken Bridge"</h2>
+      <p>
+        Despite successful infrastructure deployment, the mission encountered a critical configuration error that halted connectivity between the frontend and backend.
+      </p>
+
+      <div class="highlight-box" style="border-left-color: #ef4444; background: #1a0f0f;">
+        <h4 class="text-white font-bold mb-2">⚠️ The Environment Variable Mismatch</h4>
+        <p class="mb-2">The most significant time sink was a mismatch between the common convention (<code>DB_PASSWORD</code>) used in the <code>.env</code> file I created and the application's required variable name (<code>DB_PASS</code>).</p>
+        <p class="mb-0">This caused an authentication failure that presented as a <strong>"Connection Timed Out"</strong> error, delaying the diagnosis of the actual network issue. This highlights the importance of validating application requirements before infrastructure deployment.</p>
+      </div>
+
+      <h2>Networking Fix: Bridging the Gap</h2>
+      <p>
+        Beyond the application configuration, the network link required precise security group tuning. The AWS Security Group's Inbound Rules had to be adjusted to allow traffic from the GCP VM's Public IP on port <code>5432</code> (PostgreSQL).
+      </p>
+      <p>
+        This specific task—the Phase IV "Bridge Engineering" fix—was the critical point in the architecture and should have been validated immediately after resource creation.
+      </p>
+
+      <h2>Security Posture Assessment</h2>
+      <p>
+        Following the successful deployment, I conducted a security audit to identify vulnerabilities in the multi-cloud environment. The assessment focused on three key domains: Secrets Management, Network Architecture, and Identity.
+      </p>
+
+      <table class="security-table">
+        <thead>
+          <tr>
+            <th style="width: 25%">Security Domain</th>
+            <th style="width: 35%">Current Posture (Vulnerability)</th>
+            <th style="width: 40%">Proposed Enhancement</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Secrets Management</strong></td>
+            <td>
+                <span class="vulnerability-badge">High Risk</span><br><br>
+                Static, unencrypted password stored in a <code>.env</code> file on the VM's disk.
+            </td>
+            <td>
+                <span class="solution-badge">Zero Trust</span><br><br>
+                Store password in <strong>AWS Secrets Manager</strong>. GCP VM Service Account federated with AWS IAM to retrieve short-lived passwords at runtime.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Network Architecture</strong></td>
+            <td>
+                <span class="vulnerability-badge">Exposed</span><br><br>
+                GCP VM dashboard (Port 5000) and AWS RDS Security Group publicly accessible via whitelisted IPs.
+            </td>
+            <td>
+                <span class="solution-badge">Private</span><br><br>
+                Implement <strong>Zero-Trust via Private IPs and IAP</strong>. GCP VM in private subnet (no public IP). Access via GCP Identity-Aware Proxy.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Identity (DB Access)</strong></td>
+            <td>
+                <span class="vulnerability-badge">Static</span><br><br>
+                Connection uses traditional, long-lived username and password.
+            </td>
+            <td>
+                <span class="solution-badge">IAM Auth</span><br><br>
+                Implement <strong>IAM Database Authentication</strong>. GCP VM assumes federated role, authenticates with short-lived IAM token, eliminating static DB_PASS.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Lessons Learned & Future Improvements</h2>
+      <div class="space-y-6 my-8">
+        <div class="border-l-2 border-indigo-500 pl-6">
+            <h3 class="text-white font-bold mb-2">1. Source Code Pre-Review</h3>
+            <p class="mb-0">Before creating the <code>.env</code> file, I would explicitly examine the application source code to confirm exact environment variable names (<code>DB_HOST</code>, <code>DB_PASS</code>, etc.) to prevent single-character configuration errors.</p>
+        </div>
+        <div class="border-l-2 border-indigo-500 pl-6">
+            <h3 class="text-white font-bold mb-2">2. Strict Networking Focus</h3>
+            <p class="mb-0">I would make the network link fix—the AWS Security Group inbound rules—the first thing I do after initial AWS deployment. This is the critical point in the "Broken Bridge" architecture.</p>
+        </div>
+        <div class="border-l-2 border-indigo-500 pl-6">
+            <h3 class="text-white font-bold mb-2">3. Automate Deployment</h3>
+            <p class="mb-0">To minimize human error, I would utilize the VM's <strong>Startup Script</strong> capability in GCP to automate the entire Phase III deployment (installing dependencies, configuring <code>.env</code>, running the app).</p>
+        </div>
+      </div>
+
+      <h2>Conclusion</h2>
+      <p>
+        Operation Broken Bridge demonstrated the complexities of multi-cloud security. While the infrastructure was successfully deployed, the experience highlighted critical gaps in secrets management and network exposure. Moving from static credentials to federated IAM roles and from public IPs to Identity-Aware Proxy are essential steps for production-grade security.
+      </p>
+
+      <div class="tech-tag">AWS</div>
+      <div class="tech-tag">GCP</div>
+      <div class="tech-tag">CloudFormation</div>
+      <div class="tech-tag">PostgreSQL</div>
+      <div class="tech-tag">Security Groups</div>
+      <div class="tech-tag">IAM Federation</div>
+      <div class="tech-tag">Zero Trust</div>
+
+      <div class="highlight-box" style="border-left-color: #10b981; background: #0f1a15;">
+        <h4 class="text-white font-bold mb-2">📚 Educational Context</h4>
+        <p class="mb-0">This operation was completed as part of <strong>ENPM665: Cloud Security</strong> at the University of Maryland. The mission scenario was created for educational purposes to develop practical skills in multi-cloud deployment, network security, and security posture assessment.</p>
+      </div>
+
+    </article>
+
+    <!-- Footer / CTA -->
+    <footer class="mt-20 pt-12 border-t border-[#141414]">
+      
+      <div class="bg-[#0a0a0a] border border-[#1a1a1a] rounded-lg p-6 mb-12">
+        <h3 class="text-white font-bold mb-4">Project Details</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+            <div>
+                <div class="text-gray-500 mb-1">Course</div>
+                <div class="text-white font-semibold">ENPM665 - Cloud Security</div>
+            </div>
+            <div>
+                <div class="text-gray-500 mb-1">Institution</div>
+                <div class="text-white font-semibold">University of Maryland</div>
+            </div>
+            <div>
+                <div class="text-gray-500 mb-1">Assignment</div>
+                <div class="text-white font-semibold">Lab 5: Operation Broken Bridge</div>
+            </div>
+            <div>
+                <div class="text-gray-500 mb-1">Focus</div>
+                <div class="text-white font-semibold">Multi-Cloud Security</div>
+            </div>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <p class="text-sm text-gray-500 mb-8 font-mono">MISSION_COMPLETE // AFTER_ACTION_REPORT</p>
+        <div class="flex flex-col md:flex-row justify-center gap-4">
+          <a href="https://linkedin.com/in/raghava-gatadi" target="_blank" class="text-xs font-bold bg-white text-black px-8 py-3 rounded-lg hover:bg-gray-200 transition uppercase tracking-widest">
+              Connect on LinkedIn
+          </a>
+          <a href="https://github.com/Raghava-Gatadi" target="_blank" class="text-xs font-bold border border-[#222] text-white px-8 py-3 rounded-lg hover:bg-[#111] transition uppercase tracking-widest">
+              View on GitHub
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-[#141414] text-center text-xs text-gray-600">
+        <p>This project demonstrates practical skills in multi-cloud architecture, network security configuration, and security posture assessment developed through hands-on laboratory exercises.</p>
+      </div>
+    </footer>
+
+  </main>
+
+  <footer class="py-12 text-center text-gray-700 text-xs">
+    <p>&copy; 2026 Raghava Gatadi &middot; Educational Project - ENPM665</p>
+  </footer>
+
+</body>
+</html>
