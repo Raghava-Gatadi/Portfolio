@@ -27,25 +27,25 @@
 
 | Project | Description | Tech Stack | Read |
 |---------|-------------|------------|------|
-| **AWS Detection Engineering** | High-fidelity Splunk alerts for AWS threat detection using Invictus IR dataset | Splunk, AWS CloudTrail, MITRE ATT&CK | [Blog](./posts/aws-security-monitoring.html) |
-| **SSRF & IMDS Exploitation** | Vulnerability chain analysis: SSRF → credential theft → full compromise | AWS EC2, IMDSv2, IAM | [Blog](./posts/ec2-ssrf-imds.html) |
-| **Operation Broken Bridge** | Multi-cloud (AWS+GCP) security deployment & recovery | AWS, GCP, CloudFormation | [Blog](./posts/operation-broken-bridge.html) |
-| **AWS Breach Investigation** | Forensic reconstruction of a 48-minute cloud attack using CloudTrail | CloudTrail, IAM, S3 | [Blog](./posts/aws-breach-timeline.html) |
-| **HIPAA Compliance Audit** | Risk assessment of healthcare AWS infrastructure against CIS benchmarks | AWS, CIS Benchmark, HIPAA | [Blog](./posts/hipaa-compliance-audit.html) |
+| **AWS Detection Engineering** | High-fidelity Splunk alerts for AWS threat detection using Invictus IR dataset | Splunk, AWS CloudTrail, MITRE ATT&CK | [Blog](https://raghava-gatadi.github.io/Portfolio/posts/aws-security-monitoring.html) |
+| **SSRF & IMDS Exploitation** | Vulnerability chain analysis: SSRF → credential theft → full compromise | AWS EC2, IMDSv2, IAM | [Blog](https://raghava-gatadi.github.io/Portfolio/posts/ec2-ssrf-imds.html) |
+| **Operation Broken Bridge** | Multi-cloud (AWS+GCP) security deployment & recovery | AWS, GCP, CloudFormation | [Blog](https://raghava-gatadi.github.io/Portfolio/posts/operation-broken-bridge.html) |
+| **AWS Breach Investigation** | Forensic reconstruction of a 48-minute cloud attack using CloudTrail | CloudTrail, IAM, S3 | [Blog](https://raghava-gatadi.github.io/Portfolio/posts/aws-breach-timeline.html) |
+| **HIPAA Compliance Audit** | Risk assessment of healthcare AWS infrastructure against CIS benchmarks | AWS, CIS Benchmark, HIPAA | [Blog](https://raghava-gatadi.github.io/Portfolio/posts/hipaa-compliance-audit.html) |
 
 ### 🔐 Software Supply Chain & LLM Security
 
 | Project | Description | Tech Stack | Read |
 |---------|-------------|------------|------|
-| **gittuf-git Internship** | Git compatibility layer enforcing cryptographic trust policies (NYU Secure Systems Lab) | Go, TUF, Git Internals | [Blog](./posts/gittuf-research-project.html) |
-| **Gandalf Challenge** | Solved all 8 levels of Lakera's prompt injection security game | LLM Security, Adversarial Testing | [Blog](./posts/gandalf-prompt-injection.html) |
+| **gittuf-git Internship** | Git compatibility layer enforcing cryptographic trust policies (NYU Secure Systems Lab) | Go, TUF, Git Internals | [Blog](https://raghava-gatadi.github.io/Portfolio/posts/gittuf-research-project.html) |
+| **Gandalf Challenge** | Solved all 8 levels of Lakera's prompt injection security game | LLM Security, Adversarial Testing | [Blog](https://raghava-gatadi.github.io/Portfolio/posts/gandalf-prompt-injection.html) |
 
 ### 🤖 Research & Hardware Security
 
 | Project | Description | Tech Stack | Read |
 |---------|-------------|------------|------|
-| **IoT + Federated Learning** | Privacy-preserving intrusion detection using autoencoders & Flower framework | Python, TensorFlow, Flower | [Blog](./posts/iot-federated-learning.html) |
-| **PUF-Based Authentication** | Lightweight WiFi authentication protocol for resource-constrained IoT devices | Cryptography, Hardware Security | [Blog](./posts/puf-iot-authentication.html) |
+| **IoT + Federated Learning** | Privacy-preserving intrusion detection using autoencoders & Flower framework | Python, TensorFlow, Flower | [Blog](https://raghava-gatadi.github.io/Portfolio/posts/iot-federated-learning.html) |
+| **PUF-Based Authentication** | Lightweight WiFi authentication protocol for resource-constrained IoT devices | Cryptography, Hardware Security | [Blog](https://raghava-gatadi.github.io/Portfolio/posts/puf-iot-authentication.html) |
 
 ---
 
