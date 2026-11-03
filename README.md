@@ -1,91 +1,44 @@
-# 🔐 Raghava Gatadi | Cybersecurity Portfolio
+# Raghava Gatadi — Application Security Portfolio
 
-[![Live Portfolio](https://img.shields.io/badge/🌐_Live_Portfolio-Visit_Site-blue?style=for-the-badge)](https://raghava-gatadi.github.io/Portfolio/index.html)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/raghava-gatadi/)
-[![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=flat-square&logo=github)](https://github.com/Raghava-Gatadi)
-[![Email](https://img.shields.io/badge/Email-Contact-D14836?style=flat-square&logo=gmail)](mailto:raghava.gtd@gmail.com)
+[Live site](https://raghava-gatadi.github.io/Portfolio/)
 
-> **Cybersecurity Engineer** | Graduate Student @ University of Maryland  
-> *Specializing in Detection Engineering, Cloud Defense, and Hardware Security*
+A static, accessible portfolio focused on web and API security, source review, security automation, and software supply-chain contributions. Hosted at the existing GitHub Pages project URL.
 
----
+## Develop locally
 
-## 🚀 Quick Links
+No Node.js, package manager, build process, external fonts, or runtime CDN is required.
 
-| Resource | Link |
-|----------|------|
-| 🌐 **Live Portfolio** | [raghava-gatadi.github.io/Portfolio](https://raghava-gatadi.github.io/Portfolio/index.html) |
-| 📄 **Resume** | [Download PDF](./assets/Gatadi_Raghava.pdf) |
-| 💼 **Certifications** | [View Credentials](./pages/certifications.html) |
-| 📧 **Contact** | [Get in Touch](./pages/contact.html) |
+```sh
+python3 -m http.server 8765 --bind 127.0.0.1
+```
 
----
+Open `http://127.0.0.1:8765/`. Python 3.9+ serves the site; the checker requires Python 3.9+.
 
-## 📚 Featured Projects
+```sh
+python3 tools/check_site.py
+```
 
-### ☁️ Cloud Security & Detection Engineering
+The checker validates local links and fragments, assets, unique headings and IDs, metadata, sitemap coverage, and compatibility with the static CSP. The same check runs on pull requests and main-branch pushes. Browser checks should cover the homepage review steps, writing filters/search/empty results, native mobile menu, keyboard focus, and representative long-form articles.
 
-| Project | Description | Tech Stack | Read |
-|---------|-------------|------------|------|
-| **AWS Detection Engineering** | High-fidelity Splunk alerts for AWS threat detection using Invictus IR dataset | Splunk, AWS CloudTrail, MITRE ATT&CK | [Blog](https://raghava-gatadi.github.io/Portfolio/posts/aws-security-monitoring.html) |
-| **SSRF & IMDS Exploitation** | Vulnerability chain analysis: SSRF → credential theft → full compromise | AWS EC2, IMDSv2, IAM | [Blog](https://raghava-gatadi.github.io/Portfolio/posts/ec2-ssrf-imds.html) |
-| **Operation Broken Bridge** | Multi-cloud (AWS+GCP) security deployment & recovery | AWS, GCP, CloudFormation | [Blog](https://raghava-gatadi.github.io/Portfolio/posts/operation-broken-bridge.html) |
-| **AWS Breach Investigation** | Forensic reconstruction of a 48-minute cloud attack using CloudTrail | CloudTrail, IAM, S3 | [Blog](https://raghava-gatadi.github.io/Portfolio/posts/aws-breach-timeline.html) |
-| **HIPAA Compliance Audit** | Risk assessment of healthcare AWS infrastructure against CIS benchmarks | AWS, CIS Benchmark, HIPAA | [Blog](https://raghava-gatadi.github.io/Portfolio/posts/hipaa-compliance-audit.html) |
+## Structure
 
-### 🔐 Software Supply Chain & LLM Security
+- `index.html`: introduction, selected projects, experience, writing, about, and contact.
+- `assets/css/site.css`: shared design tokens, responsive layouts, article styles, reduced-motion and print styles.
+- `assets/js/site.js`: progressive enhancements for the review illustration, writing search/filtering, and mobile menu dismissal.
+- `pages/writing.html`: the full searchable archive. All notes remain visible when JavaScript is unavailable.
+- `pages/projects.html`, `pages/research.html`, `pages/certifications.html`, `pages/contact.html`: supporting pages.
+- `projects/appsec-assistant.html`: source-review tooling case study.
+- `posts/`: the 12 original article URLs, preserved with the shared design.
+- `sitemap.xml`, `.nojekyll`: GitHub Pages metadata.
 
-| Project | Description | Tech Stack | Read |
-|---------|-------------|------------|------|
-| **gittuf-git Internship** | Git compatibility layer enforcing cryptographic trust policies (NYU Secure Systems Lab) | Go, TUF, Git Internals | [Blog](https://raghava-gatadi.github.io/Portfolio/posts/gittuf-research-project.html) |
-| **Gandalf Challenge** | Solved all 8 levels of Lakera's prompt injection security game | LLM Security, Adversarial Testing | [Blog](https://raghava-gatadi.github.io/Portfolio/posts/gandalf-prompt-injection.html) |
+All site resources use relative paths so the `/Portfolio/` project prefix works. To add an article, copy an article shell, give it a unique title/description/canonical URL, add an archive row, and update `sitemap.xml`. Keep the shared header/footer consistent between pages. Verify claims and ownership before publication. Keep training, employment, research, and collaborative contributions distinct. Label illustrative code clearly.
 
-### 🤖 Research & Hardware Security
+The current site uses the existing public portrait, optimized as WebP. Social previews are local static artwork. Credential verification uses ordinary links to Credly, without embedded scripts or iframes. There are no analytics, tracking, forms, or third-party runtime requests.
 
-| Project | Description | Tech Stack | Read |
-|---------|-------------|------------|------|
-| **IoT + Federated Learning** | Privacy-preserving intrusion detection using autoencoders & Flower framework | Python, TensorFlow, Flower | [Blog](https://raghava-gatadi.github.io/Portfolio/posts/iot-federated-learning.html) |
-| **PUF-Based Authentication** | Lightweight WiFi authentication protocol for resource-constrained IoT devices | Cryptography, Hardware Security | [Blog](https://raghava-gatadi.github.io/Portfolio/posts/puf-iot-authentication.html) |
+## Resume
 
----
+The historical PDF is retained in the repository for continuity, but the site links to an email request for a current resume. The historical document contains outdated availability and retired metrics and should be replaced only after a current resume is reviewed. Do not restore its download link as-is.
 
-## 🏆 Certifications
+## Publishing
 
-<div align="center">
-
-| Certification | Issuer | Verify |
-|--------------|--------|--------|
-| **CCSK v5** | Cloud Security Alliance | [Credly](https://www.credly.com/badges/1aee528f-c99d-41df-a4ba-9e1a231920a5) |
-| **Google Cybersecurity** | Google / Coursera | [Credly](https://www.credly.com/badges/4923a6a6-0f18-44dd-9c30-597a1aecba25) |
-| **Cisco Network Support & Security** | Cisco Networking Academy | [Credly](https://www.credly.com/badges/be258806-7c36-4b91-acf6-3e48bb3e5851) |
-| **Cisco Networking Basics** | Cisco Networking Academy | [Credly](https://www.credly.com/badges/63a6c678-bf97-4f6b-aa78-e4e5779dd818) |
-
-</div>
-
----
-
-## 🛠️ Technical Skills
-
-```yaml
-Cloud Platforms:
-  - AWS (CloudTrail, IAM, EC2, S3, RDS, KMS, Lambda)
-  - GCP (Compute Engine, IAM, Firewall Rules)
-
-Security Tools:
-  - Splunk Enterprise (SPL, Detection Engineering)
-  - MITRE ATT&CK Framework
-  - CIS Benchmarks, HIPAA Compliance
-
-Programming & Scripting:
-  - Python (TensorFlow, Scikit-learn, Flower)
-  - Go (gittuf project)
-  - Bash, PowerShell
-
-ML & Research:
-  - Federated Learning, Autoencoders, CNNs
-  - Physically Unclonable Functions (PUFs)
-  - Adversarial ML, Prompt Injection
-
-DevSecOps:
-  - Git, GitHub Actions, CloudFormation
-  - TUF Framework, Supply Chain Security
+The site is ordinary static HTML and remains compatible with the repository’s existing GitHub Pages deployment. Serve the repository root from the selected Pages branch. No framework hosting, environment variables, secrets, or new service accounts are needed. Before merging, run the checker and inspect desktop/mobile layouts. A previous design remains recoverable in Git history.

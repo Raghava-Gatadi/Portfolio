@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en" id="top">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AppSec Assistant | Raghava Gatadi</title>
+<meta name="description" content="An offline Python source-security review tool: bounded same-file call-flow analysis, prioritized review queues, and evidence-rich reports.">
+<meta name="theme-color" content="#151715">
+<meta name="color-scheme" content="dark">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="canonical" href="https://raghava-gatadi.github.io/Portfolio/projects/appsec-assistant.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AppSec Assistant | Raghava Gatadi">
+<meta property="og:description" content="An offline Python source-security review tool: bounded same-file call-flow analysis, prioritized review queues, and evidence-rich reports.">
+<meta property="og:url" content="https://raghava-gatadi.github.io/Portfolio/projects/appsec-assistant.html">
+<meta property="og:image" content="https://raghava-gatadi.github.io/Portfolio/assets/social-preview.png">
+<meta property="og:image:alt" content="Raghava Gatadi — Application Security Engineer">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/site.css">
+<script src="../assets/js/site.js" defer>
+</script>
+</head>
+<body class="article-page"><a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="container nav-wrap">
+<a class="brand" href="../index.html" aria-label="Raghava Gatadi home"><span class="brand-mark" aria-hidden="true">rg<span>.</span></span><span class="brand-name">Raghava Gatadi</span></a>
+<nav class="desktop-nav" aria-label="Main navigation"><a href="../index.html#work" aria-current="page">Work</a><a href="../index.html#experience">Experience</a><a href="../pages/writing.html">Writing</a><a href="../index.html#about">About</a>
+</nav>
+<a class="nav-contact" href="../pages/contact.html">Let’s talk <span aria-hidden="true">↗</span></a>
+<details class="mobile-menu">
+<summary aria-label="Navigation menu"><span></span><span></span>
+</summary>
+<nav aria-label="Mobile navigation"><a href="../index.html#work" aria-current="page">Work</a><a href="../index.html#experience">Experience</a><a href="../pages/writing.html">Writing</a><a href="../index.html#about">About</a><a href="../pages/contact.html">Contact</a><a href="../pages/certifications.html">Credentials</a>
+</nav>
+</details>
+</div>
+</header>
+<main id="main" class="article-main container"><a class="back-link" href="../index.html#work">← Selected work</a>
+<header class="article-heading">
+<p class="eyebrow">Personal project / Source review tooling</p>
+<h1>AppSec Assistant</h1>
+<p class="article-deck">A better starting point for manual code review.</p>
+<div class="tags"><span>Python 3.11+</span><span>AST analysis</span><span>HTML / JSON / SARIF</span>
+</div><a class="button button-primary" href="https://github.com/Raghava-Gatadi/appsec-assistant">Explore the repository ↗</a>
+</header>
+<article class="prose">
+<h2>The problem</h2>
+<p>A source repository has far more code than an analyst can read at once. I built AppSec Assistant to map entry points, request inputs, sensitive APIs, and function scopes into a useful starting queue for manual review.</p>
+<p>The tool runs locally and offline, without runtime dependencies or external services. It analyzes target code without importing or executing it.</p>
+<h2>Follow the data, keep the evidence</h2>
+<p>The Python analyzer uses the abstract syntax tree to follow request input through bounded, same-file helper calls to sensitive operations. It tracks argument binding, helper return values, and selected mitigation patterns, while retaining an explanatory trace with the finding.</p>
+<div class="case-flow">
+<div><span class="mono">01</span><strong>Map the surface</strong>
+<p>Inputs, entry points, functions, and sensitive operations.</p>
+</div>
+<div><span class="mono">02</span><strong>Trace within limits</strong>
+<p>Same-file call flow, explicit budgets, and incompleteness signals.</p>
+</div>
+<div><span class="mono">03</span><strong>Prioritize review</strong>
+<p>Evidence, verification questions, and remediation context.</p>
+</div>
+</div>
+<h2>Built for an analyst, not an automatic verdict</h2>
+<p>Reports include searchable, self-contained HTML plus text, JSON, and SARIF outputs. Findings carry evidence, CWE mappings, remediation guidance, and verification questions. A deterministic triage rank supports reading order; it is not CVSS or an exploitability probability.</p>
+<p>The tool also includes approximate JavaScript/TypeScript checks and navigation maps for other backend languages. Dependency inventories describe packages; they do not perform vulnerability-advisory lookups.</p>
+<h2>Engineering choices</h2>
+<ul>
+<li>Explicit depth and work budgets: unsupported resolution and exhausted analysis can mark scans incomplete.</li>
+<li>Reasoned suppressions, stable fingerprints, and reviewed baselines for repeatable review workflows.</li>
+<li>Secret values and raw source snippets are omitted from reports; report metadata is escaped.</li>
+<li>Target files are analyzed statically, with exclusions for generated and vendored code.</li>
+</ul>
+<h2>Validation and honest boundaries</h2>
+<p>The v0.2.0 release record documents 110 passing local unit tests and a published 28-case synthetic Python call-flow evaluation. The evaluation separates development and reserved cases and records misses and false positives. Those results are specific to the fixtures; they do not establish production-scale accuracy or performance.</p>
+<p>Python helper analysis is bounded and same-file. Cross-file resolution, general object dispatch, callbacks, and general sanitizer correctness are outside the model. JavaScript/TypeScript analysis is approximate. Every finding still needs manual validation.</p>
+<div class="highlight-box"><strong>What I want the tool to do:</strong> help an analyst decide where to look next, understand why a path deserves attention, and carry useful evidence into the review.</div><a class="evidence-link" href="https://github.com/Raghava-Gatadi/appsec-assistant">Source, documentation, release notes, and evaluation artifacts ↗</a>
+</article>
+<div class="article-end"><a class="text-link" href="../pages/contact.html">Talk about the project ↗</a>
+</div>
+</main>
+<footer class="site-footer">
+<div class="container footer-main"><a class="footer-name" href="../index.html">Raghava Gatadi<span>Application security &amp; security engineering</span></a>
+<div class="footer-links"><a href="https://github.com/Raghava-Gatadi">GitHub <span aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/raghava-gatadi/">LinkedIn <span aria-hidden="true">↗</span></a><a href="../pages/certifications.html">Credentials <span aria-hidden="true">↗</span></a><a href="mailto:raghava.gtd@gmail.com">Email <span aria-hidden="true">↗</span></a>
+</div>
+</div>
+<div class="container footer-bottom"><span>© 2026 Raghava Gatadi</span><span>Built with care. Hosted on GitHub Pages.</span><a href="#top">Back to top ↑</a>
+</div>
+</footer>
+</body>
+</html>
