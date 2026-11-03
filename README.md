@@ -33,9 +33,11 @@ The checker validates local links and fragments, assets, unique headings and IDs
 
 All site resources use relative paths so the `/Portfolio/` project prefix works. To add an article, copy an article shell, give it a unique title/description/canonical URL, add an archive row, and update `sitemap.xml`. Keep the shared header/footer consistent between pages. Verify claims and ownership before publication. Keep training, employment, research, and collaborative contributions distinct. Label illustrative code clearly.
 
-The current site uses the existing public portrait, optimized as WebP. Social previews are local static artwork. Credential verification uses ordinary links to Credly, without embedded scripts or iframes. There are no analytics, tracking, forms, or third-party runtime requests.
+The current site uses the user-provided portrait, cropped and optimized as WebP. Social previews are local static artwork. Credential verification uses ordinary links to Credly, without embedded scripts or iframes. There are no analytics, tracking, forms, or third-party runtime requests.
 
 ## Resume
+
+Contact links open a pre-addressed Gmail compose screen in a new tab; the resume-request link also fills the subject. The address remains visible for visitors who use another email service.
 
 The historical PDF is retained in the repository for continuity, but the site links to an email request for a current resume. The historical document contains outdated availability and retired metrics and should be replaced only after a current resume is reviewed. Do not restore its download link as-is.
 

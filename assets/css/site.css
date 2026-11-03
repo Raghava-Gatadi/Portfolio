@@ -777,8 +777,9 @@ p {
   width:100%;
   aspect-ratio:4/5;
   object-fit:cover;
+  object-position:50% 20%;
   border-radius:3px;
-  filter:saturate(.7);
+  filter:saturate(.9);
   border:1px solid var(--line);
 }
 .photo-caption {
