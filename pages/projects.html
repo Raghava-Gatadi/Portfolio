@@ -1,159 +1,178 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" id="top">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Projects | Raghava Gatadi</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>html { scroll-behavior: smooth; }</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects | Raghava Gatadi</title>
+<meta name="description" content="AppSec tooling, open-source software supply-chain contributions, cloud investigations, and security research.">
+<meta name="theme-color" content="#151715">
+<meta name="color-scheme" content="dark">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="canonical" href="https://raghava-gatadi.github.io/Portfolio/pages/projects.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Projects | Raghava Gatadi">
+<meta property="og:description" content="AppSec tooling, open-source software supply-chain contributions, cloud investigations, and security research.">
+<meta property="og:url" content="https://raghava-gatadi.github.io/Portfolio/pages/projects.html">
+<meta property="og:image" content="https://raghava-gatadi.github.io/Portfolio/assets/social-preview.png">
+<meta property="og:image:alt" content="Raghava Gatadi — Application Security Engineer">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/site.css">
+<script src="../assets/js/site.js" defer>
+</script>
 </head>
-<body class="bg-gray-50 text-gray-900">
-  <!-- Navbar -->
-  <nav class="bg-gray-900 text-white p-4 flex justify-between items-center fixed top-0 left-0 w-full z-50 shadow-md">
-    <a href="../index.html" class="text-2xl font-bold">Raghava Gatadi</a>
-    <div class="space-x-6">
-      <a href="../index.html" class="hover:text-blue-400">Home</a>
-      <a href="projects.html" class="hover:text-blue-400 text-blue-400 font-semibold border-b-2 border-blue-400">Projects</a>
-      <a href="research.html" class="hover:text-blue-400">Research</a>
-      <a href="certifications.html" class="hover:text-blue-400">Certificates</a>
-      <a href="contact.html" class="hover:text-blue-400">Contact</a>
-    </div>
-  </nav>
-
-  <section class="pt-28 max-w-5xl mx-auto px-6 mb-20">
-    
-    <!-- SECTION 1: CLOUD SECURITY (Previous Projects) -->
-    <h2 class="text-4xl font-bold mb-8 border-b-4 border-blue-500 w-fit">Cloud Security Course Projects</h2>
-    <div class="space-y-12">
-      <!-- Add this to the TOP of the Cloud Security section in projects.html -->
-
-<div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-indigo-600 mb-12">
-  <div class="flex justify-between items-start flex-wrap gap-4">
-    <h3 class="text-2xl font-bold text-gray-800">AWS Security Monitoring & Threat Detection Portfolio</h3>
-    <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Detection Engineering</span>
-  </div>
-  <p class="text-gray-600 italic mb-4">Splunk Enterprise | AWS CloudTrail | MITRE ATT&CK Mapping</p>
-  
-  <div class="space-y-4 text-gray-700">
-    <p>Designed and implemented a full-cycle detection strategy using the <strong>Invictus IR Red Team dataset</strong>. I developed custom logic to distinguish between automated scanning tools and legitimate administrative activity within AWS.</p>
-    
-    <ul class="list-disc ml-5 space-y-2">
-      <li><strong>Detection Logic Development:</strong> Wrote 6 custom <strong>SPL (Search Processing Language)</strong> rules utilizing statistical thresholding (<code>stats dc()</code>) and time-binning to identify the AWS Kill Chain.</li>
-      <li><strong>MITRE Mapping:</strong> Aligned all detection coverage to the MITRE ATT&CK Cloud Matrix, specifically targeting Reconnaissance (TA0043) through Data Destruction (TA0040).</li>
-      <li><strong>Advanced Tuning:</strong> Implemented <code>eval severity=case()</code> logic to grade alerts dynamically based on failed privilege escalation spikes and suspicious <code>AssumeRole</code> patterns.</li>
-      <li><strong>High-Fidelity Rules Developed:</strong>
-        <ul class="list-circle ml-8 mt-2 space-y-1 text-sm text-gray-600">
-          <li><strong>API Reconnaissance Spike:</strong> Detects automated enumeration via distinct call volume.</li>
-          <li><strong>SSM Parameter Enumeration:</strong> Identifies bulk credential theft from Systems Manager.</li>
-          <li><strong>Failed Privilege Escalation:</strong> Monitors AccessDenied spikes with dynamic grading.</li>
-          <li><strong>CloudTrail Tampering:</strong> Immediate alerts for <code>StopLogging</code> or <code>DeleteTrail</code> events.</li>
-          <li><strong>Lateral Movement:</strong> Detects "Role Chaining" and anomalous <code>AssumeRole</code> chains.</li>
-          <li><strong>Mass Destruction:</strong> Correlates bulk resource deletion with security log disabling.</li>
-        </ul>
-      </li>
-    </ul>
-    <div class="mt-4 flex gap-4">
-      <a href="https://github.com/Raghava-Gatadi/aws-detection-engineering-splunk" target="_blank" class="text-blue-600 hover:underline font-semibold font-mono text-sm">View Detection Logic on GitHub →</a>
-    </div>
-  </div>
+<body class=""><a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="container nav-wrap">
+<a class="brand" href="../index.html" aria-label="Raghava Gatadi home"><span class="brand-mark" aria-hidden="true">rg<span>.</span></span><span class="brand-name">Raghava Gatadi</span></a>
+<nav class="desktop-nav" aria-label="Main navigation"><a href="../index.html#work" aria-current="page">Work</a><a href="../index.html#experience">Experience</a><a href="../pages/writing.html">Writing</a><a href="../index.html#about">About</a>
+</nav>
+<a class="nav-contact" href="../pages/contact.html">Let’s talk <span aria-hidden="true">↗</span></a>
+<details class="mobile-menu">
+<summary aria-label="Navigation menu"><span></span><span></span>
+</summary>
+<nav aria-label="Mobile navigation"><a href="../index.html#work" aria-current="page">Work</a><a href="../index.html#experience">Experience</a><a href="../pages/writing.html">Writing</a><a href="../index.html#about">About</a><a href="../pages/contact.html">Contact</a><a href="../pages/certifications.html">Credentials</a>
+</nav>
+</details>
 </div>
-      <!-- Cloud Project 1 -->
-      <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-blue-600">
-        <h3 class="text-2xl font-bold text-gray-800">Advanced Cloud Penetration Testing: SSRF & IMDS Exploitation</h3>
-        <p class="text-gray-600 italic mb-4">AWS Offensive Security Simulation</p>
-        <ul class="list-disc ml-5 space-y-2 text-gray-700">
-          <li><strong>Discovery:</strong> Performed environmental reconnaissance using "solus" credentials, leading to the discovery of "wrex" user credentials hidden in Lambda environment variables.</li>
-          <li><strong>SSRF Exploitation:</strong> Exploited a Server-Side Request Forgery vulnerability in a web app to query <strong>IMDSv1</strong> and exfiltrate EC2 IAM role credentials.</li>
-          <li><strong>Lateral Movement:</strong> Utilized stolen role credentials to retrieve sensitive keys from an S3 bucket, ultimately capturing the mission flag via a high-value Lambda function.</li>
-          <li><strong>Remediation:</strong> Authored a post-mortem identifying <strong>IMDSv2 enforcement</strong> as the primary defense to neutralize credential theft.</li>
-        </ul>
-        <a href="../assets/EC2_SSRF&IMDS.pdf" rel="noopener noreferrer" target="_blank" class="inline-block mt-2 text-blue-600 hover:underline font-semibold">View Report →</a>
-      </div>
-
-      <!-- Cloud Project 2 -->
-      <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-blue-600">
-        <h3 class="text-2xl font-bold text-gray-800">"Operation Broken Bridge": Multi-Cloud Infrastructure Recovery</h3>
-        <p class="text-gray-600 italic mb-4">GCP & AWS Incident Response</p>
-        <ul class="list-disc ml-5 space-y-2 text-gray-700">
-          <li><strong>Deployment:</strong> Used gcloud CLI to exfiltrate artifacts from Google Cloud Storage and deployed a hybrid backend (AWS CloudFormation) and frontend (GCP e2-micro VM).</li>
-          <li><strong>Troubleshooting:</strong> Identified connectivity failures caused by environment variable naming mismatches (DB_PASS vs DB_PASSWORD) and misconfigured AWS Security Groups.</li>
-          <li><strong>Infrastructure Remediation:</strong> Re-engineered AWS Security Group ingress rules to allow PostgreSQL traffic specifically from the GCP VM’s public IP.</li>
-          <li><strong>Strategic Enhancement:</strong> Proposed a Zero-Trust migration using <strong>Google Identity-Aware Proxy (IAP)</strong> and AWS Secrets Manager.</li>
-        </ul>
-        <a href="../assets/Operation_Broken_Bridge.pdf" rel="noopener noreferrer" target="_blank" class="inline-block mt-2 text-blue-600 hover:underline font-semibold">View Report →</a>
-      </div>
-
-      <!-- Cloud Project 3 -->
-      <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-blue-600">
-        <h3 class="text-2xl font-bold text-gray-800">Digital Forensics: AWS Breach Timeline Reconstruction</h3>
-        <p class="text-gray-600 italic mb-4">DFIR & Log Analysis</p>
-        <ul class="list-disc ml-5 space-y-2 text-gray-700">
-          <li><strong>Timeline Analysis:</strong> Parsed raw <strong>CloudTrail logs</strong> using <code>jq</code> and regex to reconstruct a 48-minute breach timeline originating from a suspicious IP.</li>
-          <li><strong>Privilege Escalation:</strong> Identified an unauthorized <code>sts:AssumeRole</code> call that allowed an attacker to move from a low-privilege user to an "AdminRole."</li>
-          <li><strong>Exfiltration:</strong> Documented the unauthorized access of sensitive S3 data recovery buckets.</li>
-          <li><strong>Defense:</strong> Recommended mandatory MFA for role assumptions and automated CloudWatch alerting for AccessDenied spikes.</li>
-        </ul>
-        <a href="../assets/AWS_Breach_Timeline_Reconstruction.pdf" rel="noopener noreferrer" target="_blank" class="inline-block mt-2 text-blue-600 hover:underline font-semibold">View Report →</a>
-      </div>
-
-      <!-- Cloud Project 4 -->
-      <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-blue-600">
-        <h3 class="text-2xl font-bold text-gray-800">Cloud Compliance & HIPAA Risk Assessment</h3>
-        <p class="text-gray-600 italic mb-4">GRC & Infrastructure Auditing</p>
-        <ul class="list-disc ml-5 space-y-2 text-gray-700">
-          <li><strong>Audit:</strong> Conducted a static analysis of AWS CloudFormation templates against <strong>HIPAA</strong> and <strong>CIS AWS Foundations Benchmarks</strong>.</li>
-          <li><strong>Gap Identification:</strong> Identified 14 non-compliant controls, including unencrypted RDS/EBS volumes and over-privileged IAM wildcards.</li>
-          <li><strong>Regulatory Mapping:</strong> Linked technical failures to HIPAA technical safeguards, specifically highlighting the risk of PHI disclosure via IMDSv1 vulnerabilities.</li>
-          <li><strong>Roadmap:</strong> Developed remediation steps including KMS key rotation and enforcing HTTPS-only transport for S3.</li>
-        </ul>
-        <a href="../assets/HIPAA_Risk_Assessment.pdf" rel="noopener noreferrer" target="_blank" class="inline-block mt-2 text-blue-600 hover:underline font-semibold">View Report →</a>
-      </div>
-    </div>
-
-    <h2 class="text-4xl font-bold mt-8 mb-6 border-b-4 border-orange-500 w-fit">Security Tooling & Cryptography</h2>
-    <div class="space-y-12 mb-20">
-
-      <!-- Project: AES Socket Programming -->
-      <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-orange-500">
-        <h3 class="text-2xl font-bold text-gray-800">AES Encrypted Socket Communication</h3>
-        <p class="text-gray-600 italic mb-4">Network Security | Cryptography | Python</p>
-        <ul class="list-disc ml-5 space-y-2 text-gray-700">
-          <li><strong>Cross-Platform Secure Tunnel:</strong> Established an encrypted communication channel between different operating systems (macOS and Windows) using Python socket programming.</li>
-          <li><strong>Flexible Encryption:</strong> Implemented <strong>AES (Advanced Encryption Standard)</strong> supporting 128, 192, and 256-bit key lengths for high-assurance data transit.</li>
-          <li><strong>Dynamic Key Management:</strong> Developed a custom key-exchange mechanism using delimiters (<code>~</code>) to allow users to rotate or update session keys dynamically within the message stream.</li>
-        </ul>
-        <a href="https://github.com/Raghava-Gatadi/cybersecurity/tree/master/AES-in-socket-programming" rel="noopener noreferrer" target="_blank" class="inline-block mt-2 text-blue-600 hover:underline font-semibold">View Source Code on GitHub →</a>
-      </div>
-
-      <!-- Project: Django Network Scanner -->
-      <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-orange-500">
-        <h3 class="text-2xl font-bold text-gray-800">Django-Based Network & Port Scanner</h3>
-        <p class="text-gray-600 italic mb-4">Full-Stack Development | Network Forensics</p>
-        <ul class="list-disc ml-5 space-y-2 text-gray-700">
-          <li><strong>Web Interface:</strong> Built a user-friendly Django dashboard to manage and visualize network scans in real-time.</li>
-          <li><strong>Asset Identification:</strong> Automated the discovery of active systems on the network, displaying critical metadata including <strong>IP addresses, MAC addresses, and vendor identification</strong>.</li>
-          <li><strong>Vulnerability Assessment:</strong> Integrated an automated port scanner to identify open services and potential entry points on connected systems.</li>
-        </ul>
-        <a href="https://github.com/Raghava-Gatadi/cybersecurity/tree/master/Network_Scanner" rel="noopener noreferrer" target="_blank" class="inline-block mt-2 text-blue-600 hover:underline font-semibold">View Source Code on GitHub →</a>
-      </div>
-
-      <!-- Project: Password Manager -->
-      <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-orange-500">
-        <h3 class="text-2xl font-bold text-gray-800">CLI Password Vault & Database Manager</h3>
-        <p class="text-gray-600 italic mb-4">Python | MySQL | Secure Storage</p>
-        <ul class="list-disc ml-5 space-y-2 text-gray-700">
-          <li><strong>Backend Integration:</strong> Developed a Python CLI tool connected to a <strong>MySQL</strong> workbench for robust, persistent storage of sensitive credentials.</li>
-          <li><strong>Command-Line Interface:</strong> Designed an efficient command-line workflow for adding, searching, and retrieving entries using specific switches for site names, URLs, and usernames.</li>
-          <li><strong>Master Authentication:</strong> Secured the database with a master password requirement for all CRUD (Create, Read, Update, Delete) operations.</li>
-        </ul>
-        <a href="https://github.com/Raghava-Gatadi/cybersecurity/tree/master/password_manager" rel="noopener noreferrer" target="_blank" class="inline-block mt-2 text-blue-600 hover:underline font-semibold">View Source Code on GitHub →</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-gray-900 text-gray-300 text-center py-6">
-    <p>&copy; 2025 Raghava Gatadi. All Rights Reserved.</p>
-  </footer>
+</header>
+<main id="main" tabindex="-1" class="container page-main">
+<div class="page-heading">
+<p class="eyebrow">Tools, contributions &amp; investigations</p>
+<h1>Built to<br><span>understand.</span>
+</h1>
+<p>A closer look at the tooling I build and the security problems I work through.</p>
+</div>
+<section class="project-page-content">
+<article class="project-feature">
+<div class="project-copy">
+<p class="eyebrow">01 / Developer tooling</p>
+<h3>AppSec Assistant<span>A better starting point for code review.</span>
+</h3>
+<p>An offline source-review tool that turns entry points, request inputs, and sensitive operations into a prioritized queue for manual analysis.</p>
+<ul class="project-facts">
+<li>Bounded, same-file Python call-flow analysis</li>
+<li>Evidence and trace explanations for analyst review</li>
+<li>Self-contained HTML, JSON, and SARIF reports</li>
+</ul>
+<div class="tags"><span>Python AST</span><span>Static analysis</span><span>SARIF</span>
+</div>
+<div class="project-links"><a class="text-link" href="../projects/appsec-assistant.html">Inside the project ↗</a><a href="https://github.com/Raghava-Gatadi/appsec-assistant">Source code ↗</a>
+</div>
+</div>
+<div class="analysis-visual" aria-label="AppSec Assistant workflow: source code, bounded analysis, review queue">
+<div class="visual-topline"><span class="eyebrow">From code to context</span><span class="mono">LOCAL / OFFLINE</span>
+</div>
+<div class="flow-node"><span class="node-icon" aria-hidden="true">{ }</span>
+<div><span class="mono">01 — Map</span><strong>Source &amp; entry points</strong>
+<p>Understand the application surface</p>
+</div>
+</div>
+<div class="flow-connector" aria-hidden="true">↓</div>
+<div class="flow-node active"><span class="node-icon" aria-hidden="true">⌁</span>
+<div><span class="mono">02 — Trace</span><strong>Input → helpers → sink</strong>
+<p>Keep the evidence with the finding</p>
+</div>
+</div>
+<div class="flow-connector" aria-hidden="true">↓</div>
+<div class="flow-node"><span class="node-icon" aria-hidden="true">≡</span>
+<div><span class="mono">03 — Review</span><strong>A prioritized reading queue</strong>
+<p>Manual validation stays essential</p>
+</div>
+</div>
+</div>
+</article>
+<div class="project-pair">
+<article class="project-small">
+<div class="project-top"><span class="eyebrow">02 / Practical automation</span><span aria-hidden="true">↗</span>
+</div>
+<h3>Small tools.<br>Repeatable checks.</h3>
+<p>Python utilities for HTTP/TLS configuration, secret scanning, dependency advisories, DNS checks, and sensitive-file exposure triage.</p>
+<div class="tags"><span>Python</span><span>HTTP / TLS</span><span>OSV</span>
+</div><a class="text-link" href="https://github.com/Raghava-Gatadi/automation-scripts">Explore automation-scripts ↗</a>
+<p class="scope-note">Heuristic checks and review candidates; findings need validation.</p>
+</article>
+<article class="project-small">
+<div class="project-top"><span class="eyebrow">03 / Open-source contribution</span><span aria-hidden="true">↗</span>
+</div>
+<h3>Trust in the<br>Git workflow.</h3>
+<p>Collaborative contributions to gittuf: a Go command-compatibility layer, signed-commit testing, and a Windows display-test fix.</p>
+<div class="tags"><span>Go</span><span>Git</span><span>Supply chain</span>
+</div><a class="text-link" href="../posts/gittuf-research-project.html">Read the contribution notes ↗</a>
+<p class="scope-note">NYU Secure Systems Lab internship and subsequent upstream work.</p>
+</article>
+</div>
+</section>
+<section class="section">
+<div class="section-heading">
+<h2>Cloud labs &amp; research</h2>
+</div>
+<article class="writing-row">
+<div class="writing-meta"><span class="eyebrow">Cloud security</span><span>Jan 2026</span>
+</div><a href="../posts/aws-security-monitoring.html">
+<div>
+<h3>Detecting an AWS attack with CloudTrail</h3>
+<p>Six Splunk detections and a reconstructed attack timeline using the Invictus IR red-team dataset.</p>
+</div><span class="row-arrow" aria-hidden="true">↗</span></a>
+</article>
+<article class="writing-row">
+<div class="writing-meta"><span class="eyebrow">Cloud security</span><span>Dec 2025</span>
+</div><a href="../posts/aws-breach-timeline.html">
+<div>
+<h3>AWS Breach Investigation: Reconstructing a 48-Minute Attack</h3>
+<p>Forensic reconstruction of a simulated AWS breach using CloudTrail logs, tracing attacker movement from compromised credentials to S3 data exfiltration.</p>
+</div><span class="row-arrow" aria-hidden="true">↗</span></a>
+</article>
+<article class="writing-row">
+<div class="writing-meta"><span class="eyebrow">Cloud security</span><span>Nov 2025</span>
+</div><a href="../posts/hipaa-compliance-audit.html">
+<div>
+<h3>Reviewing cloud infrastructure for risk</h3>
+<p>A course audit of AWS infrastructure templates, with HIPAA and CIS control gaps and remediation recommendations.</p>
+</div><span class="row-arrow" aria-hidden="true">↗</span></a>
+</article>
+<article class="writing-row">
+<div class="writing-meta"><span class="eyebrow">Cloud security</span><span>Oct 2025</span>
+</div><a href="../posts/operation-broken-bridge.html">
+<div>
+<h3>Operation Broken Bridge</h3>
+<p>A multi-cloud exercise in connectivity troubleshooting, IAM review, and a proposed zero-trust redesign.</p>
+</div><span class="row-arrow" aria-hidden="true">↗</span></a>
+</article>
+<article class="writing-row">
+<div class="writing-meta"><span class="eyebrow">Cloud security</span><span>Sep 2025</span>
+</div><a href="../posts/ec2-ssrf-imds.html">
+<div>
+<h3>When an application bug reaches the cloud</h3>
+<p>A CloudGoat lab tracing SSRF through EC2 metadata, IAM credentials, S3, and Lambda, followed by log-based investigation.</p>
+</div><span class="row-arrow" aria-hidden="true">↗</span></a>
+</article>
+<article class="writing-row">
+<div class="writing-meta"><span class="eyebrow">Research</span><span>May 2025</span>
+</div><a href="../posts/iot-federated-learning.html">
+<div>
+<h3>Securing IoT Networks with Federated Learning &amp; Autoencoders</h3>
+<p>Research combining autoencoder-based anomaly detection with federated learning for privacy-preserving IoT intrusion detection, including adversarial robustness analysis.</p>
+</div><span class="row-arrow" aria-hidden="true">↗</span></a>
+</article>
+<article class="writing-row">
+<div class="writing-meta"><span class="eyebrow">Research</span><span>Dec 2024</span>
+</div><a href="../posts/puf-iot-authentication.html">
+<div>
+<h3>PUF-Based Lightweight Authentication for IoT WiFi Networks</h3>
+<p>Designing a lightweight authentication protocol using Physically Unclonable Functions (PUFs) to secure resource-constrained IoT devices against MAC spoofing and replay attacks.</p>
+</div><span class="row-arrow" aria-hidden="true">↗</span></a>
+</article>
+</section>
+</main>
+<footer class="site-footer">
+<div class="container footer-main"><a class="footer-name" href="../index.html">Raghava Gatadi<span>Application security &amp; security engineering</span></a>
+<div class="footer-links"><a href="https://github.com/Raghava-Gatadi">GitHub <span aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/raghava-gatadi/">LinkedIn <span aria-hidden="true">↗</span></a><a href="../pages/certifications.html">Credentials <span aria-hidden="true">↗</span></a><a href="mailto:raghava.gtd@gmail.com">Email <span aria-hidden="true">↗</span></a>
+</div>
+</div>
+<div class="container footer-bottom"><span>© 2026 Raghava Gatadi</span><span>Built with care. Hosted on GitHub Pages.</span><a href="#top">Back to top ↑</a>
+</div>
+</footer>
 </body>
 </html>

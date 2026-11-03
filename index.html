@@ -1,295 +1,273 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" id="top">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Raghava Gatadi | Security Engineer</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', sans-serif; background-color: #0A0A0A; }
-    .glass-card { background: #0a0a0a; border: 1px solid #1a1a1a; }
-    .post-card { border-bottom: 1px solid #141414; transition: all 0.2s ease; }
-    .post-card:hover { border-color: #3b82f6; transform: translateX(4px); }
-    .category-tag { 
-        display: inline-block; 
-        background: #1e1b4b; 
-        color: #a5b4fc; 
-        padding: 0.15rem 0.5rem; 
-        border-radius: 9999px; 
-        font-size: 0.65rem; 
-        font-family: 'Inter', sans-serif; 
-        margin-right: 0.25rem; 
-        border: 1px solid #3730a3;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Application Security Engineer | Raghava Gatadi</title>
+<meta name="description" content="Raghava Gatadi — application security, web and API testing, source code review, Python tooling, and software supply-chain security.">
+<meta name="theme-color" content="#151715">
+<meta name="color-scheme" content="dark">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="canonical" href="https://raghava-gatadi.github.io/Portfolio/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Application Security Engineer | Raghava Gatadi">
+<meta property="og:description" content="Raghava Gatadi — application security, web and API testing, source code review, Python tooling, and software supply-chain security.">
+<meta property="og:url" content="https://raghava-gatadi.github.io/Portfolio/index.html">
+<meta property="og:image" content="https://raghava-gatadi.github.io/Portfolio/assets/social-preview.png">
+<meta property="og:image:alt" content="Raghava Gatadi — Application Security Engineer">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="assets/js/site.js" defer>
+</script>
 </head>
-<body class="text-gray-300 min-h-screen antialiased">
-
-  <!-- Minimal Navigation -->
-  <header class="border-b border-[#141414] sticky top-0 bg-[#050505]/80 backdrop-blur-md z-50">
-    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-      <a href="index.html" class="text-lg font-bold text-white tracking-tighter">Raghava Gatadi</a>
-      <nav class="flex items-center space-x-8 text-sm font-medium">
-        <a href="index.html" class="text-white">Writing</a>
-        <a href="pages/certifications.html" class="hover:text-blue-400 transition">Certifications</a>
-        <a href="pages/contact.html" class="hover:text-blue-400 transition">Contact</a>
-      </nav>
-    </div>
-  </header>
-
-  <div class="max-w-6xl mx-auto px-6 py-12 flex flex-col md:flex-row gap-16">
-    
-    <!-- Profile Sidebar -->
-    <aside class="md:w-72 shrink-0">
-      <div class="sticky top-28 flex flex-col items-center text-center">
-        <div class="mb-6">
-          <img src="./assets/IMG_1784.jpeg" alt="Raghava Gatadi" class="h-40 rounded-2xl object-cover border border-[#222]">
-        </div>
-        <h2 class="text-xl font-bold text-white mb-1">Raghava Gatadi</h2>
-        <p class="text-blue-500 text-sm font-medium mb-4">Cybersecurity Engineer</p>
-        <p class="text-gray-500 text-sm leading-relaxed mb-6">
-          Graduate student at the University of Maryland. Specializing in Detection Engineering and Cloud Defense.
-        </p>
-        
-        <div class="space-y-4 w-full">
-          <a href="../assets/Gatadi_Raghava.pdf" class="flex items-center justify-center w-full py-2 bg-white text-black text-xs font-bold rounded-lg hover:bg-gray-200 transition">
-            DOWNLOAD RESUME
-          </a>
-          <div class="flex justify-center gap-4 pt-2">
-            <a href="https://github.com/Raghava-Gatadi" class="text-gray-500 hover:text-white transition">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-            </a>
-            <a href="https://www.linkedin.com/in/raghava-gatadi/" class="text-gray-500 hover:text-white transition">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-            </a>
-          </div>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Main Content - Blog Feed -->
-    <main class="flex-1">
-      <div class="mb-12">
-        <h2 class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-8">Selected Writing</h2>
-        
-        <div class="space-y-2">
-
-          <!-- Post: Access Control Vulnerabilities -->
-          <article class="post-card group py-6">
-            <a href="posts/access-control-vulnerabilities.html" class="flex flex-col md:flex-row md:items-baseline justify-between">
-              <div>
-                <h3 class="text-lg font-bold text-white group-hover:text-blue-400 transition mb-1">Access Control Vulnerabilities Deep Dive: From IDOR to Privilege Escalation</h3>
-                <div class="mb-2">
-                  <span class="category-tag">Web Security</span>
-                  <span class="category-tag">PortSwigger</span>
-                  <span class="category-tag">Access Control</span>
-                  <span class="category-tag">IDOR</span>
-                </div>
-                <p class="text-gray-400 text-sm leading-relaxed max-w-xl">Comprehensive analysis of access control vulnerabilities including vertical/horizontal privilege escalation, IDOR, parameter manipulation, platform misconfigurations, and multi-step process bypasses with practical exploitation techniques.</p>
-              </div>
-              <span class="text-xs font-mono text-gray-600 mt-2 md:mt-0 uppercase">MAR 2026</span>
-            </a>
-          </article>
-
-          <!-- Post: SQL Injection Vulnerabilities -->
-          <article class="post-card group py-6">
-            <a href="posts/sql-injection-vulnerabilities.html" class="flex flex-col md:flex-row md:items-baseline justify-between">
-              <div>
-                <h3 class="text-lg font-bold text-white group-hover:text-blue-400 transition mb-1">SQL Injection Vulnerabilities Deep Dive: From UNION Attacks to Blind Exploitation</h3>
-                <div class="mb-2">
-                  <span class="category-tag">Web Security</span>
-                  <span class="category-tag">PortSwigger</span>
-                  <span class="category-tag">SQL Injection</span>
-                  <span class="category-tag">Database Security</span>
-                </div>
-                <p class="text-gray-400 text-sm leading-relaxed max-w-xl">Comprehensive analysis of SQL injection vulnerabilities including UNION-based attacks, blind SQLi (conditional responses, errors, time delays), error-based exploitation, database enumeration, and filter bypass techniques with practical Python examples.</p>
-              </div>
-              <span class="text-xs font-mono text-gray-600 mt-2 md:mt-0 uppercase">MAR 2026</span>
-            </a>
-          </article>
-
-          <!-- Post: Authentication Vulnerabilities -->
-          <article class="post-card group py-6">
-            <a href="posts/authentication-vulnerabilities.html" class="flex flex-col md:flex-row md:items-baseline justify-between">
-              <div>
-                <h3 class="text-lg font-bold text-white group-hover:text-blue-400 transition mb-1">Authentication Vulnerabilities Deep Dive: From Enumeration to 2FA Bypass</h3>
-                <div class="mb-2">
-                  <span class="category-tag">Web Security</span>
-                  <span class="category-tag">PortSwigger</span>
-                  <span class="category-tag">Python</span>
-                  <span class="category-tag">Penetration Testing</span>
-                </div>
-                <p class="text-gray-400 text-sm leading-relaxed max-w-xl">Comprehensive analysis of authentication vulnerabilities including username enumeration, brute-force bypasses, 2FA logic flaws, password reset poisoning, and session management weaknesses with practical exploitation techniques.</p>
-              </div>
-              <span class="text-xs font-mono text-gray-600 mt-2 md:mt-0 uppercase">MAR 2026</span>
-            </a>
-          </article>
-
-          <!-- Post 1: Gandalf Prompt Injection -->
-          <article class="post-card group py-6">
-            <a href="posts/gandalf-prompt-injection.html" class="flex flex-col md:flex-row md:items-baseline justify-between">
-              <div>
-                <h3 class="text-lg font-bold text-white group-hover:text-blue-400 transition mb-1">Breaking Gandalf: Solving Lakera's Prompt Injection Challenge</h3>
-                <div class="mb-2">
-                  <span class="category-tag">LLM Security</span>
-                  <span class="category-tag">Prompt Injection</span>
-                  <span class="category-tag">Adversarial Testing</span>
-                  <span class="category-tag">AI Red Teaming</span>
-                </div>
-                <p class="text-gray-400 text-sm leading-relaxed max-w-xl">A walkthrough of solving all 8 levels of Lakera's Gandalf challenge, exploring escalating LLM defenses and creative bypass techniques for prompt injection attacks.</p>
-              </div>
-              <span class="text-xs font-mono text-gray-600 mt-2 md:mt-0 uppercase">Feb 2026</span>
-            </a>
-          </article>
-
-          <!-- Post 2: AWS Detection Engineering -->
-          <article class="post-card group py-6">
-            <a href="posts/aws-security-monitoring.html" class="flex flex-col md:flex-row md:items-baseline justify-between">
-              <div>
-                <h3 class="text-lg font-bold text-white group-hover:text-blue-400 transition mb-1">Engineering High-Fidelity Splunk Alerts for AWS Threat Detection</h3>
-                <div class="mb-2">
-                  <span class="category-tag">Splunk</span>
-                  <span class="category-tag">AWS CloudTrail</span>
-                  <span class="category-tag">MITRE ATT&CK</span>
-                  <span class="category-tag">Detection Engineering</span>
-                </div>
-                <p class="text-gray-400 text-sm leading-relaxed max-w-xl">Designing behavioral detection rules in Splunk Enterprise to identify multi-stage cloud breaches across the AWS Kill Chain using the Invictus IR dataset.</p>
-              </div>
-              <span class="text-xs font-mono text-gray-600 mt-2 md:mt-0 uppercase">Jan 2026</span>
-            </a>
-          </article>
-
-          <!-- Post 3: gittuf Internship -->
-          <article class="post-card group py-6">
-            <a href="posts/gittuf-research-project.html" class="flex flex-col md:flex-row md:items-baseline justify-between">
-              <div>
-                <h3 class="text-lg font-bold text-white group-hover:text-blue-400 transition mb-1">Building gittuf-git: Cryptographic Trust for Git Workflows</h3>
-                <div class="mb-2">
-                  <span class="category-tag">NYU Secure Systems Lab</span>
-                  <span class="category-tag">Go</span>
-                  <span class="category-tag">TUF Framework</span>
-                  <span class="category-tag">Supply Chain Security</span>
-                </div>
-                <p class="text-gray-400 text-sm leading-relaxed max-w-xl">Internship project building a Git compatibility layer that enforces cryptographic verification and trust policies for software supply chain security.</p>
-              </div>
-              <span class="text-xs font-mono text-gray-600 mt-2 md:mt-0 uppercase">Summer 2024</span>
-            </a>
-          </article>
-
-          <!-- Post 4: AWS Breach Timeline -->
-          <article class="post-card group py-6">
-            <a href="posts/aws-breach-timeline.html" class="flex flex-col md:flex-row md:items-baseline justify-between">
-              <div>
-                <h3 class="text-lg font-bold text-white group-hover:text-blue-400 transition mb-1">AWS Breach Investigation: Reconstructing a 48-Minute Attack</h3>
-                <div class="mb-2">
-                  <span class="category-tag">Cloud Forensics</span>
-                  <span class="category-tag">ENPM665</span>
-                  <span class="category-tag">CloudTrail</span>
-                  <span class="category-tag">Incident Response</span>
-                </div>
-                <p class="text-gray-400 text-sm leading-relaxed max-w-xl">Forensic reconstruction of a simulated AWS breach using CloudTrail logs, tracing attacker movement from compromised credentials to S3 data exfiltration.</p>
-              </div>
-              <span class="text-xs font-mono text-gray-600 mt-2 md:mt-0 uppercase">DEC 2025</span>
-            </a>
-          </article>
-
-          <!-- Post 5: HIPAA Compliance Audit -->
-          <article class="post-card group py-6">
-            <a href="posts/hipaa-compliance-audit.html" class="flex flex-col md:flex-row md:items-baseline justify-between">
-              <div>
-                <h3 class="text-lg font-bold text-white group-hover:text-blue-400 transition mb-1">HIPAA Cloud Compliance Audit: Securing Healthcare Data in AWS</h3>
-                <div class="mb-2">
-                  <span class="category-tag">Compliance</span>
-                  <span class="category-tag">ENPM665</span>
-                  <span class="category-tag">CIS Benchmark</span>
-                  <span class="category-tag">Risk Assessment</span>
-                </div>
-                <p class="text-gray-400 text-sm leading-relaxed max-w-xl">Comprehensive HIPAA risk assessment of a healthcare provider's AWS CloudFormation template, identifying 14 non-compliant controls and providing actionable remediations.</p>
-              </div>
-              <span class="text-xs font-mono text-gray-600 mt-2 md:mt-0 uppercase">NOV 2025</span>
-            </a>
-          </article>
-
-          <!-- Post 6: Operation Broken Bridge -->
-          <article class="post-card group py-6">
-            <a href="posts/operation-broken-bridge.html" class="flex flex-col md:flex-row md:items-baseline justify-between">
-              <div>
-                <h3 class="text-lg font-bold text-white group-hover:text-blue-400 transition mb-1">Operation Broken Bridge: Securing a Multi-Cloud Architecture</h3>
-                <div class="mb-2">
-                  <span class="category-tag">Multi-Cloud</span>
-                  <span class="category-tag">ENPM665</span>
-                  <span class="category-tag">AWS</span>
-                  <span class="category-tag">GCP</span>
-                </div>
-                <p class="text-gray-400 text-sm leading-relaxed max-w-xl">Deploying and securing a hybrid AWS-GCP application, diagnosing configuration errors, and implementing zero-trust recommendations for cross-cloud connectivity.</p>
-              </div>
-              <span class="text-xs font-mono text-gray-600 mt-2 md:mt-0 uppercase">OCT 2025</span>
-            </a>
-          </article>
-
-          <!-- Post 7: EC2 SSRF & IMDS -->
-          <article class="post-card group py-6">
-            <a href="posts/ec2-ssrf-imds.html" class="flex flex-col md:flex-row md:items-baseline justify-between">
-              <div>
-                <h3 class="text-lg font-bold text-white group-hover:text-blue-400 transition mb-1">EC2 SSRF & IMDS Vulnerability Chain: From Web App to Full Compromise</h3>
-                <div class="mb-2">
-                  <span class="category-tag">Offensive Security</span>
-                  <span class="category-tag">ENPM665</span>
-                  <span class="category-tag">SSRF</span>
-                  <span class="category-tag">IMDSv2</span>
-                </div>
-                <p class="text-gray-400 text-sm leading-relaxed max-w-xl">Analyzing a critical vulnerability chain where SSRF exploitation leads to IMDS credential theft, lateral movement via S3, and full Lambda function compromise.</p>
-              </div>
-              <span class="text-xs font-mono text-gray-600 mt-2 md:mt-0 uppercase">SEP 2025</span>
-            </a>
-          </article>
-
-          <!-- Post 8: IoT + Federated Learning -->
-          <article class="post-card group py-6">
-            <a href="posts/iot-federated-learning.html" class="flex flex-col md:flex-row md:items-baseline justify-between">
-              <div>
-                <h3 class="text-lg font-bold text-white group-hover:text-blue-400 transition mb-1">Securing IoT Networks with Federated Learning & Autoencoders</h3>
-                <div class="mb-2">
-                  <span class="category-tag">Undergrad Major Project</span>
-                  <span class="category-tag">Machine Learning</span>
-                  <span class="category-tag">Flower Framework</span>
-                  <span class="category-tag">IoT Security</span>
-                </div>
-                <p class="text-gray-400 text-sm leading-relaxed max-w-xl">Research combining autoencoder-based anomaly detection with federated learning for privacy-preserving IoT intrusion detection, including adversarial robustness analysis.</p>
-              </div>
-              <span class="text-xs font-mono text-gray-600 mt-2 md:mt-0 uppercase">MAY 2025</span>
-            </a>
-          </article>
-
-          <!-- Post 9: PUF Authentication -->
-          <article class="post-card group py-6">
-            <a href="posts/puf-iot-authentication.html" class="flex flex-col md:flex-row md:items-baseline justify-between">
-              <div>
-                <h3 class="text-lg font-bold text-white group-hover:text-blue-400 transition mb-1">PUF-Based Lightweight Authentication for IoT WiFi Networks</h3>
-                <div class="mb-2">
-                  <span class="category-tag">Undergrad Minor Project</span>
-                  <span class="category-tag">Hardware Security</span>
-                  <span class="category-tag">Cryptography</span>
-                  <span class="category-tag">IoT</span>
-                </div>
-                <p class="text-gray-400 text-sm leading-relaxed max-w-xl">Designing a lightweight authentication protocol using Physically Unclonable Functions (PUFs) to secure resource-constrained IoT devices against MAC spoofing and replay attacks.</p>
-              </div>
-              <span class="text-xs font-mono text-gray-600 mt-2 md:mt-0 uppercase">DEC 2024</span>
-            </a>
-          </article>
-
-        </div>
-      </div>
-    </main>
-  </div>
-
-  <footer class="border-t border-[#141414] py-12 mt-12">
-    <div class="max-w-6xl mx-auto px-6 text-gray-600 text-xs flex justify-between">
-      <p>&copy; 2026 Raghava Gatadi</p>
-      <p class="font-mono">SECURED_TRANSIT_ESTABLISHED</p>
-    </div>
-  </footer>
-
+<body class=""><a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="container nav-wrap">
+<a class="brand" href="index.html" aria-label="Raghava Gatadi home"><span class="brand-mark" aria-hidden="true">rg<span>.</span></span><span class="brand-name">Raghava Gatadi</span></a>
+<nav class="desktop-nav" aria-label="Main navigation"><a href="index.html#work">Work</a><a href="index.html#experience">Experience</a><a href="pages/writing.html">Writing</a><a href="index.html#about">About</a>
+</nav>
+<a class="nav-contact" href="pages/contact.html">Let’s talk <span aria-hidden="true">↗</span></a>
+<details class="mobile-menu">
+<summary aria-label="Navigation menu"><span></span><span></span>
+</summary>
+<nav aria-label="Mobile navigation"><a href="index.html#work">Work</a><a href="index.html#experience">Experience</a><a href="pages/writing.html">Writing</a><a href="index.html#about">About</a><a href="pages/contact.html">Contact</a><a href="pages/certifications.html">Credentials</a>
+</nav>
+</details>
+</div>
+</header>
+<main id="main" tabindex="-1">
+<section class="hero container" aria-labelledby="hero-title">
+<div class="hero-copy">
+<p class="eyebrow hero-kicker"><span class="status-dot"></span> Application Security Engineer</p>
+<h1 id="hero-title">Understand<br>the code.<br><span>Find the risk.</span>
+</h1>
+<p class="hero-description">I test web applications and APIs, trace vulnerabilities through source code, and build tools that make security review more useful.</p>
+<div class="hero-actions"><a class="button button-primary" href="#work">Explore my work <span aria-hidden="true">↓</span></a><a class="text-link" href="pages/contact.html">Get in touch <span aria-hidden="true">↗</span></a>
+</div>
+<p class="hero-location">College Park, MD <span aria-hidden="true">/</span> M.Eng. Cybersecurity @ UMD</p>
+</div>
+<div class="review-window" aria-label="Interactive illustration of a source code review">
+<div class="window-bar"><span><span class="tiny-square"></span> A CLOSER LOOK</span><span class="mono">review.py</span>
+</div>
+<div class="review-intro"><span class="eyebrow">How I approach a review</span>
+<h2>Follow the input.<br>Question the trust.</h2>
+</div>
+<div class="trace-controls" role="group" aria-label="Explore the review steps"><button type="button" data-trace="input" aria-pressed="true"><span>01</span> Input</button><button type="button" data-trace="boundary" aria-pressed="false"><span>02</span> Boundary</button><button type="button" data-trace="fix" aria-pressed="false"><span>03</span> Fix</button>
+</div>
+<div class="trace-panel" id="trace-input" data-trace-panel="input">
+<div class="code-caption">REQUEST → APPLICATION</div><pre class="review-code"><code><span class="line-no">01</span> <span class="syntax-dim"># Start with user-controlled data</span>
+<span class="line-no">02</span> account_id = request.args[<span class="syntax-lime">"id"</span>]
+<span class="line-no">03</span>
+<span class="line-no">04</span> <span class="syntax-dim"># Follow it beyond the route</span>
+<span class="line-no">05</span> <span class="code-focus">account = load_account(account_id)</span></code></pre><p class="trace-note"><span class="note-marker">01</span> Where does untrusted input enter, and what can it reach?</p>
+</div>
+<div class="trace-panel" id="trace-boundary" data-trace-panel="boundary">
+<div class="code-caption">IDENTITY → AUTHORIZATION</div><pre class="review-code"><code><span class="line-no">01</span> <span class="syntax-dim"># A valid session is only the start</span>
+<span class="line-no">02</span> user = current_user()
+<span class="line-no">03</span> account = load_account(account_id)
+<span class="line-no">04</span>
+<span class="line-no">05</span> <span class="code-focus">can_read(user, account)?</span></code></pre><p class="trace-note"><span class="note-marker">02</span> Can this user access this object? Check the server-side decision.</p>
+</div>
+<div class="trace-panel" id="trace-fix" data-trace-panel="fix">
+<div class="code-caption">REMEDIATION → RETEST</div><pre class="review-code"><code><span class="line-no">01</span> <span class="syntax-dim"># Enforce the object-level policy</span>
+<span class="line-no">02</span> <span class="syntax-lime">if not</span> can_read(user, account):
+<span class="line-no">03</span>     deny_access()
+<span class="line-no">04</span>
+<span class="line-no">05</span> <span class="code-focus">retest_owner_and_other_user()</span></code></pre><p class="trace-note"><span class="note-marker">03</span> Explain the root cause, then verify the fix and neighboring paths.</p>
+</div>
+<div class="window-foot"><span class="status-dot"></span> Illustrative pseudocode · not a live scan</div>
+</div>
+</section>
+<div class="focus-strip">
+<div class="container"><span class="eyebrow">My focus</span><span>Web &amp; API security</span><span>Source code review</span><span>Security automation</span><span>Software supply chain</span>
+</div>
+</div>
+<section class="section container" id="work">
+<div class="section-heading">
+<div>
+<p class="eyebrow"><span>01</span> Selected work</p>
+<h2>Security work, made concrete.</h2>
+</div><a class="text-link" href="pages/projects.html">All projects ↗</a>
+</div>
+<article class="project-feature">
+<div class="project-copy">
+<p class="eyebrow">01 / Developer tooling</p>
+<h3>AppSec Assistant<span>A better starting point for code review.</span>
+</h3>
+<p>An offline source-review tool that turns entry points, request inputs, and sensitive operations into a prioritized queue for manual analysis.</p>
+<ul class="project-facts">
+<li>Bounded, same-file Python call-flow analysis</li>
+<li>Evidence and trace explanations for analyst review</li>
+<li>Self-contained HTML, JSON, and SARIF reports</li>
+</ul>
+<div class="tags"><span>Python AST</span><span>Static analysis</span><span>SARIF</span>
+</div>
+<div class="project-links"><a class="text-link" href="projects/appsec-assistant.html">Inside the project ↗</a><a href="https://github.com/Raghava-Gatadi/appsec-assistant">Source code ↗</a>
+</div>
+</div>
+<div class="analysis-visual" aria-label="AppSec Assistant workflow: source code, bounded analysis, review queue">
+<div class="visual-topline"><span class="eyebrow">From code to context</span><span class="mono">LOCAL / OFFLINE</span>
+</div>
+<div class="flow-node"><span class="node-icon" aria-hidden="true">{ }</span>
+<div><span class="mono">01 — Map</span><strong>Source &amp; entry points</strong>
+<p>Understand the application surface</p>
+</div>
+</div>
+<div class="flow-connector" aria-hidden="true">↓</div>
+<div class="flow-node active"><span class="node-icon" aria-hidden="true">⌁</span>
+<div><span class="mono">02 — Trace</span><strong>Input → helpers → sink</strong>
+<p>Keep the evidence with the finding</p>
+</div>
+</div>
+<div class="flow-connector" aria-hidden="true">↓</div>
+<div class="flow-node"><span class="node-icon" aria-hidden="true">≡</span>
+<div><span class="mono">03 — Review</span><strong>A prioritized reading queue</strong>
+<p>Manual validation stays essential</p>
+</div>
+</div>
+</div>
+</article>
+<div class="project-pair">
+<article class="project-small">
+<div class="project-top"><span class="eyebrow">02 / Practical automation</span><span aria-hidden="true">↗</span>
+</div>
+<h3>Small tools.<br>Repeatable checks.</h3>
+<p>Python utilities for HTTP/TLS configuration, secret scanning, dependency advisories, DNS checks, and sensitive-file exposure triage.</p>
+<div class="tags"><span>Python</span><span>HTTP / TLS</span><span>OSV</span>
+</div><a class="text-link" href="https://github.com/Raghava-Gatadi/automation-scripts">Explore automation-scripts ↗</a>
+<p class="scope-note">Heuristic checks and review candidates; findings need validation.</p>
+</article>
+<article class="project-small">
+<div class="project-top"><span class="eyebrow">03 / Open-source contribution</span><span aria-hidden="true">↗</span>
+</div>
+<h3>Trust in the<br>Git workflow.</h3>
+<p>Collaborative contributions to gittuf: a Go command-compatibility layer, signed-commit testing, and a Windows display-test fix.</p>
+<div class="tags"><span>Go</span><span>Git</span><span>Supply chain</span>
+</div><a class="text-link" href="posts/gittuf-research-project.html">Read the contribution notes ↗</a>
+<p class="scope-note">NYU Secure Systems Lab internship and subsequent upstream work.</p>
+</article>
+</div>
+</section>
+<section class="experience-section" id="experience">
+<div class="section container">
+<div class="section-heading">
+<div>
+<p class="eyebrow"><span>02</span> Experience</p>
+<h2>From finding to verified fix.</h2>
+</div>
+</div>
+<div class="experience-row">
+<div class="experience-date">JAN — AUG 2025<span>Internship</span>
+</div>
+<div class="experience-title">
+<h3>Application Security Intern</h3>
+<p>CypherEdge Pvt. Ltd.</p>
+</div>
+<div class="experience-detail">
+<p>Tested web applications and REST APIs, reviewed source code, and worked with developers to make findings actionable.</p>
+<ul>
+<li>Validated authentication, access-control, and input-validation weaknesses with Burp Suite and manual testing.</li>
+<li>Documented reproducible evidence and remediation guidance; retested developer fixes.</li>
+<li>Used Semgrep, dependency review, secret scanning, and Python automation to support assessments.</li>
+</ul>
+</div>
+</div>
+<div class="experience-row">
+<div class="experience-date">MAY — AUG 2024<span>Internship</span>
+</div>
+<div class="experience-title">
+<h3>Security Engineering Intern</h3>
+<p>NYU · Secure Systems Lab</p>
+</div>
+<div class="experience-detail">
+<p>Contributed to gittuf, an open-source project bringing security policies and verifiable metadata to Git workflows.</p>
+<ul>
+<li>Co-developed command routing for clone, push, pull, and fetch in the Go compatibility layer.</li>
+<li>Integrated existing gittuf APIs for Reference State Log recording and metadata synchronization.</li>
+<li>Contributed signed-commit testing and a Windows display-output fix through later merged upstream work.</li>
+</ul><a class="text-link" href="posts/gittuf-research-project.html">View merged contributions ↗</a>
+</div>
+</div>
+</div>
+</section>
+<section class="section container" id="writing">
+<div class="section-heading">
+<div>
+<p class="eyebrow"><span>03</span> Field notes</p>
+<h2>Write it down. Understand it better.</h2>
+</div><a class="text-link" href="pages/writing.html">All writing ↗</a>
+</div>
+<div class="writing-list">
+<article class="writing-row">
+<div class="writing-meta"><span class="eyebrow">Application security</span><span>Mar 2026</span>
+</div><a href="posts/access-control-vulnerabilities.html">
+<div>
+<h3>Access control: beyond the login screen</h3>
+<p>Lab notes on IDOR, horizontal and vertical privilege escalation, and testing authorization at the server.</p>
+</div><span class="row-arrow" aria-hidden="true">↗</span></a>
+</article>
+<article class="writing-row">
+<div class="writing-meta"><span class="eyebrow">Application security</span><span>Mar 2026</span>
+</div><a href="posts/sql-injection-vulnerabilities.html">
+<div>
+<h3>SQL injection: from input to query</h3>
+<p>UNION, Boolean and time-based techniques, database enumeration, and the defenses that separate data from query structure.</p>
+</div><span class="row-arrow" aria-hidden="true">↗</span></a>
+</article>
+<article class="writing-row">
+<div class="writing-meta"><span class="eyebrow">Application security</span><span>Mar 2026</span>
+</div><a href="posts/authentication-vulnerabilities.html">
+<div>
+<h3>Where authentication breaks</h3>
+<p>Enumeration, password resets, session handling, and multi-factor logic explored through web security labs.</p>
+</div><span class="row-arrow" aria-hidden="true">↗</span></a>
+</article>
+</div>
+</section>
+<section class="section about-section container" id="about">
+<div class="about-photo"><img src="assets/portrait.webp" alt="Raghava Gatadi" width="480" height="600" loading="lazy"><span class="photo-caption mono">Raghava Gatadi / College Park, MD</span>
+</div>
+<div class="about-copy">
+<p class="eyebrow"><span>04</span> Behind the work</p>
+<h2>Curious about how<br>systems break.<br><span>Careful about why.</span>
+</h2>
+<p>I’m Raghava, a cybersecurity graduate student at the University of Maryland. My focus is application security: understanding how data, identity, and trust move through an application.</p>
+<p>My work spans hands-on web and API testing, source-code analysis, Python tooling, and open-source software supply-chain security. I value clear evidence, useful explanations, and fixes that hold up to retesting.</p>
+<div class="education">
+<div><span class="mono">EXPECTED MAY 2027</span>
+<h3>M.Eng. Cybersecurity</h3>
+<p>University of Maryland, College Park · Expected May 2027</p>
+</div>
+<div><span class="mono">COMPLETED JUL 2025</span>
+<h3>B.Tech. Computer Science &amp; Engineering</h3>
+<p>IIIT Dharwad</p>
+</div>
+</div>
+<div class="credential-line"><span>CCSK v5</span><span>OSWE preparation · In progress</span><a href="pages/certifications.html">View credentials ↗</a>
+</div>
+</div>
+</section>
+<section class="contact-band">
+<div class="container">
+<div>
+<p class="eyebrow"><span class="status-dot"></span> Open to full-time roles · Summer 2027</p>
+<h2>Let’s build something<br>worth trusting.</h2>
+</div>
+<div>
+<p>AppSec opportunities, open-source work,<br>or a good security problem.</p><a class="button button-primary" href="mailto:raghava.gtd@gmail.com">Say hello ↗</a><a class="contact-email" href="mailto:raghava.gtd@gmail.com">raghava.gtd@gmail.com</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<div class="container footer-main"><a class="footer-name" href="index.html">Raghava Gatadi<span>Application security &amp; security engineering</span></a>
+<div class="footer-links"><a href="https://github.com/Raghava-Gatadi">GitHub <span aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/raghava-gatadi/">LinkedIn <span aria-hidden="true">↗</span></a><a href="pages/certifications.html">Credentials <span aria-hidden="true">↗</span></a><a href="mailto:raghava.gtd@gmail.com">Email <span aria-hidden="true">↗</span></a>
+</div>
+</div>
+<div class="container footer-bottom"><span>© 2026 Raghava Gatadi</span><span>Built with care. Hosted on GitHub Pages.</span><a href="#top">Back to top ↑</a>
+</div>
+</footer>
 </body>
 </html>

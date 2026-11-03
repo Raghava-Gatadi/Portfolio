@@ -1,75 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" id="top">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Research | Raghava Gatadi</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research | Raghava Gatadi</title>
+<meta name="description" content="Raghava Gatadi’s undergraduate research on federated learning for IoT security and PUF-based authentication.">
+<meta name="theme-color" content="#151715">
+<meta name="color-scheme" content="dark">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="canonical" href="https://raghava-gatadi.github.io/Portfolio/pages/research.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Research | Raghava Gatadi">
+<meta property="og:description" content="Raghava Gatadi’s undergraduate research on federated learning for IoT security and PUF-based authentication.">
+<meta property="og:url" content="https://raghava-gatadi.github.io/Portfolio/pages/research.html">
+<meta property="og:image" content="https://raghava-gatadi.github.io/Portfolio/assets/social-preview.png">
+<meta property="og:image:alt" content="Raghava Gatadi — Application Security Engineer">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/site.css">
+<script src="../assets/js/site.js" defer>
+</script>
 </head>
-<body class="bg-gray-50 text-gray-900">
-  <nav class="bg-gray-900 text-white p-4 flex justify-between items-center fixed top-0 left-0 w-full z-50 shadow-md">
-    <a href="../index.html" class="text-2xl font-bold">Raghava Gatadi</a>
-    <div class="space-x-6">
-      <a href="../index.html" class="hover:text-blue-400">Home</a>
-      <a href="projects.html" class="hover:text-blue-400">Projects</a>
-      <a href="research.html" class="hover:text-blue-400 text-blue-400 font-semibold border-b-2 border-blue-400">Research</a>
-      <a href="certifications.html" class="hover:text-blue-400">Certificates</a>
-      <a href="contact.html" class="hover:text-blue-400">Contact</a>
-    </div>
-  </nav>
-
-  <section class="pt-28 max-w-5xl mx-auto px-6">
-    <h2 class="text-4xl font-bold mb-8 border-b-4 border-green-600 w-fit">Research Work</h2>
-    <div class="space-y-10">
-       <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-green-600">
-        <h3 class="text-2xl font-bold text-gray-800">Hybrid IoT Intrusion Detection via Federated Learning</h3>
-        <p class="text-gray-600 italic mb-4">Machine Learning & Privacy-Preserving Security | Flower Framework</p>
-        <div class="space-y-4 text-gray-700">
-          <p>Developed a decentralized intrusion detection system (IDS) using the <strong>Aposemat IoT-23 dataset</strong> to classify malicious network traffic while preserving data privacy.</p>
-          <ul class="list-disc ml-5 space-y-2">
-            <li><strong>Architecture:</strong> Implemented a 1D-Convolutional Neural Network (1D-CNN) and Autoencoder for dual-stage detection. The <strong>Autoencoder achieved 96% accuracy</strong> in identifying anomalies based on reconstruction error.</li>
-            <li><strong>Federated Learning:</strong> Orchestrated decentralized training across multiple clients using the <strong>Flower framework</strong> and the FedAvg algorithm, achieving a global model accuracy of 69-73%.</li>
-            <li><strong>Stress Testing:</strong> Simulated adversarial attacks, including <strong>Label-Flipping Data Poisoning</strong> and <strong>TCP Connection Flood DoS</strong>, to evaluate the resilience of the central aggregation server.</li>
-            <li><strong>Tools:</strong> Python, TensorFlow, Keras, Flower, Scikit-learn, MinMaxScaling.</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Project 2: Fake News (From Report 2) -->
-      <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-green-600">
-        <h3 class="text-2xl font-bold text-gray-800">Enhanced Fake News Detection via Transformer & NLP Fusion</h3>
-        <p class="text-gray-600 italic mb-4">Deep Learning | Natural Language Processing</p>
-        <div class="space-y-4 text-gray-700">
-          <p>Conducted an exhaustive study on misinformation detection using the <strong>TruthSeeker dataset</strong> (134,000+ annotated tweets) to identify linguistic patterns in fake news.</p>
-          <ul class="list-disc ml-5 space-y-2">
-            <li><strong>Feature Engineering:</strong> Compared multiple vectorization techniques including <strong>TF-IDF, Word2Vec, and Keras Word Embeddings</strong> to map textual context into dense high-dimensional vectors.</li>
-            <li><strong>Model Performance:</strong> Evaluated seven supervised models (Random Forest, GBC, KNN, etc.). Achieved a peak <strong>accuracy of 99.2%</strong> using Word Embeddings and <strong>94.7% using a fine-tuned BERT</strong> transformer model.</li>
-            <li><strong>Preprocessing Pipeline:</strong> Built a robust cleaning engine using NLTK to handle IP addresses, URLs, stopwords, and stemming, ensuring high-quality input for deep learning layers.</li>
-            <li><strong>Tools:</strong> Google Colab, BERT, NLTK, Keras, Matplotlib (ROC/AUC Analysis).</li>
-          </ul>
-          <a href="https://github.com/Raghava-Gatadi/cybersecurity/tree/master/RealorFake_political" rel="noopener noreferrer" target="_blank" class="inline-block mt-2 text-blue-600 hover:underline font-semibold">View Source Code on GitHub →</a>
-        </div>
-      </div>
-      <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-green-600">
-        <h3 class="text-2xl font-bold text-gray-800">Efficient PUF-Based Authentication for IoT WiFi Networks</h3>
-        <p class="text-gray-600 italic mb-4">Hardware Security & Cryptographic Protocol Design</p>
-        <div class="space-y-4 text-gray-700">
-          <p>Designed a novel, lightweight authentication and key exchange protocol using <strong>Physically Unclonable Functions (PUFs)</strong> to secure resource-constrained IoT devices against physical and network-layer attacks.</p>
-          <ul class="list-disc ml-5 space-y-2">
-            <li><strong>Tamper-Resistant Identity:</strong> Leveraged hardware-level "fingerprints" (PUFs) to generate unique, unclonable digital signatures, eliminating the need for storing sensitive static keys on vulnerable non-volatile memory.</li>
-            <li><strong>Protocol Architecture:</strong> Engineered a three-phase security framework: <strong>One-time Enrollment</strong> (secure CRP storage), <strong>Initialization</strong>, and <strong>Mutual Authentication</strong>.</li>
-            <li><strong>Attack Mitigation:</strong> Integrated nonce-based transformations and XOR operations to neutralize <strong>MAC Spoofing, Replay Attacks, and Rogue Access Point</strong> (Evil Twin) threats.</li>
-            <li><strong>Efficiency Optimization:</strong> Reduced computational overhead to just <strong>8 PUF operations and 4 Hash calls (8P + 4H)</strong> with a minimal storage requirement of 6n bits, making it suitable for low-power e2-micro and edge devices.</li>
-            <li><strong>Cryptanalysis:</strong> Performed formal security proofs demonstrating resistance to brute-force attacks by utilizing fresh challenge-response pairs for every session.</li>
-          </ul>
-        </div>
-        <a href="../assets/PUF_Research_Paper.pdf" rel="noopener noreferrer" target="_blank" class="inline-block mt-2 text-blue-600 hover:underline font-semibold">View Report →</a>
-      </div>
-    </div>
-  </section>
-
-  <footer class="bg-gray-900 text-gray-300 text-center py-6 mt-16">
-    <p>&copy; 2025 Raghava Gatadi. All Rights Reserved.</p>
-  </footer>
+<body class=""><a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="container nav-wrap">
+<a class="brand" href="../index.html" aria-label="Raghava Gatadi home"><span class="brand-mark" aria-hidden="true">rg<span>.</span></span><span class="brand-name">Raghava Gatadi</span></a>
+<nav class="desktop-nav" aria-label="Main navigation"><a href="../index.html#work">Work</a><a href="../index.html#experience">Experience</a><a href="../pages/writing.html">Writing</a><a href="../index.html#about">About</a>
+</nav>
+<a class="nav-contact" href="../pages/contact.html">Let’s talk <span aria-hidden="true">↗</span></a>
+<details class="mobile-menu">
+<summary aria-label="Navigation menu"><span></span><span></span>
+</summary>
+<nav aria-label="Mobile navigation"><a href="../index.html#work">Work</a><a href="../index.html#experience">Experience</a><a href="../pages/writing.html">Writing</a><a href="../index.html#about">About</a><a href="../pages/contact.html">Contact</a><a href="../pages/certifications.html">Credentials</a>
+</nav>
+</details>
+</div>
+</header>
+<main id="main" tabindex="-1" class="container page-main">
+<div class="page-heading">
+<p class="eyebrow">Research archive</p>
+<h1>Security beyond<br><span>the application.</span>
+</h1>
+<p>Undergraduate research into IoT intrusion detection and lightweight authentication.</p>
+</div>
+<article class="writing-row">
+<div class="writing-meta"><span class="eyebrow">Research</span><span>May 2025</span>
+</div><a href="../posts/iot-federated-learning.html">
+<div>
+<h3>Securing IoT Networks with Federated Learning &amp; Autoencoders</h3>
+<p>Research combining autoencoder-based anomaly detection with federated learning for privacy-preserving IoT intrusion detection, including adversarial robustness analysis.</p>
+</div><span class="row-arrow" aria-hidden="true">↗</span></a>
+</article>
+<article class="writing-row">
+<div class="writing-meta"><span class="eyebrow">Research</span><span>Dec 2024</span>
+</div><a href="../posts/puf-iot-authentication.html">
+<div>
+<h3>PUF-Based Lightweight Authentication for IoT WiFi Networks</h3>
+<p>Designing a lightweight authentication protocol using Physically Unclonable Functions (PUFs) to secure resource-constrained IoT devices against MAC spoofing and replay attacks.</p>
+</div><span class="row-arrow" aria-hidden="true">↗</span></a>
+</article>
+</main>
+<footer class="site-footer">
+<div class="container footer-main"><a class="footer-name" href="../index.html">Raghava Gatadi<span>Application security &amp; security engineering</span></a>
+<div class="footer-links"><a href="https://github.com/Raghava-Gatadi">GitHub <span aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/raghava-gatadi/">LinkedIn <span aria-hidden="true">↗</span></a><a href="../pages/certifications.html">Credentials <span aria-hidden="true">↗</span></a><a href="mailto:raghava.gtd@gmail.com">Email <span aria-hidden="true">↗</span></a>
+</div>
+</div>
+<div class="container footer-bottom"><span>© 2026 Raghava Gatadi</span><span>Built with care. Hosted on GitHub Pages.</span><a href="#top">Back to top ↑</a>
+</div>
+</footer>
 </body>
 </html>
